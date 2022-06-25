@@ -9,4 +9,7 @@
     *{
         transition:all .3s ease;
     }
+    body{
+        background-color:#07202a;
+    }
 }

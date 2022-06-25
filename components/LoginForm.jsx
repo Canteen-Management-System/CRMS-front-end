@@ -19,12 +19,12 @@ export default class LoginForm extends Form {
 
     const { inputs, loginButton } = formStyle;
     return (
-      <div className="flex flex-col justify-center items-center  h-screen w-screen font-poppins bg-[#303F9F]">
+      <div className="flex flex-col items-center justify-center w-screen h-screen font-poppins ">
         <form
-          className="flex flex-col justify-center items-center w-3/4 md:w-1/2 h-1/2 bg-[#3F51B5] rounded-md shadow-md"
+          className="flex flex-col items-center justify-center w-3/4 rounded-md shadow-md md:w-1/2 h-1/2 bg-dark-blue"
           onSubmit={this.handleForm}
         >
-          <legend className=" text-4xl md:text-6xl pb-8 text-[#C5CAE9]">
+          <legend className=" text-4xl md:text-6xl pb-8 text-[#C5CAE9] ">
             Login
           </legend>
           {this.renderInput(
@@ -51,12 +51,12 @@ export default class LoginForm extends Form {
 const formStyle = {
   inputs: {
     _input: "w-3/4 md:w-1/2 py-1 pl-2 rounded-sm",
-    _label: "text-lg text-red-200 pr-4 text-white ",
+    _label: "text-lg text-red-200 pr-4 text-white",
     _container:
-      "pb-6  w-full flex flex-col md:flex-row items-center justify-center ",
+      "pb-6  w-full flex flex-col md:flex-col items-center justify-center ",
     _errorMsg: "",
   },
 
   loginButton:
-    " bg-[#7C4DFF] py-2 px-8 text-white rounded-sm hover:bg-[#673AB7] transition-all duration-300",
+    "bg-light-blue py-2 px-8 text-white rounded-sm hover:bg-[#616161] transition-all duration-300 cursor-pointer",
 };

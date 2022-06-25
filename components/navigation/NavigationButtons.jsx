@@ -32,9 +32,9 @@ export default function NavigationButtons() {
       {PATHS.map((item, idx) => {
         return (
           <Link key={idx} href={item.path}>
-            <a className="flex flex-row items-center justify-between bg-[#536DFE] w-1/2 text-white mb-4 py-2 px-4 rounded-sm hover:bg-[#1e3a8a] transition-all duration-300 ease-in">
+            <a className="flex flex-row items-center justify-between bg-[#2c3e50] w-1/2 text-white mb-4 py-2 px-4 rounded-sm hover:bg-[#616161] transition-all duration-300 ease-in shadow-lg font-poppins">
               <span className="pr-2">{item.icon}</span>
-              <span>{item.label}</span>
+              <span className="text-left ">{item.label}</span>
             </a>
           </Link>
         );
