@@ -44,35 +44,9 @@ export default class AddNewIssueForm extends Form {
             Add New Issue 
           </legend>
           {
-            this.renderSelect("Category","Category",category,selectstyle )
-          }
-          {
           this.renderInput( "name", "Name", "text","Enter Client full name ", inputs)
           }
-          {
-            this.renderInput("Company","Company","text","Enter Comapy Name ",inputs)
-          }
-          {
-            this.renderInput( "Address","Address","text","Enter Address ",inputs)
-          }
-          {
-            this.renderInput("Mobile Number","Mobile Number","phone"," 07X-XXXX-XXX ",inputs)
-        }
-          {
-            this.renderSelect("client type", "client type",clientType, selectstyle )
-          }
 
-          {
-            this.renderInput( "Email Address","Email Address","email","Enter email",inputs )
-          }
-          {
-            this.renderSelect("service type","service type",service,selectstyle )
-          }
-
-          {
-            this.renderSelect("priority","priority", priority,selectstyle )
-          }
-      
           {
                 <Imm/>
           }
@@ -91,14 +65,14 @@ export default class AddNewIssueForm extends Form {
 const formStyle = {
     inputs: {
     _input: "w-3/4 md:w-1/2 py-1 pl-2 rounded-sm",
-    _label: "text-lg text-red-200 pr-4 text-white w-1/3 ",
+    _label: "text-lg text-red-200 pr-4 text-white ",
     _container:"pb-6  w-full flex flex-col md:flex-row items-left justify-left px-9 ",
     _errorMsg: "",
     },
     saveButton:
     " bg-[#7C4DFF] py-2 px-8  text-white rounded-sm hover:bg-[#673AB7] transition-all duration-300",
     selectstyle:{
-        _label: "text-lg text-red-200 pr-4 text-white w-1/3 ",
+        _label: "text-lg text-red-200 pr-4 text-white ",
         _container:"pb-6  w-full flex flex-col md:flex-row items-left justify-left px-9 ",
         _select: "w-3/4 md:w-1/4 py-1 pl-2 rounded-sm",
         _option: "w-3/4 md:w-1/2 py-1 pl-2 rounded-sm",
