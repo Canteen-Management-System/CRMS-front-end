@@ -11,7 +11,7 @@ export default function Imm() {
 //     return value;
 //   };
 
-  const [value, setValue] = useState(1);
+  const [value, setValue] = useState("");
 
   const handleChange = (e) => {
     setValue(e.target.value);
@@ -25,7 +25,7 @@ export default function Imm() {
          <div>
          <label  className="text-lg text-red-200 pr-4 text-white ">Immediate resolution</label>
     <select value={value} onChange={handleChange}>            
-           {/* <option  className="text-lg text-red-200 pr-4 text-white " /> */}
+           <option  className="text-lg text-red-200 pr-4 text-white " />
            {Immm.map((option) => (
              <option  key={option._id} value={option._id}>
                {option.name}
@@ -35,12 +35,11 @@ export default function Imm() {
 
         </div>
     <>
-            
-          
-            
-            
-              { 
+                    { 
 
+                value=="" ?
+                <p/>         
+                :   
                value==1 ?
                <ActionTaken />         
                :
