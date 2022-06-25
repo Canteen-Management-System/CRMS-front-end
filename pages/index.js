@@ -1,5 +1,6 @@
 import RenderHead from "../components/RenderHead";
 import SideBar from "../components/navigation/SideBar";
+
 import ClientModalForm from "../components/ClientModalForm";
 export default function Home() {
   return (
@@ -10,5 +11,6 @@ export default function Home() {
         <ClientModalForm />
       </div>
     </>
+
   );
 }
