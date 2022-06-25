@@ -8,7 +8,7 @@ export default function Home() {
     <div>
       <RenderHead title="Home" />
       <SideBar />
-      {/* <AddNewIssueForm/> */}
+      <AddNewIssueForm/>
     </div>
   );
 }
