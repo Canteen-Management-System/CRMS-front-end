@@ -18,7 +18,7 @@ const ActionTaken = () => {
       Assign To  
    </legend>
    <dev className="pb-6  w-full flex flex-col md:flex-row items-left justify-center px-9" >
-   <label className="text-lg text-red-200 pr-4 text-white ">Department</label>
+   <label className="text-lg text-red-200 pr-4 text-white w-1/3">Department</label>
    <select >
           <option className="text-lg text-red-200 pr-4 text-white "  />
           {options.map((option) => (
@@ -29,7 +29,7 @@ const ActionTaken = () => {
         </select>
    </dev>
    <dev className="pb-6  w-full flex flex-col md:flex-row items-left justify-center px-9">
-   <label  className="text-lg text-red-200 pr-4 text-white ">Name</label>
+   <label  className="text-lg text-red-200 pr-4 text-white  w-1/3">Name</label>
    <select >
           <option  className="text-lg text-red-200 pr-4 text-white " />
           {Namelist.map((option) => (
