@@ -9,7 +9,7 @@ import Employee from "../components/Employee"
   );
 
     return(
-        <div  className="flex flex-col justify-center items-center w-1/4 md:w-1/5 h-1/5 bg-[#748DA6] rounded-md shadow-md">
+        <div  className="flex flex-wrap  items-center w-1/4 md:w-full h-1/5  rounded-md shadow-md">
             {listElements}
         </div>
     );
