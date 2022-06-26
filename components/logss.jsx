@@ -1,5 +1,8 @@
 import Form from "./form/Form";
 import Joi from "joi-browser";
+import Modal from "./modal/Modal";
+import Imm from "./Imm";
+
 
 
 export default  class Logss extends Form {
@@ -19,27 +22,35 @@ export default  class Logss extends Form {
     
   };
 
+  toggleModal = () => {
+    this.setState({ animation: !this.state.animation });
+  };
+
   render() {
     this.doSubmit = () => {
       console.log("hello");
     };
 
 
-    const { inputs, NewButton , UpdateButton , DeleteButton ,selectstyle} = formStyle;
+    const { inputs, NewButton , UpdateButton , DeleteButton ,selectstyle,modelstyle} = formStyle;
     const category = [{_id:1 , name:"Complaint"},{_id:2 , name:"Suggestion"},{_id:3 , name:"Request"}]
-    const status = [{_id:1 , name:"Active"},{_id:2 , name:"unActive"}]
+    const status = [{_id:1 , name:"Open"},{_id:2 , name:"closed"},{_id:3 , name:"pending"}]
     const service= [{_id:1 , name:"Quotation"},{_id:2 , name:"appointment"},{_id:3 , name:"technical support "},{_id:4 , name:"other "}]
+    const clientType = [{_id:1 , name:"Client"},{_id:2 , name:"new customer"},{_id:3 , name:"staff "},{_id:4 , name:"other "}]
+    const priority= [{_id:1 , name:"High"},{_id:2 , name:"medium"},{_id:3 , name:"Low"}]
+
+
     return(
       <div>
-         <div className="flex flex-col items-center w-screen h-screen justify-Top font-poppins ">
+         <div className="flex flex-col justify-center items-center  h-full w-screen font-poppins py-8">
         <form
-          className="flex flex-col items-center justify-center rounded-md shadow-md w-130 md:w-70 h-70 bg-dark-blue"
+          className="flex flex-col justify-center items-left w-3/4 md:w-3/4 h-1/2 bg-[#748DA6] rounded-md shadow-md"
           onSubmit={this.handleForm}
         >
-          <legend className="pb-8 text-4xl text-white md:text-6xl">
+          <legend className="md:text-3xl pb-8 text-[#F2F2F2] py-5 px-5 font-bold">
             Logs
           </legend>
-          <div class="md:flex md:items-center mb-6 flex space-x-4">
+          <div className="md:flex md:items-left mb-5">
        
           {this.renderInput(
             "Company",
@@ -67,7 +78,7 @@ export default  class Logss extends Form {
           )}
        
           </div>
-          <div class="md:flex md:items-center mb-6 flex space-x-4">
+          <div className="md:flex md:items-left mb-6 flex space-x-4">
                
           {this.renderSelect(
             "Service",
@@ -90,16 +101,72 @@ export default  class Logss extends Form {
             selectstyle,
             
           )}
-          
-         
-          
-          </div>
-        
-          
+          <>
+        <button
+          className="bg-light-blue py-2 px-8 text-white rounded-sm hover:bg-[#616161] transition-all duration-300 cursor-pointer"
+          onClick={this.toggleModal}
+        >
+          Add 
+        </button>
+        <div>
+        <Modal
+          className= "flex flex-col justify-left items-left w-3/4 md:w-1/3 h-1/2 bg-[#748DA6] rounded-md shadow-md"
+          modalTitle="Add New Staff"
+          formId="newstaffform"
+          animation={this.state.animation}
+          toggleModal={this.toggleModal}
+        >
+          <div className="flex flex-col justify-center items-center  h-full w-screen font-poppins ">
+        <form id="newstaffform"
+          className="flex flex-col justify-center items-center w-3/4 md:w-1/3 h-1/2 bg-[#748DA6] rounded-md shadow-md"
+          onSubmit={this.handleForm}
+        >
+
+          {
+            this.renderSelect("Category","Category",category,modelstyle )
+          }
+          {
+          this.renderInput( "name", "Name", "text","Enter Client full name ", modelstyle)
+          }
+          {
+            this.renderInput("Company","Company","text","Enter Comapy Name ",modelstyle)
+          }
+          {
+            this.renderInput( "Address","Address","text","Enter Address ",modelstyle)
+          }
+          {
+            this.renderInput("Mobile Number","Mobile Number","phone"," 07X-XXXX-XXX ",modelstyle)
+        }
+          {
+            this.renderSelect("client type", "client type",clientType, modelstyle )
+          }
+
+          {
+            this.renderInput( "Email Address","Email Address","email","Enter email",modelstyle )
+          }
+          {
+            this.renderSelect("service type","service type",service,modelstyle )
+          }
+
+          {
+            this.renderSelect("priority","priority", priority,modelstyle )
+          }
+      
+          {
+                <Imm/>
+          }
+ 
+           
+        </form>
+      </div>
+        </Modal>
+        </div>
+      </>
 
 
-          <div class="md:flex md:items-center mb-6 flex space-x-4 ">
-          {this.renderButton("New", NewButton)}
+
+
+          {/* {this.renderButton("New", NewButton)} */}
           {this.renderButton("Update", UpdateButton)}
           {this.renderButton("Delete", DeleteButton)}
           </div>
@@ -119,8 +186,8 @@ export default  class Logss extends Form {
 
 const formStyle = {
   inputs: {
-    _input: "w-64 bg-white shadow rounded w-1/3 ",
-    _label: "text-lg text-red-200 pr-4 text-white w-1/3",
+    _input:"w-3/4 md:w-1/2 py-1 pl-2 rounded-sm",
+    _label: "text-xl font-bold  text-red-200 pr-4 text-white ",
     _container:
       "pb-6  w-full flex flex-col md:flex-row items-center justify-center ",
     _errorMsg: "",
@@ -135,13 +202,20 @@ const formStyle = {
   DeleteButton:
   " bg-light-blue py-2 px-8 text-white rounded-sm hover:bg-[#616161] transition-all duration-300 cursor-pointer",
   selectstyle:{
-    _label: "text-lg text-red-200 pr-4 text-white w-1/3 space-x-4  ",
+    _label: "text-xl font-bold  text-red-200 pr-4 text-white ",
     _container:"pb-6  w-full flex flex-col md:flex-row items-left justify-left px-9  w-1/3",
-    _select: " w-3/4 md:w-1/4 py-1 pl-2 rounded-sm w-1/3 ",
-    _option: "w-3/4 md:w-1/2 py-1 pl-2 rounded-sm w-1/3 ",
+    _select: " w-3/4 md:w-1/2 py-1 pl-2 rounded-sm",
+    _option: "w-3/4 md:w-1/2 py-1 pl-2 rounded-sm",
     _errorMsg: "",
 
-}
+},
+modelstyle: {
+  _input:"w-3/4 md:w-1/2 py-1 pl-2 rounded-sm",
+  _label: "text-xl font-bold  text-red-200 pr-4 text-black w-1/3 ",
+  _container:
+    "pb-6 px-6 py-3  w-full flex flex-col md:flex-row items-left justify-left ",
+  _errorMsg: "",
+},
   
 
 };
