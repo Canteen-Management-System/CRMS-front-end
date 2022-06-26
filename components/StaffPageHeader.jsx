@@ -93,8 +93,11 @@ export default class AddNewIssueForm extends Form {
           animation={this.state.animation}
           toggleModal={this.toggleModal}
         >
-          <form id="newstaffform" >
-            <div className="flex-col">
+          <dev className="flex flex-col justify-center items-center  h-full w-screen font-poppins ">
+          <form id="newstaffform"   
+          className="flex flex-col justify-center items-center w-3/4 md:w-1/4 px-3 py-3 h-1/2 bg-[#748DA6] rounded-md shadow-md"
+          onSubmit={this.handleForm}
+        >
             {
             this.renderInput( "First Name","First Name","text","Enter First name",modelstyle)
           }
@@ -113,8 +116,8 @@ export default class AddNewIssueForm extends Form {
            {
             this.renderSelect("Roll","Roll",Roll,modelstyle )
           }
-            </div>
           </form>
+          </dev>
         </Modal>
         </div>
       </>
