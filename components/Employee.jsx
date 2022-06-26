@@ -4,8 +4,8 @@ import { MdFavoriteBorder, MdChat } from 'react-icons/md';
 
 export default function DisplayEmployees( props ) {
     return(
-        <dev className=" bg-[#748DA6] rounded-md  m-8  items-center justify-center pb-5">
-             <p className="ml-2 "><Image
+        <dev style={{zIndex:1}}   className=" bg-[#748DA6] rounded-md  m-8  items-center justify-center pb-5">
+              <p className="ml-2 "><Image
                 src="https://pngimage.net/wp-content/uploads/2020/03/employee-logo-png-2.jpg"
                 alt="Landscape picture"
                 width={250}

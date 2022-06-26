@@ -28,12 +28,12 @@ export default function contacts() {
       
       ];
   return (
-    <div className="ml-16">
+    <div className="ml-16 my-8">
       <RenderHead title="staff" />
       <SideBar />
       <RenderHeader pageTitle="staff" />
-      <StaffPageHeader/>
-      <StaffCards employees={employees}/>
+      <StaffPageHeader className="z-20 my-8"/>
+      <StaffCards className="z-0" employees={employees}/>
       </div>
   );
 }
