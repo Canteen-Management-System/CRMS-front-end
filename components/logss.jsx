@@ -12,12 +12,12 @@ export default  class Logss extends Form {
   };
 
   schema = {
-    Category: Joi.string().required().label("Category"),
-    Company: Joi.string().required().label("Company"),
-    ServiceType: Joi.string().required().label("ServiceType"),
-    AssignTo: Joi.string().required().label("AssignTo"),
-    Status: Joi.string().required().label("Status"),
-    Date: Joi.string().required().label("Date"),
+    // Category: Joi.string().required().label("Category"),
+    // Company: Joi.string().required().label("Company"),
+    // ServiceType: Joi.string().required().label("ServiceType"),
+    // AssignTo: Joi.string().required().label("AssignTo"),
+    // Status: Joi.string().required().label("Status"),
+    // Date: Joi.string().required().label("Date"),
     
     
   };

@@ -95,7 +95,7 @@ export default class AddNewIssueForm extends Form {
         >
           <dev className="flex flex-col justify-center items-center  h-full w-screen font-poppins ">
           <form id="newstaffform"   
-          className="flex flex-col justify-center items-center w-3/4 md:w-1/4 px-3 py-3 h-1/2 bg-[#748DA6] rounded-md shadow-md"
+          className="flex flex-col justify-center items-center w-3/4 md:w-1/4 px-3 py-3 h-1/2 bg-[#748DA6] rounded-md shadow-md z-20"
           onSubmit={this.handleForm}
         >
             {
