@@ -15,6 +15,7 @@ const PATHS = [
   },
   {
     path: "/",
+    path: "/logss",
     label: "Tasks",
     icon: <ClipboardListIcon className="w-6 " />,
   },
@@ -26,6 +27,12 @@ const PATHS = [
   { path: "/Logs", label: "Logs", icon: <UserGroupIcon className="w-6 " /> },
   { path: "/", label: "Staff", icon: <UserGroupIcon className="w-6 " /> },
   { path: "/", label: "Clients", icon: <UsersIcon className="w-6 " /> },
+  {
+    path: "/",
+    label: "Dashboard",
+    icon: <ViewBoardsIcon className="w-6 " />,
+  },
+  { path: "/contacts", label: "Contacts", icon: <UserGroupIcon className="w-6 " /> },
 ];
 
 export default function NavigationButtons() {
