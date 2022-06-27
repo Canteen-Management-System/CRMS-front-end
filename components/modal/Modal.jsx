@@ -8,7 +8,6 @@ export default function Modal({
   children,
 }) {
   const { overlay, modalContent, modalContainer } = modalStyle;
-  console.log(animation);
   return (
     <>
       {

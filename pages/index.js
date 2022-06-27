@@ -1,7 +1,8 @@
 import RenderHead from "../components/RenderHead";
 import SideBar from "../components/navigation/SideBar";
-
 import ClientModalForm from "../components/ClientModalForm";
+import RenderTable from "../components/table/RenderTable";
+
 export default function Home() {
   return (
     <>
@@ -9,8 +10,8 @@ export default function Home() {
         <RenderHead title="Home" />
         <SideBar />
         <ClientModalForm />
+        <RenderTable />
       </div>
     </>
-
   );
 }

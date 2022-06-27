@@ -4,9 +4,15 @@ import {
   DocumentReportIcon,
   ViewBoardsIcon,
   UserGroupIcon,
+  UsersIcon,
 } from "@heroicons/react/solid";
 
 const PATHS = [
+  {
+    path: "/",
+    label: "Dashboard",
+    icon: <ViewBoardsIcon className="w-6 " />,
+  },
   {
     path: "/",
     label: "Tasks",
@@ -17,18 +23,14 @@ const PATHS = [
     label: "Reports",
     icon: <DocumentReportIcon className="w-6 " />,
   },
-  {
-    path: "/",
-    label: "Dashboard",
-    icon: <ViewBoardsIcon className="w-6 " />,
-  },
-  { path: "/", label: "Contacts", icon: <UserGroupIcon className="w-6 " /> },
+  { path: "/Logs", label: "Logs", icon: <UserGroupIcon className="w-6 " /> },
+  { path: "/", label: "Staff", icon: <UserGroupIcon className="w-6 " /> },
+  { path: "/", label: "Clients", icon: <UsersIcon className="w-6 " /> },
 ];
 
 export default function NavigationButtons() {
   return (
     <div className="flex flex-col items-center mt-12">
-      {console.log(PATHS)}
       {PATHS.map((item, idx) => {
         return (
           <Link key={idx} href={item.path}>
