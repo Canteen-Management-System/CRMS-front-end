@@ -8,7 +8,7 @@ import {
 
 const PATHS = [
   {
-    path: "/",
+    path: "/logss",
     label: "Tasks",
     icon: <ClipboardListIcon className="w-6 " />,
   },
@@ -22,7 +22,7 @@ const PATHS = [
     label: "Dashboard",
     icon: <ViewBoardsIcon className="w-6 " />,
   },
-  { path: "/", label: "Contacts", icon: <UserGroupIcon className="w-6 " /> },
+  { path: "/contacts", label: "Contacts", icon: <UserGroupIcon className="w-6 " /> },
 ];
 
 export default function NavigationButtons() {
