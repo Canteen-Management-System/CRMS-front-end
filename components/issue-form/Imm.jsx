@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import ActionTaken from "../components/ActionTaken";
-import AssignTo from "../components/AssignTo";
+import ActionTaken from "../issue-form/ActionTaken";
+import AssignTo from "../issue-form/AssignTo";
 
 const Immm = [
   { _id: 1, name: "Yes" },
