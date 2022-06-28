@@ -46,11 +46,7 @@ class Form extends React.Component {
   };
 
   renderButton = (label, style = "") => {
-    return (
-      <button className={style} disabled={this.validate()}>
-        {label}
-      </button>
-    );
+    return <button className={style}>{label}</button>;
   };
 
   renderInput = (
@@ -58,7 +54,13 @@ class Form extends React.Component {
     label,
     type = "text",
     placeholder = "",
-    style = { _input: "", _label: "", _container: "", _errorMsg: "" }
+    style = {
+      _input: "",
+      _label: "",
+      _container: "",
+      _inputContainer: "",
+      _errorMsg: "",
+    }
   ) => {
     const { data, errors } = this.state;
     return (
