@@ -83,7 +83,7 @@ class Form extends React.Component {
         label={label}
         value={data[name]}
         options={options}
-        style ={style}
+        style={style}
         onChange={this.handleChange}
         error={errors[name]}
       />

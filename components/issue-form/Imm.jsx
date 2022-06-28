@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import ActionTaken from "../components/ActionTaken";
-import AssignTo from "../components/AssignTo";
+import ActionTaken from "./ActionTaken";
+import AssignTo from "./AssignTo";
 
 const Immm = [
   { _id: 1, name: "Yes" },
@@ -22,11 +22,9 @@ export default function Imm() {
   return (
     <dev className="flex flex-col justify-center w-full pb-6 md:flex-row items-left px-9">
       <div>
-        <label className="pr-4 text-lg text-white text-red-200 ">
-          Immediate resolution
-        </label>
+        <label className="pr-4 text-lg text-white ">Immediate resolution</label>
         <select value={value} onChange={handleChange}>
-          <option className="pr-4 text-lg text-white text-red-200 " />
+          <option className="pr-4 text-lg text-white " />
           {Immm.map((option) => (
             <option key={option._id} value={option._id}>
               {option.name}

@@ -14,7 +14,7 @@ export default function SideBar() {
   };
 
   return (
-    <section>
+    <div>
       <div
         className={` fixed top-0 left-0 w-72 h-screen bg-gradient-to-r from-light-blue to-dark-blue  ${
           toggle ? "-translate-x-3/4" : "translate-x-0"
@@ -34,6 +34,6 @@ export default function SideBar() {
         <UserInfo />
         <NavigationButtons />
       </div>
-    </section>
+    </div>
   );
 }
