@@ -3,6 +3,8 @@ import Modal from "../modal/Modal";
 import Joi from "joi-browser";
 import auth from "../../lib/services/authService";
 import http from "../../lib/services/httpService";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const formStyle = {
   input: {
@@ -16,6 +18,9 @@ const formStyle = {
 };
 
 export default class AddClientForm extends Form {
+  constructor(props) {
+    super(props);
+  }
   state = {
     data: {
       full_name: "",
@@ -41,14 +46,30 @@ export default class AddClientForm extends Form {
   };
 
   render() {
+    this.clearForm = () => {
+      this.setState({
+        data: {
+          full_name: "",
+          phone_number: "",
+          email: "",
+          address: "",
+          company: "",
+        },
+      });
+    };
     this.doSubmit = async () => {
       const { user_id } = auth.getCurrentUser();
       this.state.data["created_by"] = user_id;
-      console.log(this.state.data);
+
       try {
-        const res = await http.post("/clients", this.state.data, auth.config);
+        await http.post("/clients", this.state.data, auth.config);
+        toast.success("Wow, Client added successfully!");
+        this.props.getClients();
+        this.clearForm();
+        console.log(this.state.data);
       } catch (err) {
-        console.log(err.response.data);
+        console.log(err);
+        toast.error("Failed ");
       }
     };
 
@@ -119,6 +140,7 @@ export default class AddClientForm extends Form {
             </div>
           </form>
         </Modal>
+        <ToastContainer />
       </div>
     );
   }

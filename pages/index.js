@@ -1,7 +1,6 @@
 import RenderHead from "../components/RenderHead";
 import SideBar from "../components/navigation/SideBar";
 import ClientModalForm from "../components/ClientModalForm";
-import RenderTable from "../components/table/RenderTable";
 import auth from "../lib/services/authService";
 import { useState, useEffect } from "react";
 
@@ -23,7 +22,6 @@ export default function Home(props) {
           <RenderHead title="Home" />
           <SideBar />
           <ClientModalForm />
-          <RenderTable />
         </section>
       )}
     </>

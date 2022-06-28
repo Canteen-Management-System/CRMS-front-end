@@ -1,4 +1,5 @@
 export default function TableBody({ bodyData, tableHead }) {
+  let counter = 0;
   return (
     <tbody>
       {bodyData.map((row, rowIdx) => {
@@ -8,9 +9,9 @@ export default function TableBody({ bodyData, tableHead }) {
               return (
                 <td
                   key={idx}
-                  className="p-1 px-8 py-2 text-center border rounded-lg border-slate-700 "
+                  className="p-1 px-8 py-2 text-center border rounded-lg border-slate-700"
                 >
-                  {row[head]}
+                  {head == "id" ? (counter = counter + 1) : row[head]}
                 </td>
               );
             })}

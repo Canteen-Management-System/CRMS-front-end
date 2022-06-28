@@ -46,7 +46,11 @@ class Form extends React.Component {
   };
 
   renderButton = (label, style = "") => {
-    return <button className={style}>{label}</button>;
+    return (
+      <button className={style} disabled={this.validate()}>
+        {label}
+      </button>
+    );
   };
 
   renderInput = (
