@@ -1,8 +1,15 @@
 import SideBar from "../components/navigation/SideBar";
-import Logss from "../components/logss";
+// import Logss from "../components/logss";
 import RenderHeader from "../components/RenderHeader";
 import RenderHead from "../components/RenderHead";
-import TaskTable from "../components/tables/TasksTable"
+// import TaskTable from "../components/tables/TasksTable"
+import dynamic from 'next/dynamic'
+const TaskTable = dynamic(() => import("../components/tables/TasksTable"), {
+ssr: false,
+});
+const Logss = dynamic(() => import("../components/logss"), {
+  ssr: false,
+  });
 
 export default function Log() {
     return (

@@ -1,8 +1,17 @@
 import RenderHead from "../components/RenderHead";
 import SideBar from "../components/navigation/SideBar";
 import RenderHeader from "../components/RenderHeader";
-import StaffPageHeader from "../components/StaffPageHeader"
-import StaffCards from "../components/StaffCards"
+// import StaffPageHeader from "../components/StaffPageHeader"
+// import StaffCards from "../components/StaffCards"
+
+import dynamic from 'next/dynamic'
+const StaffPageHeader = dynamic(() => import("../components/StaffPageHeader"), {
+ssr: false,
+});
+
+const StaffCards = dynamic(() => import("../components/StaffCards"), {
+  ssr: false,
+  });
 
 export default function contacts() {
     const employees = [

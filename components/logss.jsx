@@ -1,7 +1,7 @@
 import Form from "./form/Form";
 import Joi from "joi-browser";
 import Modal from "./modal/Modal";
-import Imm from "./Imm";
+import Imm from "../components/issue-form/Imm";
 
 
 

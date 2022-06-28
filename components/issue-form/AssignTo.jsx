@@ -1,5 +1,5 @@
 import React from "react";
-import Form from "./form/Form";
+import Form from "../form/Form";
 
 const ActionTaken = () => {
     const options = [{_id:1 , name:"HR"},{_id:2 , name:"Accounts"},{_id:3 , name:"Administrator"}]
