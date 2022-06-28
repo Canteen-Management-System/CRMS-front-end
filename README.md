@@ -136,11 +136,7 @@ We will create branches for each feature and the team leader have the responsibi
 
 </br>
 </br>
-</br>
-</br>
-</br>
-</br>
-</br>
+
 
 # Project Description
 ## Customer Service Management System
@@ -154,8 +150,6 @@ The main idea of this website is to assist the customer service in managing the 
   2. Providing reports and analytics for clients
   3. Monitor business from the responsible person
 #### **Minimum Viable Product (MVP) definition.**
-
-
 
 - Presenting the customer with a request or suggestion and managing the complaint in an easy way
 - Issuing reports and analyzes to clients
