@@ -20,7 +20,7 @@ const PATHS = [
     icon: <ClipboardListIcon className="w-6 " />,
   },
   {
-    path: "/",
+    path: "/reports",
     label: "Reports",
     icon: <DocumentReportIcon className="w-6 " />,
   },
