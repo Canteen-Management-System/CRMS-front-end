@@ -1,19 +1,17 @@
-import RenderHead from "../components/RenderHead";
 import SideBar from "../components/navigation/SideBar";
-import ClientModalForm from "../components/ClientModalForm";
+import Logss from "../components/logss";
 import RenderHeader from "../components/RenderHeader";
-import Test from "./test";
+import RenderHead from "../components/RenderHead";
+import TaskTable from "../components/tables/TasksTable";
 
-const Logs = () => {
+export default function Log() {
   return (
-    <div className="relative ml-20">
+    <div className="relative ml-16">
       <RenderHead title="Logs" />
       <RenderHeader pageTitle="Logs" />
+      <Logss />
+      <TaskTable />
       <SideBar />
-      <Test />
-      <ClientModalForm />
     </div>
   );
-};
-
-export default Logs;
+}

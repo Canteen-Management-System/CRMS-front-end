@@ -1,11 +1,12 @@
+import React from "react";
 import { UserCircleIcon } from "@heroicons/react/solid";
 import { LogoutIcon } from "@heroicons/react/outline";
-
-import React from "react";
+import auth from "../../lib/services/authService";
 
 export default function UserInfo() {
   const handleLogout = () => {
-    console.log("Logout");
+    auth.logout();
+    window.location.href = "/Login";
   };
 
   return (

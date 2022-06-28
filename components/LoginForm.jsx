@@ -1,5 +1,7 @@
 import Form from "./form/Form";
 import Joi from "joi-browser";
+import auth from "../lib/services/authService";
+import http from "../lib/services/httpService";
 
 export default class LoginForm extends Form {
   state = {
@@ -13,13 +15,15 @@ export default class LoginForm extends Form {
   };
 
   render() {
-    this.doSubmit = () => {
-      console.log("hello");
+    this.doSubmit = async () => {
+      const { username, password } = this.state.data;
+      await auth.login(username, password);
+      window.location.href = "/";
     };
 
     const { inputs, loginButton } = formStyle;
     return (
-      <div className="flex flex-col items-center justify-center w-screen h-screen font-poppins ">
+      <section className="flex flex-col items-center justify-center w-screen h-screen font-poppins ">
         <form
           className="flex flex-col items-center justify-center w-3/4 rounded-md shadow-md md:w-1/2 h-1/2 bg-dark-blue"
           onSubmit={this.handleForm}
@@ -43,7 +47,7 @@ export default class LoginForm extends Form {
           )}
           {this.renderButton("login", loginButton)}
         </form>
-      </div>
+      </section>
     );
   }
 }
