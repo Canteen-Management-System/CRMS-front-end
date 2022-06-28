@@ -132,3 +132,32 @@ We will create branches for each feature and the team leader have the responsibi
   - **How will you communicate that it’s time to merge?**
 
     - Before starting new feature 
+
+
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+</br>
+
+# Project Description
+## Customer Service Management System
+
+### **Summary of idea.**
+
+The main idea of this website is to assist the customer service in managing the complaint and the suggestion or request coming from the customer in an organized and fast manner and under the supervision of the responsible person
+
+#### **What problem or pain point does it solve?**
+  1. Customer service in an organized and fast manner
+  2. Providing reports and analytics for clients
+  3. Monitor business from the responsible person
+#### **Minimum Viable Product (MVP) definition.**
+
+
+
+- Presenting the customer with a request or suggestion and managing the complaint in an easy way
+- Issuing reports and analyzes to clients
+
+ 
