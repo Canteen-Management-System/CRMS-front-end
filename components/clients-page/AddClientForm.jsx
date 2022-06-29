@@ -57,6 +57,12 @@ export default class AddClientForm extends Form {
         },
       });
     };
+
+    this.getErrorValues = (error) => {
+      const errors = Object.values(error);
+      return errors.join(", ");
+    };
+
     this.doSubmit = async () => {
       const { user_id } = auth.getCurrentUser();
       this.state.data["created_by"] = user_id;
@@ -66,10 +72,10 @@ export default class AddClientForm extends Form {
         toast.success("Wow, Client added successfully!");
         this.props.getClients();
         this.clearForm();
-        console.log(this.state.data);
+        window.location.href = "/Clients";
       } catch (err) {
-        console.log(err);
-        toast.error("Failed ");
+        const errors = this.getErrorValues(err.response.data);
+        toast.error(errors);
       }
     };
 

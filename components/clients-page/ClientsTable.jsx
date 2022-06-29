@@ -3,7 +3,6 @@ import React, { useState, useEffect } from "react";
 import RenderTable from "../table/RenderTable";
 
 function ClientsTable({ getClients, tableData }) {
-  // const [tableData, setTableData] = useState([]);
   const [tableHeader, setTableHeader] = useState([]);
 
   useEffect(() => {

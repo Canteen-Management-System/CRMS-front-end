@@ -24,11 +24,10 @@ const PATHS = [
     label: "Reports",
     icon: <DocumentReportIcon className="w-6 " />,
   },
-  { path: "/", label: "Staff", icon: <UserGroupIcon className="w-6 " /> },
   { path: "/Clients", label: "Clients", icon: <UsersIcon className="w-6 " /> },
   {
-    path: "/contacts",
-    label: "Contacts",
+    path: "/staff",
+    label: "Staff",
     icon: <UserGroupIcon className="w-6 " />,
   },
 ];

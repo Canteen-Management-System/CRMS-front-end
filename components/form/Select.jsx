@@ -13,13 +13,13 @@ const Select = ({ name, label, options, style, error, ...rest }) => {
           <select className={_select} name={name} id={name} {...rest}>
             <option className={_option} value="" />
             {options.map((option) => (
-              <option className={_option} key={option._id} value={option._id}>
+              <option className={_option} key={option.id} value={option.id}>
                 {option.name}
               </option>
             ))}
           </select>
+          {error && <div className={_errorMsg}>{error}</div>}
         </div>
-        {error && <div className={_errorMsg}>{error}</div>}
       </div>
     </>
   );

@@ -8,7 +8,13 @@ const Input = ({ name, label, error, style, ...rest }) => {
         {label}
       </label>
       <div className={_inputContainer}>
-        <input {...rest} name={name} id={name} className={_input} />
+        <input
+          {...rest}
+          name={name}
+          id={name}
+          className={_input}
+          autoComplete="off"
+        />
         {error && <div className={_errorMsg}>{error}</div>}
       </div>
     </div>
