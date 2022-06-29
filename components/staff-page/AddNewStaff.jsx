@@ -34,6 +34,8 @@ const modalStyle = {
 export default class AddNewStaff extends Form {
   state = {
     data: {
+      username : "",
+      password : "",
       first_name: "",
       last_name: "",
       position: "",
@@ -51,6 +53,8 @@ export default class AddNewStaff extends Form {
   };
 
   schema = {
+    username:Joi.string().required(),
+    password:Joi.string().required(),
     first_name: Joi.string().required(),
     last_name: Joi.string().required(),
     position: Joi.number().required(),
@@ -121,6 +125,20 @@ export default class AddNewStaff extends Form {
           toggleModal={this.toggleModal}
         >
           <form className="w-1/2 mx-auto" onSubmit={this.handleForm}>
+          {this.renderInput(
+              "username",
+              "Username",
+              "text",
+              "Enter Username",
+              modalStyle
+            )}
+            {this.renderInput(
+              "password",
+              "Password",
+              "password",
+              "Enter Password",
+              modalStyle
+            )}
             {this.renderInput(
               "first_name",
               "First Name",
