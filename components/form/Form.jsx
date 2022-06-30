@@ -58,7 +58,13 @@ class Form extends React.Component {
     label,
     type = "text",
     placeholder = "",
-    style = { _input: "", _label: "", _container: "", _errorMsg: "" }
+    style = {
+      _input: "",
+      _label: "",
+      _container: "",
+      _inputContainer: "",
+      _errorMsg: "",
+    }
   ) => {
     const { data, errors } = this.state;
     return (

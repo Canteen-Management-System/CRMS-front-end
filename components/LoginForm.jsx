@@ -1,7 +1,8 @@
 import Form from "./form/Form";
 import Joi from "joi-browser";
 import auth from "../lib/services/authService";
-import http from "../lib/services/httpService";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default class LoginForm extends Form {
   state = {
@@ -17,8 +18,12 @@ export default class LoginForm extends Form {
   render() {
     this.doSubmit = async () => {
       const { username, password } = this.state.data;
-      await auth.login(username, password);
-      window.location.href = "/";
+      try {
+        await auth.login(username, password);
+        window.location.href = "/";
+      } catch (error) {
+        toast.error(error.response.data.detail);
+      }
     };
 
     const { inputs, loginButton } = formStyle;
@@ -47,6 +52,7 @@ export default class LoginForm extends Form {
           )}
           {this.renderButton("login", loginButton)}
         </form>
+        <ToastContainer />
       </section>
     );
   }
@@ -54,11 +60,11 @@ export default class LoginForm extends Form {
 
 const formStyle = {
   inputs: {
-    _input: "w-3/4 md:w-1/2 py-1 pl-2 rounded-sm",
-    _label: "text-lg text-red-200 pr-4 text-white",
+    _input: "md:w-56 py-1 pl-2 rounded-sm",
+    _label: "text-lg text-white pr-4 text-white",
     _container:
-      "pb-6  w-full flex flex-col md:flex-col items-center justify-center ",
-    _errorMsg: "",
+      "pb-6  w-full flex flex-col md:flex-row items-center justify-center",
+    _errorMsg: "w-56 pt-2 text-red-300",
   },
 
   loginButton:
