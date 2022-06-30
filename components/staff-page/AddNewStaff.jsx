@@ -32,10 +32,14 @@ const modalStyle = {
 // ];
 
 export default class AddNewStaff extends Form {
+  constructor(props) {
+    super(props);
+  }
+
   state = {
     data: {
-      username : "",
-      password : "",
+      username: "",
+      password: "",
       first_name: "",
       last_name: "",
       position: "",
@@ -53,13 +57,13 @@ export default class AddNewStaff extends Form {
   };
 
   schema = {
-    username:Joi.string().required(),
-    password:Joi.string().required(),
+    username: Joi.string().required(),
+    password: Joi.string().required(),
     first_name: Joi.string().required(),
     last_name: Joi.string().required(),
-    position: Joi.number().required(),
     phone: Joi.number().required(),
-    birthday: Joi.string(),
+    birthday: Joi.string().required(),
+    position: Joi.number().required(),
     department: Joi.number().required(),
     role: Joi.number().integer().required(),
     email: Joi.string().email().required(),
@@ -69,6 +73,7 @@ export default class AddNewStaff extends Form {
   };
 
   async componentDidMount() {
+    console.log(this.props);
     const positionsReq = http.get("/positions-list", auth.config);
     const departmentReq = http.get("/department-list", auth.config);
     const roleReq = http.get("/role-list", auth.config);
@@ -80,7 +85,7 @@ export default class AddNewStaff extends Form {
           const departments = responses[1];
           const roles = responses[2];
           // use/access the results
-          console.log(departments.data);
+          // console.log(departments.data);
           this.setState({
             department: departments.data,
             role: roles.data,
@@ -106,8 +111,17 @@ export default class AddNewStaff extends Form {
 */
   render() {
     this.doSubmit = async () => {
-      const res = http.post("/users", this.state.data, auth.config);
-      console.log(res.data);
+      console.log(this.state.data);
+      try {
+        const res = await http.post(
+          "/create-user",
+          this.state.data,
+          auth.config
+        );
+        console.log(res.data);
+      } catch (error) {
+        console.log(error.response.data);
+      }
     };
     return (
       <>
@@ -125,7 +139,7 @@ export default class AddNewStaff extends Form {
           toggleModal={this.toggleModal}
         >
           <form className="w-1/2 mx-auto" onSubmit={this.handleForm}>
-          {this.renderInput(
+            {this.renderInput(
               "username",
               "Username",
               "text",
