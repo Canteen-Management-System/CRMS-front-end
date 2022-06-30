@@ -4,7 +4,7 @@ import RenderTable from "../table/RenderTable";
 
 function ClientsTable({ getClients, tableData }) {
   const [tableHeader, setTableHeader] = useState([]);
-
+  console.log(tableData)
   useEffect(() => {
     if (tableData.length !== 0) {
       const headerKeys = Object.keys(tableData[0]);
