@@ -12,30 +12,15 @@ const modalStyle = {
   _inputContainer: "w-11/12",
 };
 
-// const department = [
-//   { _id: 1, name: "IT" },
-//   { _id: 2, name: "HR" },
-//   { _id: 3, name: "Accounts" },
-//   { _id: 4, name: "Management" },
-// ];
-// const Jobs = [
-//   { _id: 1, name: "HR officer" },
-//   { _id: 2, name: "CS" },
-//   { _id: 3, name: "account manger " },
-//   { _id: 4, name: "manger" },
-// ];
-// const Roll = [
-//   { _id: 1, name: "manger" },
-//   { _id: 2, name: "CS employee" },
-//   { _id: 3, name: "IT admin" },
-//   { _id: 4, name: "staff" },
-// ];
-
 export default class AddNewStaff extends Form {
+  constructor(props) {
+    super(props);
+  }
+
   state = {
     data: {
-      username : "",
-      password : "",
+      username: "",
+      password: "",
       first_name: "",
       last_name: "",
       position: "",
@@ -53,13 +38,13 @@ export default class AddNewStaff extends Form {
   };
 
   schema = {
-    username:Joi.string().required(),
-    password:Joi.string().required(),
+    username: Joi.string().required(),
+    password: Joi.string().required(),
     first_name: Joi.string().required(),
     last_name: Joi.string().required(),
-    position: Joi.number().required(),
     phone: Joi.number().required(),
-    birthday: Joi.string(),
+    birthday: Joi.string().required(),
+    position: Joi.number().required(),
     department: Joi.number().required(),
     role: Joi.number().integer().required(),
     email: Joi.string().email().required(),
@@ -69,45 +54,26 @@ export default class AddNewStaff extends Form {
   };
 
   async componentDidMount() {
-    const positionsReq = http.get("/positions-list", auth.config);
-    const departmentReq = http.get("/department-list", auth.config);
-    const roleReq = http.get("/role-list", auth.config);
-    axios
-      .all([positionsReq, departmentReq, roleReq])
-      .then(
-        axios.spread((...responses) => {
-          const positions = responses[0];
-          const departments = responses[1];
-          const roles = responses[2];
-          // use/access the results
-          console.log(departments.data);
-          this.setState({
-            department: departments.data,
-            role: roles.data,
-            position: positions.data,
-          });
-        })
-      )
-      .catch((errors) => {
-        // react on errors.
-      });
+    const data = await this.props.getStaff();
+    this.setState({
+      department: data.departments,
+      role: data.roles,
+      position: data.positions,
+    });
   }
-  /*
-{
-    "first_name": "Nour",
-    "last_name": "Eddein",
-    "position": null,
-    "phone": "",
-    "birthday": "2022-06-13",
-    "department": null,
-    "role": null,
-    "email": "admin2@admin.com"
-}
-*/
   render() {
     this.doSubmit = async () => {
-      const res = http.post("/users", this.state.data, auth.config);
-      console.log(res.data);
+      console.log(this.state.data);
+      try {
+        const res = await http.post(
+          "/create-user",
+          this.state.data,
+          auth.config
+        );
+        console.log(res.data);
+      } catch (error) {
+        console.log(error.response.data);
+      }
     };
     return (
       <>
@@ -125,7 +91,7 @@ export default class AddNewStaff extends Form {
           toggleModal={this.toggleModal}
         >
           <form className="w-1/2 mx-auto" onSubmit={this.handleForm}>
-          {this.renderInput(
+            {this.renderInput(
               "username",
               "Username",
               "text",
