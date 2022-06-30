@@ -12,25 +12,6 @@ const modalStyle = {
   _inputContainer: "w-11/12",
 };
 
-// const department = [
-//   { _id: 1, name: "IT" },
-//   { _id: 2, name: "HR" },
-//   { _id: 3, name: "Accounts" },
-//   { _id: 4, name: "Management" },
-// ];
-// const Jobs = [
-//   { _id: 1, name: "HR officer" },
-//   { _id: 2, name: "CS" },
-//   { _id: 3, name: "account manger " },
-//   { _id: 4, name: "manger" },
-// ];
-// const Roll = [
-//   { _id: 1, name: "manger" },
-//   { _id: 2, name: "CS employee" },
-//   { _id: 3, name: "IT admin" },
-//   { _id: 4, name: "staff" },
-// ];
-
 export default class AddNewStaff extends Form {
   constructor(props) {
     super(props);
@@ -73,42 +54,13 @@ export default class AddNewStaff extends Form {
   };
 
   async componentDidMount() {
-    console.log(this.props);
-    const positionsReq = http.get("/positions-list", auth.config);
-    const departmentReq = http.get("/department-list", auth.config);
-    const roleReq = http.get("/role-list", auth.config);
-    axios
-      .all([positionsReq, departmentReq, roleReq])
-      .then(
-        axios.spread((...responses) => {
-          const positions = responses[0];
-          const departments = responses[1];
-          const roles = responses[2];
-          // use/access the results
-          // console.log(departments.data);
-          this.setState({
-            department: departments.data,
-            role: roles.data,
-            position: positions.data,
-          });
-        })
-      )
-      .catch((errors) => {
-        // react on errors.
-      });
+    const data = await this.props.getStaff();
+    this.setState({
+      department: data.departments,
+      role: data.roles,
+      position: data.positions,
+    });
   }
-  /*
-{
-    "first_name": "Nour",
-    "last_name": "Eddein",
-    "position": null,
-    "phone": "",
-    "birthday": "2022-06-13",
-    "department": null,
-    "role": null,
-    "email": "admin2@admin.com"
-}
-*/
   render() {
     this.doSubmit = async () => {
       console.log(this.state.data);

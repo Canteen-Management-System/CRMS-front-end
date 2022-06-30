@@ -16,7 +16,7 @@ export default function DisplayEmployees({ data }) {
   } = data;
   return (
     <>
-      <dev
+      <div
         style={{ zIndex: 1 }}
         className=" bg-[#748DA6] rounded-md  m-8  items-center justify-center pb-5"
       >
@@ -47,7 +47,7 @@ export default function DisplayEmployees({ data }) {
         <p className="text-white">
           Mobile: <b>{phone}</b>
         </p>
-      </dev>
+      </div>
     </>
   );
 }

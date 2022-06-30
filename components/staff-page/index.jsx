@@ -13,9 +13,8 @@ const StaffCards = dynamic(() => import("./StaffCards"), {
 });
 
 export default function Index() {
-  const [data, setData] = useState({});
   const [returnedData, setReturnedData] = useState({});
-  // let returnedData = {};
+
   const getStaff = async () => {
     const usersReq = http.get("/users", auth.config);
     const departmentReq = http.get("/department-list", auth.config);
@@ -41,6 +40,7 @@ export default function Index() {
         users: users.data,
       };
       setReturnedData(returnedData);
+      return returnedData;
     } catch (error) {
       console.log(error);
     }
@@ -48,128 +48,12 @@ export default function Index() {
 
   useEffect(() => {
     getStaff();
-    console.log("ll");
   }, []);
   return (
     <>
-      <AddNewStaff data={returnedData} />
-      {/* <StaffPageHeader /> */}
-      {/* <StaffCards employees={data?.users} /> */}
+      {<AddNewStaff getStaff={getStaff} />}
+      <StaffPageHeader />
+      <StaffCards getStaff={getStaff} />
     </>
   );
 }
-
-// const employees = [
-//   {
-//     Id: 101,
-//     FirstName: "Abhinav",
-//     LastName: "Ali",
-//     Department: "HR",
-//     Jobtitle: "HR officer",
-//     Mobile: "0792689554",
-//   },
-//   {
-//     Id: 102,
-//     FirstName: "mohammad",
-//     LastName: "faresh",
-//     Department: "HR",
-//     Jobtitle: "HR officer",
-//     Mobile: "0792689554",
-//   },
-//   {
-//     Id: 102,
-//     FirstName: "mohammad",
-//     LastName: "faresh",
-//     Department: "HR",
-//     Jobtitle: "HR officer",
-//     Mobile: "0792689554",
-//   },
-//   {
-//     Id: 102,
-//     FirstName: "mohammad",
-//     LastName: "faresh",
-//     Department: "HR",
-//     Jobtitle: "HR officer",
-//     Mobile: "0792689554",
-//   },
-//   {
-//     Id: 102,
-//     FirstName: "mohammad",
-//     LastName: "faresh",
-//     Department: "HR",
-//     Jobtitle: "HR officer",
-//     Mobile: "0792689554",
-//   },
-//   {
-//     Id: 102,
-//     FirstName: "mohammad",
-//     LastName: "faresh",
-//     Department: "HR",
-//     Jobtitle: "HR officer",
-//     Mobile: "0792689554",
-//   },
-//   {
-//     Id: 102,
-//     FirstName: "mohammad",
-//     LastName: "faresh",
-//     Department: "HR",
-//     Jobtitle: "HR officer",
-//     Mobile: "0792689554",
-//   },
-//   {
-//     Id: 102,
-//     FirstName: "mohammad",
-//     LastName: "faresh",
-//     Department: "HR",
-//     Jobtitle: "HR officer",
-//     Mobile: "0792689554",
-//   },
-//   {
-//     Id: 102,
-//     FirstName: "mohammad",
-//     LastName: "faresh",
-//     Department: "HR",
-//     Jobtitle: "HR officer",
-//     Mobile: "0792689554",
-//   },
-//   {
-//     Id: 102,
-//     FirstName: "mohammad",
-//     LastName: "faresh",
-//     Department: "HR",
-//     Jobtitle: "HR officer",
-//     Mobile: "0792689554",
-//   },
-//   {
-//     Id: 102,
-//     FirstName: "mohammad",
-//     LastName: "faresh",
-//     Department: "HR",
-//     Jobtitle: "HR officer",
-//     Mobile: "0792689554",
-//   },
-//   {
-//     Id: 102,
-//     FirstName: "mohammad",
-//     LastName: "faresh",
-//     Department: "HR",
-//     Jobtitle: "HR officer",
-//     Mobile: "0792689554",
-//   },
-//   {
-//     Id: 102,
-//     FirstName: "mohammad",
-//     LastName: "faresh",
-//     Department: "HR",
-//     Jobtitle: "HR officer",
-//     Mobile: "0792689554",
-//   },
-//   {
-//     Id: 102,
-//     FirstName: "mohammad",
-//     LastName: "faresh",
-//     Department: "HR",
-//     Jobtitle: "HR officer",
-//     Mobile: "0792689554",
-//   },
-// ];
