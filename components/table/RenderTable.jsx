@@ -14,7 +14,7 @@ const BODY_DATA = [
 
 export default function RenderTable({ tableHead, bodyData }) {
   const [q,setQ]=useState("");
-  const [searchcolumns,setSearchcolumns] = useState([])
+  const [searchcolumns,setSearchcolumns] = useState(["id"])
   let  t = 0
   function search(rows){
     return rows.filter((row) =>
