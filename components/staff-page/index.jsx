@@ -54,7 +54,7 @@ export default function Index() {
     <>
       {<AddNewStaff getStaff={getStaff} />}
 
-      <StaffCards getStaff={getStaff} />
+      <StaffCards getStaff={getStaff}  returnedData={returnedData} />
     </>
   );
 }

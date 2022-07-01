@@ -3,7 +3,7 @@ import Image from "next/image";
 import { MdFavoriteBorder, MdChat } from "react-icons/md";
 import Employee from "./Employee";
 
-export default function DisplayEmployees({ getStaff }) {
+export default function DisplayEmployees({ getStaff , returnedData }) {
   
   const [data, setData] = useState([]);
 
@@ -24,8 +24,10 @@ export default function DisplayEmployees({ getStaff }) {
       )
     );
   }
-  const columns =  ["department","first_name","id","last_name", "position","role"]
-  console.log( data[0])
+  const test = returnedData.users[0]
+  
+  const columns =  Object.keys(test || {});
+  console.log( columns)
   return (
     <>
     <div className="flex flex-column justify-left items-left w-3/4 md:w-3/4 h-3/4 pb-8  px-12 py-8 mx-8 my-8 bg-gray-500 rounded-md shadow-md">
@@ -57,7 +59,7 @@ export default function DisplayEmployees({ getStaff }) {
   </div>
     <div className="z-0 flex flex-wrap items-center w-1/4 text-white rounded-md shadow-md md:w-full h-1/5">
       {data.length != 0
-        ? search(data[0]).map((user, idx) => {
+        ? search(returnedData.users).map((user, idx) => {
             return (
               <div
                 key={idx}
@@ -86,7 +88,7 @@ export default function DisplayEmployees({ getStaff }) {
                   Department :{" "}
                   <b>
                     {
-                      search(data[1]).filter((item) => item.id == user.department)[0]
+                      data[1].filter((item) => item.id == user.department)[0]
                         ?.name
                     }
                   </b>
