@@ -15,24 +15,26 @@ const BODY_DATA = [
 export default function RenderTable({ tableHead, bodyData }) {
   const [q,setQ]=useState("");
   const [searchcolumns,setSearchcolumns] = useState([])
+  const t = 0
   function search(rows){
     return rows.filter((row) =>
-    {
-      columns.some((column) => row[column].toString().toLowerCase().indexOf(q.toLowerCase())>-1);
-    }
-
-
+      columns.some((column) => row[column].toString().toLowerCase().indexOf(q.toLowerCase())>-1
+      )
     );
   }
   const columns = bodyData[0] && Object.keys(bodyData[0]);
   return (
     <>
-      <div className="mx-8 text-black font-poppins py-6">
-        <input type={"text"} value={q} onChange={(e)=> setQ(e.target.value)}/>
+      <div className="flex flex-column justify-left items-left w-3/4 md:w-3/4 h-3/4 pb-8  px-12 py-8 mx-8 my-8 bg-gray-500 rounded-md shadow-md">
+        
+
+        <input placeholder="  Search" type={"text"} value={q} onChange={(e)=> setQ(e.target.value)} />
         {columns &&
           columns.map((column)=>( 
-          <label key=id>
+          <label  key={t+1} className="mx-6 font-poppins text-white" >
+
             <input 
+            className="mx-2"
             type="checkbox"
             checked = {searchcolumns.includes(column)}
             onChange={(e)=>{
@@ -44,8 +46,8 @@ export default function RenderTable({ tableHead, bodyData }) {
           : [...prev, column]
           );
           }}
-          />
-          {column}
+        />
+        {column}
           </label>
         ))}
 
