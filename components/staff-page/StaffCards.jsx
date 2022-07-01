@@ -16,7 +16,7 @@ export default function DisplayEmployees({ getStaff , returnedData }) {
   }, []);
   // {data[1].filter((item) => item.id == user.department)[0]?.name}
   const [q,setQ]=useState("");
-  const [searchcolumns,setSearchcolumns] = useState([])
+  const [searchcolumns,setSearchcolumns] = useState(["id"])
   let t = 0
   function search(rows){
     return rows.filter((row) =>
