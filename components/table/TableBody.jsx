@@ -1,4 +1,5 @@
-export default function TableBody({ bodyData, tableHead }) {
+import { TrashIcon } from "@heroicons/react/outline";
+export default function TableBody({ bodyData, tableHead , deleteLocation }) {
   let counter = 0;
   return (
     <tbody>
@@ -13,8 +14,15 @@ export default function TableBody({ bodyData, tableHead }) {
                 >
                   {head == "id" ? (counter = counter + 1) : row[head]}
                 </td>
+                
               );
             })}
+            <td className="p-1 text-center border rounded-lg border-slate-700">
+                <TrashIcon
+                  className="h-6 mx-auto cursor-pointer"
+                  onClick={() => deleteLocation(row.id)}
+                />
+              </td>
           </tr>
         );
       })}

@@ -15,14 +15,29 @@ const BODY_DATA = [
 export default function RenderTable({ tableHead, bodyData }) {
   const [q,setQ]=useState("");
   const [searchcolumns,setSearchcolumns] = useState([])
-  const t = 0
+  let  t = 0
   function search(rows){
     return rows.filter((row) =>
-      columns.some((column) => row[column].toString().toLowerCase().indexOf(q.toLowerCase())>-1
+    searchcolumns.some((column) => row[column].toString().toLowerCase().indexOf(q.toLowerCase())>-1
       )
     );
   }
   const columns = bodyData[0] && Object.keys(bodyData[0]);
+  const [token, setToken] = useState(null);
+  const config = {
+    headers: {
+      authorization: `Bearer ${token}`,
+    },
+  };
+
+  const deleteLocation = async (id) => {
+    try {
+      await http.delete(`/clients/client/${id}`, config);
+      window.location.href = "/";
+    } catch (error) {
+      console.log(error);
+    }
+  };
   return (
     <>
       <div className="flex flex-column justify-left items-left w-3/4 md:w-3/4 h-3/4 pb-8  px-12 py-8 mx-8 my-8 bg-gray-500 rounded-md shadow-md">
@@ -31,7 +46,7 @@ export default function RenderTable({ tableHead, bodyData }) {
         <input placeholder="  Search" type={"text"} value={q} onChange={(e)=> setQ(e.target.value)} />
         {columns &&
           columns.map((column)=>( 
-          <label  key={t+1} className="mx-6 font-poppins text-white" >
+          <label  key={t+=1} className="mx-6 font-poppins text-white" >
 
             <input 
             className="mx-2"
@@ -55,7 +70,7 @@ export default function RenderTable({ tableHead, bodyData }) {
       <div>
       <table className="mx-8 text-white font-poppins">
         <TableHeader tableHead={tableHead} />
-        <TableBody bodyData={search(bodyData)} tableHead={tableHead} />
+        <TableBody bodyData={search(bodyData)} tableHead={tableHead}  deleteLocation={deleteLocation}/>
         <TableFooter />
       </table>
     </div>
