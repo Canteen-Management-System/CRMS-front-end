@@ -17,17 +17,16 @@ export default function DisplayEmployees({ getStaff , returnedData }) {
   // {data[1].filter((item) => item.id == user.department)[0]?.name}
   const [q,setQ]=useState("");
   const [searchcolumns,setSearchcolumns] = useState([])
-  const t = 0
+  let t = 0
   function search(rows){
     return rows.filter((row) =>
-      columns.some((column) => row[column].toString().toLowerCase().indexOf(q.toLowerCase())>-1
+    searchcolumns.some((column) => row[column].toString().toLowerCase().indexOf(q.toLowerCase())>-1
       )
     );
   }
   const test = returnedData.users[0]
   
   const columns =  Object.keys(test || {});
-  console.log( columns)
   return (
     <>
     <div className="flex flex-column justify-left items-left w-3/4 md:w-3/4 h-3/4 pb-8  px-12 py-8 mx-8 my-8 bg-gray-500 rounded-md shadow-md">
@@ -36,7 +35,7 @@ export default function DisplayEmployees({ getStaff , returnedData }) {
     <input placeholder="  Search" type={"text"} value={q} onChange={(e)=> setQ(e.target.value)} />
     {columns &&
       columns.map((column)=>( 
-      <label  key={t+1} className="mx-6 font-poppins text-white" >
+      <label  key={t+=1} className="mx-6 font-poppins text-white" >
 
         <input 
         className="mx-2"
