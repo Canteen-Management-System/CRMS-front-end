@@ -72,9 +72,10 @@ export default class AddClientForm extends Form {
         toast.success("Wow, Client added successfully!");
         this.props.getClients();
         this.clearForm();
-        window.location.href = "/Clients";
+        // window.location.href = "/Clients";
       } catch (err) {
         const errors = this.getErrorValues(err.response.data);
+        this.clearForm();
         toast.error(errors);
       }
     };
@@ -89,12 +90,7 @@ export default class AddClientForm extends Form {
             Add new client
           </button>
         </div>
-        <Modal
-          modalTitle="Add new client"
-          animation={this.state.animation}
-          toggleModal={this.toggleModal}
-          formId="clientForm"
-        >
+        <Modal modalTitle="Add new client" animation={this.state.animation}>
           <form className="w-1/2 mx-auto " onSubmit={this.handleForm}>
             {this.renderInput(
               "full_name",

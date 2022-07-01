@@ -12,11 +12,13 @@ const BODY_DATA = [
 export default function RenderTable({ tableHead, bodyData }) {
   return (
     <div>
-      <table className="mx-8 text-white font-poppins">
-        <TableHeader tableHead={tableHead} />
-        <TableBody bodyData={bodyData} tableHead={tableHead} />
-        <TableFooter />
-      </table>
+      {tableHead.length != 0 && bodyData.length != 0 && (
+        <table className="mx-8 text-white font-poppins">
+          <TableHeader tableHead={tableHead} />
+          <TableBody bodyData={bodyData} tableHead={tableHead} />
+          <TableFooter />
+        </table>
+      )}
     </div>
   );
 }
