@@ -4,6 +4,7 @@ import { MdFavoriteBorder, MdChat } from "react-icons/md";
 import Employee from "./Employee";
 
 export default function DisplayEmployees({ getStaff }) {
+  
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -14,10 +15,49 @@ export default function DisplayEmployees({ getStaff }) {
     getEmployers();
   }, []);
   // {data[1].filter((item) => item.id == user.department)[0]?.name}
+  const [q,setQ]=useState("");
+  const [searchcolumns,setSearchcolumns] = useState([])
+  const t = 0
+  function search(rows){
+    return rows.filter((row) =>
+      columns.some((column) => row[column].toString().toLowerCase().indexOf(q.toLowerCase())>-1
+      )
+    );
+  }
+  const columns =  ["department","first_name","id","last_name", "position","role"]
+  console.log( data[0])
   return (
+    <>
+    <div className="flex flex-column justify-left items-left w-3/4 md:w-3/4 h-3/4 pb-8  px-12 py-8 mx-8 my-8 bg-gray-500 rounded-md shadow-md">
+        
+
+    <input placeholder="  Search" type={"text"} value={q} onChange={(e)=> setQ(e.target.value)} />
+    {columns &&
+      columns.map((column)=>( 
+      <label  key={t+1} className="mx-6 font-poppins text-white" >
+
+        <input 
+        className="mx-2"
+        type="checkbox"
+        checked = {searchcolumns.includes(column)}
+        onChange={(e)=>{
+          const checked = searchcolumns.includes(column);
+        setSearchcolumns((prev) =>
+        checked
+        
+        ? prev.filter((sc)=> sc !== column)
+      : [...prev, column]
+      );
+      }}
+    />
+    {column}
+      </label>
+    ))}
+
+  </div>
     <div className="z-0 flex flex-wrap items-center w-1/4 text-white rounded-md shadow-md md:w-full h-1/5">
       {data.length != 0
-        ? data[0].map((user, idx) => {
+        ? search(data[0]).map((user, idx) => {
             return (
               <div
                 key={idx}
@@ -46,7 +86,7 @@ export default function DisplayEmployees({ getStaff }) {
                   Department :{" "}
                   <b>
                     {
-                      data[1].filter((item) => item.id == user.department)[0]
+                      search(data[1]).filter((item) => item.id == user.department)[0]
                         ?.name
                     }
                   </b>
@@ -60,5 +100,7 @@ export default function DisplayEmployees({ getStaff }) {
           })
         : ""}
     </div>
+    </>
+
   );
 }
