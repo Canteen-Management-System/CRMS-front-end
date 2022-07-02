@@ -13,7 +13,7 @@ export default function DisplayEmployees({ getStaff }) {
     };
     getEmployers();
   }, []);
-  // {data[1].filter((item) => item.id == user.department)[0]?.name}
+
   return (
     <div className="z-0 flex flex-wrap items-center w-1/4 text-white rounded-md shadow-md md:w-full h-1/5">
       {data.length != 0

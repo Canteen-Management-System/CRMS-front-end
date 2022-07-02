@@ -3,7 +3,7 @@ import Joi from "joi-browser";
 import auth from "../../lib/services/authService";
 import http from "../../lib/services/httpService";
 import Form from "../form/Form";
-import axios from "axios";
+
 const modalStyle = {
   _input: "p-2 rounded-lg w-full",
   _label: "w-40 text-right pr-4 ",
@@ -70,7 +70,6 @@ export default class AddNewStaff extends Form {
           this.state.data,
           auth.config
         );
-        console.log(res.data);
       } catch (error) {
         console.log(error.response.data);
       }

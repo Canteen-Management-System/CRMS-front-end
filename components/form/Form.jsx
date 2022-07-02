@@ -2,6 +2,7 @@ import React from "react";
 import Joi from "joi-browser";
 import Input from "./Input";
 import Select from "./Select";
+import TextArea from "./TextArea";
 
 class Form extends React.Component {
   state = {
@@ -51,6 +52,10 @@ class Form extends React.Component {
         {label}
       </button>
     );
+  };
+
+  renderTextArea = ({ label }) => {
+    const { data, errors } = this.state;
   };
 
   renderInput = (

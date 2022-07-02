@@ -19,7 +19,7 @@ const ActionTaken = () => {
       <label className="pr-4 text-lg text-white ">Expectation</label>
       <textarea id="Expectation" name="Expectation" rows="4" cols="50" />
       <legend className="md:text-xl pb-8 text-[#F2F2F2] py-5">Assign To</legend>
-      <dev className="flex flex-col justify-center w-full pb-6 md:flex-row items-left px-9">
+      <div className="flex flex-col justify-center w-full pb-6 md:flex-row items-left px-9">
         <label className="w-1/3 pr-4 text-lg text-white ">Department</label>
         <select>
           <option className="pr-4 text-lg text-white " />
@@ -29,8 +29,8 @@ const ActionTaken = () => {
             </option>
           ))}
         </select>
-      </dev>
-      <dev className="flex flex-col justify-center w-full pb-6 md:flex-row items-left px-9">
+      </div>
+      <div className="flex flex-col justify-center w-full pb-6 md:flex-row items-left px-9">
         <label className="w-1/3 pr-4 text-lg text-white ">Name</label>
         <select>
           <option className="pr-4 text-lg text-white " />
@@ -40,7 +40,7 @@ const ActionTaken = () => {
             </option>
           ))}
         </select>
-      </dev>
+      </div>
     </div>
   );
 };

@@ -1,4 +1,4 @@
-export default function TableHeader({ tableHead }) {
+export default function TableHeader({ tableHead, bg = "" }) {
   return (
     <thead>
       <tr className="">
@@ -6,7 +6,7 @@ export default function TableHeader({ tableHead }) {
           return (
             <th
               key={idx}
-              className="px-4 py-2 text-lg font-semibold text-center border rounded-lg border-slate-700 "
+              className={`px-4 py-2 text-lg font-semibold text-center  border rounded-lg border-slate-700 ${bg}`}
             >
               {title == "id" ? "#" : title}
             </th>
