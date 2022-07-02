@@ -1,19 +1,19 @@
 ## Quick Start
 
-1. Clone repository
+# 1. Clone repository
 
-# Front End 
+ Front End 
 https://github.com/Canteen-Management-System/CRMS-front-end
 
-# BackEnd
+ BackEnd
 https://github.com/Canteen-Management-System/CRMS-back-end
 
-2. Setup the backend CRMS-back-end
+# 2. Setup the backend CRMS-back-end
 
 cd CRMS-back-end
 
 
-# Activate a virtual environment
+Activate a virtual environment
 
 virtualenv .env
 
@@ -36,11 +36,11 @@ py manage.py createsuperuser
 ..<input a username, email, and password>
 
 
-3. Confirm your backend is functioning
+# 3. Confirm your backend is functioning
 
 py manage.py runserver
 
-4. Setup the frontend CRMS-front-end
+# 4. Setup the frontend CRMS-front-end
 
 Open up another terminal (tab or window) and keep your backend running.
 
