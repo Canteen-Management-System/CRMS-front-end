@@ -43,31 +43,31 @@ export default class Logss extends Form {
       modelstyle,
     } = formStyle;
     const category = [
-      { _id: 1, name: "Complaint" },
-      { _id: 2, name: "Suggestion" },
-      { _id: 3, name: "Request" },
+      { id: 1, name: "Complaint" },
+      { id: 2, name: "Suggestion" },
+      { id: 3, name: "Request" },
     ];
     const status = [
-      { _id: 1, name: "Open" },
-      { _id: 2, name: "closed" },
-      { _id: 3, name: "pending" },
+      { id: 1, name: "Open" },
+      { id: 2, name: "closed" },
+      { id: 3, name: "pending" },
     ];
     const service = [
-      { _id: 1, name: "Quotation" },
-      { _id: 2, name: "appointment" },
-      { _id: 3, name: "technical support " },
-      { _id: 4, name: "other " },
+      { id: 1, name: "Quotation" },
+      { id: 2, name: "appointment" },
+      { id: 3, name: "technical support " },
+      { id: 4, name: "other " },
     ];
     const clientType = [
-      { _id: 1, name: "Client" },
-      { _id: 2, name: "new customer" },
-      { _id: 3, name: "staff " },
-      { _id: 4, name: "other " },
+      { id: 1, name: "Client" },
+      { id: 2, name: "new customer" },
+      { id: 3, name: "staff " },
+      { id: 4, name: "other " },
     ];
     const priority = [
-      { _id: 1, name: "High" },
-      { _id: 2, name: "medium" },
-      { _id: 3, name: "Low" },
+      { id: 1, name: "High" },
+      { id: 2, name: "medium" },
+      { id: 3, name: "Low" },
     ];
 
     return (
@@ -84,11 +84,7 @@ export default class Logss extends Form {
           animation={this.state.animation}
           toggleModal={this.toggleModal}
         >
-          <form
-            id="newStaffForm"
-            // className="flex flex-col justify-center items-center w-3/4 md:w-1/3 h-1/2 bg-[#748DA6] rounded-md shadow-md"
-            onSubmit={this.handleForm}
-          >
+          <form id="newStaffForm" onSubmit={this.handleForm}>
             {this.renderSelect("Category", "Category", category, modelstyle)}
             {this.renderInput(
               "name",

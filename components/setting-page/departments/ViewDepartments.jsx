@@ -7,33 +7,30 @@ import auth from "../../../lib/services/authService";
 import TableHeader from "../../table/TableHeader";
 import { TrashIcon, PencilAltIcon } from "@heroicons/react/outline";
 
-import React, { Component } from "react";
-
-export default class ViewPriorities extends Form {
+export default class ViewDepartments extends Form {
   constructor(props) {
     super(props);
 
     this.state = {
-      priorities: [],
-      tableHeader: ["id", "priority", "Action"],
+      departments: [],
+      tableHeader: ["id", "name", "Action"],
     };
   }
-
   async componentDidUpdate(prevProps) {
-    if (prevProps.priorities != this.state.priorities) {
-      this.setState({ priorities: this.props.priorities });
+    if (prevProps.departments != this.state.departments) {
+      this.setState({ departments: this.props.departments });
     }
   }
 
   render() {
     this.delete = async (id) => {
       try {
-        await http.delete(`/priority-detail/${id}`, auth.config);
+        await http.delete(`/department-detail/${id}`, auth.config);
         toast.success("Item deleted successfully!");
-        const d = this.state.priorities.filter((item) => {
+        const d = this.state.departments.filter((item) => {
           return item.id != id;
         });
-        this.setState({ priorities: d });
+        this.setState({ departments: d });
         console.log(d);
       } catch (error) {
         toast.error("Something went wrong!");
@@ -42,22 +39,22 @@ export default class ViewPriorities extends Form {
 
     return (
       <div>
-        <Modal modalTitle="Priorities" animation={this.props.animation}>
+        <Modal modalTitle="Departments" animation={this.props.animation}>
           <div className="flex flex-col items-center justify-center w-1/2 mx-auto mt-8">
             <table>
               <TableHeader tableHead={this.state.tableHeader} />
               <tbody>
-                {this.state.priorities?.map((row, rowIdx) => {
+                {this.state.departments?.map((row, rowIdx) => {
                   return (
                     <tr key={rowIdx}>
-                      {this.state.tableHeader.map((head, idx) => {
+                      {this.state.tableHeader?.map((head, idx) => {
                         return (
                           <td
                             key={idx}
                             className="p-1 px-8 py-2 text-center border rounded-lg border-slate-700"
                           >
                             {head == "id" ? rowIdx + 1 : row[head]}
-                            {head == "Action" ? (
+                            {head == "Action" && (
                               <div className="flex">
                                 <span>
                                   <TrashIcon
@@ -69,8 +66,6 @@ export default class ViewPriorities extends Form {
                                   <PencilAltIcon className="w-6 h-6 text-red-400 cursor-pointer" />
                                 </span>
                               </div>
-                            ) : (
-                              ""
                             )}
                           </td>
                         );
@@ -84,7 +79,7 @@ export default class ViewPriorities extends Form {
               <button
                 type="button"
                 className="px-4 py-2 mt-4 text-white bg-red-400 rounded"
-                onClick={this.props.toggleViewPriorities}
+                onClick={this.props.toggleViewDepartments}
               >
                 Close
               </button>

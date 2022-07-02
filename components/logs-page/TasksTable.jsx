@@ -23,7 +23,7 @@ function DefaultColumnFilter({
   );
 }
 
-function Example() {
+function TasksTable() {
   const data = React.useMemo(
     () => [
       {
@@ -251,4 +251,4 @@ function Example() {
   );
 }
 
-export default Example;
+export default TasksTable;
