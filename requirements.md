@@ -62,7 +62,7 @@ echo > .env.local
 
 # In your text editor put the following line in your .env.local file
 
-DJANGO_API=http://localhost:8000/api
+DJANGO_API=http://localhost:8000/api/v1/token
 
 # Start your frontend app
 yarn dev
