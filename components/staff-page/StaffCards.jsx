@@ -2,6 +2,8 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { MdFavoriteBorder, MdChat } from "react-icons/md";
 import Employee from "./Employee";
+import XLSX from "xlsx";
+
 
 export default function DisplayEmployees({ getStaff , returnedData }) {
   
@@ -27,6 +29,16 @@ export default function DisplayEmployees({ getStaff , returnedData }) {
   const test = returnedData.users[0]
   
   const columns =  Object.keys(test || {});
+
+
+  const handleExport = () =>{
+    XLSX = require('xlsx');
+    var wb = XLSX.utils.book_new(),
+    ws = XLSX.utils.json_to_sheet(returnedData.users)
+
+    XLSX.utils.book_append_sheet(wb,ws,"staff");
+    XLSX.writeFile(wb,"stafflist.xlsx");
+};
   return (
     <>
     <div className="flex flex-column justify-left items-left w-3/4 md:w-3/4 h-3/4 pb-8  px-12 py-8 mx-8 my-8 bg-gray-500 rounded-md shadow-md">
@@ -54,6 +66,8 @@ export default function DisplayEmployees({ getStaff , returnedData }) {
     {column}
       </label>
     ))}
+    <button className="px-8 py-2   ml-12 mb-5 text-black bg-white  rounded" onClick={handleExport}>Export</button>
+
 
   </div>
     <div className="z-0 flex flex-wrap items-center w-1/4 text-white rounded-md shadow-md md:w-full h-1/5">
