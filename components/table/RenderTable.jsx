@@ -4,6 +4,7 @@ import TableBody from "./TableBody";
 import React, { useState, useEffect } from "react";
 import XLSX from "xlsx";
 
+
 import { setRequestMeta } from "next/dist/server/request-meta";
 
 const HEAD = ["Date", "Category", "Company"];
@@ -13,7 +14,7 @@ const BODY_DATA = [
   ["25-06-2022", "RFQ", "ASAC"],
 ];
 
-export default function RenderTable({ tableHead, bodyData }) {
+export default function RenderTable({ tableHead, bodyData , deleteLocation}) {
   const [q,setQ]=useState("");
   const [searchcolumns,setSearchcolumns] = useState(["id"])
   let  t = 0
@@ -24,21 +25,9 @@ export default function RenderTable({ tableHead, bodyData }) {
     );
   }
   const columns = bodyData[0] && Object.keys(bodyData[0]);
-  const [token, setToken] = useState(null);
-  const config = {
-    headers: {
-      authorization: `Bearer ${token}`,
-    },
-  };
 
-  const deleteLocation = async (id) => {
-    try {
-      await http.delete(`/clients/client/${id}`, config);
-      window.location.href = "/";
-    } catch (error) {
-      console.log(error);
-    }
-  };
+
+
 
 
   const handleExport = () =>{
