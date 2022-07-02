@@ -34,7 +34,7 @@ export default function DisplayEmployees({ getStaff , returnedData }) {
   const handleExport = () =>{
     XLSX = require('xlsx');
     var wb = XLSX.utils.book_new(),
-    ws = XLSX.utils.json_to_sheet(returnedData.users)
+    ws = XLSX.utils.json_to_sheet(search(returnedData.users))
 
     XLSX.utils.book_append_sheet(wb,ws,"staff");
     XLSX.writeFile(wb,"stafflist.xlsx");

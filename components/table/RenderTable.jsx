@@ -44,7 +44,7 @@ export default function RenderTable({ tableHead, bodyData }) {
   const handleExport = () =>{
         XLSX = require('xlsx');
         var wb = XLSX.utils.book_new(),
-        ws = XLSX.utils.json_to_sheet(bodyData)
+        ws = XLSX.utils.json_to_sheet(search(bodyData))
 
         XLSX.utils.book_append_sheet(wb,ws,"clients");
         XLSX.writeFile(wb,"ClientsList.xlsx");
