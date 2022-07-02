@@ -155,3 +155,4 @@ The main idea of this website is to assist the customer service in managing the 
 - Issuing reports and analyzes to clients
 
  
+### ** [requirements](https://github.com/Canteen-Management-System/CRMS-front-end/blob/main/requirements.md) **
