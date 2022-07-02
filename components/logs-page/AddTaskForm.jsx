@@ -1,7 +1,7 @@
-import Form from "./form/Form";
+import Form from "../form/Form";
 import Joi from "joi-browser";
-import Modal from "./modal/Modal";
-import Imm from "./issue-form/Imm";
+import Modal from "../modal/Modal";
+import Imm from "../issue-form/Imm";
 
 export default class Logss extends Form {
   state = {
@@ -137,6 +137,19 @@ export default class Logss extends Form {
 
             {this.renderSelect("priority", "priority", priority, modelstyle)}
             <Imm />
+            <div className="flex flex-row w-1/2 mx-auto justify-evenly">
+              {this.renderButton(
+                "Submit",
+                "px-4 py-2 mt-4 text-white bg-green-400 rounded"
+              )}
+              <button
+                type="button"
+                className="px-4 py-2 mt-4 text-white bg-red-400 rounded"
+                onClick={this.toggleModal}
+              >
+                Cancel
+              </button>
+            </div>
           </form>
         </Modal>
       </div>
