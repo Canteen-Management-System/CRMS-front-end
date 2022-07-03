@@ -21,6 +21,7 @@ export default function DisplayEmployees({ getStaff , returnedData }) {
   const [searchcolumns,setSearchcolumns] = useState(["id"])
   let t = 0
   function search(rows){
+    console.log(rows)
     return rows.filter((row) =>
     searchcolumns.some((column) => row[column].toString().toLowerCase().indexOf(q.toLowerCase())>-1
       )
@@ -55,11 +56,14 @@ export default function DisplayEmployees({ getStaff , returnedData }) {
         checked = {searchcolumns.includes(column)}
         onChange={(e)=>{
           const checked = searchcolumns.includes(column);
+          console.log(searchcolumns)
+
         setSearchcolumns((prev) =>
         checked
         
         ? prev.filter((sc)=> sc !== column)
       : [...prev, column]
+
       );
       }}
     />
