@@ -71,5 +71,6 @@ yarn dev
 npm run dev
 
 
-## Wireframes and Domain Modeling in Document
-https://docs.google.com/document/d/1wR66aLJdZc9QV05KmPUmxO6FqkzJQxsI/edit#
+## Wireframes :
+[LINK](https://www.figma.com/file/vKKVhxLk2AGN65p0GnKzWo/Customer-Service-Website?node-id=0%3A1)
+
