@@ -54,10 +54,6 @@ class Form extends React.Component {
     );
   };
 
-  renderTextArea = ({ label }) => {
-    const { data, errors } = this.state;
-  };
-
   renderInput = (
     name,
     label,
