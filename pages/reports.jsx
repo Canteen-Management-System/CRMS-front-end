@@ -1,12 +1,18 @@
 import RenderHead from "../components/RenderHead";
-import SideBar from "../components/navigation/SideBar";
-import RenderHeader from "../components/RenderHeader";
 // import ReportList from "../components/ReportList";
 
 import dynamic from 'next/dynamic'
 const ReportList = dynamic(() => import("../components/ReportList"), {
 ssr: false,
 });
+
+const RenderHeader = dynamic(() => import("../components/RenderHeader"), {
+  ssr: false,
+  });
+
+  const SideBar = dynamic(() => import("../components/navigation/SideBar"), {
+    ssr: false,
+    });
 export default function reports() {
 
   return (

@@ -31,11 +31,13 @@ export default function RenderClientsPage() {
   };
 
   useEffect(() => {
+    console.log(tableData);
     getClients().then((res) => setTableData(res));
   }, []);
 
   return (
     <div>
+      
       <AddClientForm getClients={getClients} />
       <ClientsTable getClients={getClients} tableData={tableData} deleteLocation={deleteLocation}/>
       <ToastContainer />
