@@ -4,6 +4,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* className="p-1 px-8 py-2 text-center border rounded-lg border-slate-700" */
 
 @layer{
     *{
@@ -12,4 +13,10 @@
     body{
         background-color:#07202a;
     }
+}
+.logs-table td{
+    padding: 0.5rem 2rem ;
+    text-align: center;
+    border: 1px #334155 solid;
+    border-radius: 0.5rem;
 }

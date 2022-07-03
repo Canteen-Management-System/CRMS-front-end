@@ -1,10 +1,12 @@
 import {
   ArrowCircleLeftIcon,
   ArrowCircleRightIcon,
+  CogIcon,
 } from "@heroicons/react/solid";
 import { useState } from "react";
 import UserInfo from "./UserInfo";
 import NavigationButtons from "./NavigationButtons";
+import Link from "next/link";
 
 export default function SideBar() {
   const [toggle, setToggle] = useState(true);
@@ -31,6 +33,12 @@ export default function SideBar() {
             onClick={handleToggle}
           />
         )}
+
+        <Link href="/Settings">
+          <a>
+            <CogIcon className="absolute right-0 w-8 h-8 mt-4 mr-4 text-white cursor-pointer top-12 hover:scale-125" />
+          </a>
+        </Link>
         <UserInfo />
         <NavigationButtons />
       </div>
