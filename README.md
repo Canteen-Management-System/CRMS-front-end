@@ -1,11 +1,8 @@
 # Team members :
 - Nour Eddein Al Abbassi  (team leader )
-- Mohammad Salhab
-- Hind Hbashneh
 - Amani Musallam
-
-
-
+- Hind Hbashneh
+- Mohammad Salhab
 
 
 # Deliverable
