@@ -71,6 +71,4 @@ yarn dev
 npm run dev
 
 
-# Wireframes :
-[LINK](https://www.figma.com/file/vKKVhxLk2AGN65p0GnKzWo/Customer-Service-Website?node-id=0%3A1)
 
