@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import TableHeader from "../table/TableHeader";
 import { TrashIcon } from "@heroicons/react/outline";
 import TableFooter from "../table/TableFooter";
-import RenderTable from "../table/RenderTable";
+import XLSX from "xlsx";
+
 
 function ClientsTable({ getClients, tableData , deleteLocation }) {
   let counter = 0;

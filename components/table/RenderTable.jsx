@@ -2,7 +2,6 @@ import TableHeader from "./TableHeader";
 import TableFooter from "./TableFooter";
 import TableBody from "./TableBody";
 import React, { useState, useEffect } from "react";
-import XLSX from "xlsx";
 
 import { setRequestMeta } from "next/dist/server/request-meta";
 

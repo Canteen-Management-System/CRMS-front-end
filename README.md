@@ -1,10 +1,8 @@
 # Team members :
-- Mohammad Salhab (team leader )
-- Hind Hbashneh
-- Nour Eddein Al Abbassi
+- Nour Eddein Al Abbassi  (team leader )
 - Amani Musallam
-
-
+- Hind Hbashneh
+- Mohammad Salhab
 
 
 # Deliverable
@@ -154,5 +152,23 @@ The main idea of this website is to assist the customer service in managing the 
 - Presenting the customer with a request or suggestion and managing the complaint in an easy way
 - Issuing reports and analyzes to clients
 
- 
-### ** [requirements](https://github.com/Canteen-Management-System/CRMS-front-end/blob/main/requirements.md) **
+
+
+# Wireframes :
+[LINK](https://www.figma.com/file/vKKVhxLk2AGN65p0GnKzWo/Customer-Service-Website?node-id=0%3A1)
+
+# User Stories
+
+# Requirements 
+[requirements](https://github.com/Canteen-Management-System/CRMS-front-end/blob/main/requirements.md) 
+
+
+
+# Domain Modeling :
+![Final project](https://user-images.githubusercontent.com/75991604/177045604-461deaaa-51e4-4163-9560-9bfaea7de40a.jpg)
+
+
+# Database Schema Diagram :
+
+![Untitled (2)](https://user-images.githubusercontent.com/75991604/177045608-0c0b56a9-9b46-4803-ad88-6c8f64d658ca.jpg)
+
