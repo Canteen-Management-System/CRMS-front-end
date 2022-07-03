@@ -1,136 +1,176 @@
 import Joi from "joi-browser";
 import Form from "../../form/Form";
-import Modal from "../../modal/Modal";
-import Imm from "../../issue-form/Imm";
+import auth from "../../../lib/services/authService";
+import http from "../../../lib/services/httpService";
 
-export default class ExistingClientForm extends Form {
+export default class NewClient extends Form {
+  constructor(props) {
+    super(props);
+  }
+
   state = {
     data: {
-      Category: "",
-      Company: "",
-      Service: "",
-      AssignTo: "",
-      Status: "",
-      Date: "",
-      name: "",
-      address: "",
+      category: "",
+      priority: "",
+      service_type: "",
+      expectation: "",
+      details: "",
+      staff: "",
+      department: "",
+      action_taken: "",
     },
     errors: {},
+    decision: "",
   };
 
   schema = {
-    name: Joi.string().required().label("Name"),
-    Category: Joi.string().label("Category"),
-    Company: Joi.string().label("Company"),
-    Service: Joi.string().label("ServiceType"),
-    AssignTo: Joi.string().label("AssignTo"),
-    Status: Joi.string().label("Status"),
-    Date: Joi.string().label("Date"),
-    address: Joi.string().allow("").label("Address"),
+    category: Joi.string().required().label("Category"),
+    priority: Joi.string().required().label("Priority"),
+    service_type: Joi.string().required().label("Service Type"),
+    action_taken: Joi.string().allow(""),
+    expectation: Joi.string().allow(""),
+    details: Joi.string().allow(""),
+    department: Joi.string().allow(""),
+    staff: Joi.string().allow(""),
   };
 
   toggleModal = () => {
     this.setState({ animation: !this.state.animation });
   };
 
+  handleDecision = (e) => {
+    this.setState({ decision: e.target.value });
+  };
   render() {
-    this.doSubmit = () => {
-      console.log("hello");
+    const { modelStyle } = formStyle;
+
+    this.doSubmit = async () => {
+      const user = auth.getCurrentUser();
+      console.log(user);
+      const taskDetails = this.state.data;
+      taskDetails["assign_to"] = user?.user_id;
+      taskDetails["user"] = user?.user_id;
+      taskDetails["department"] = user?.user_id;
+      taskDetails["status"] = "open";
+      if (this.state.decision == "Yes") taskDetails["status"] = "closed";
+      taskDetails["client"] = this.props.clientInfo.id;
+
+      try {
+        const res = await http.post("/tasks-list", taskDetails, auth.config);
+        this.props.getTasks();
+      } catch (error) {
+        console.log(error);
+      }
     };
-    console.log(this.props.options);
-    const {
-      inputs,
-      NewButton,
-      UpdateButton,
-      DeleteButton,
-      selectStyle,
-      modelStyle,
-    } = formStyle;
-    const category = [
-      { id: 1, name: "Complaint" },
-      { id: 2, name: "Suggestion" },
-      { id: 3, name: "Request" },
-    ];
-    const status = [
-      { id: 1, name: "Open" },
-      { id: 2, name: "closed" },
-      { id: 3, name: "pending" },
-    ];
-    const service = [
-      { id: 1, name: "Quotation" },
-      { id: 2, name: "appointment" },
-      { id: 3, name: "technical support " },
-      { id: 4, name: "other " },
-    ];
-    const clientType = [
-      { id: 1, name: "Client" },
-      { id: 2, name: "new customer" },
-      { id: 3, name: "staff " },
-      { id: 4, name: "other " },
-    ];
-    const priority = [
-      { id: 1, name: "High" },
-      { id: 2, name: "medium" },
-      { id: 3, name: "Low" },
-    ];
+
+    this.generateOptions = (optionName, name) => {
+      return this.props.options[optionName].map((option) => {
+        return {
+          id: option.id,
+          name: option[name],
+        };
+      });
+    };
+
+    const category = this.generateOptions("categories", "category");
+    const service = this.generateOptions("services", "service");
+    const priority = this.generateOptions("priority", "priority");
 
     return (
       <div className="flex flex-col items-center justify-center w-full h-full py-8 font-poppins">
-        <form onSubmit={this.handleForm} className="w-1/2 mx-auto">
+        {getClientInfo(this.props.clientInfo)}
+        <form
+          onSubmit={this.handleForm}
+          className="w-1/2 mx-auto"
+          id="newClientForm"
+        >
           <div className="flex flex-row">
-            {this.renderSelect("Category", "Category", category, modelStyle)}
+            {this.renderSelect("category", "Category", category, modelStyle)}
             {this.renderSelect("priority", "Priority", priority, modelStyle)}
             {this.renderSelect(
-              "service type",
+              "service_type",
               "Service type",
               service,
               modelStyle
             )}
-            {this.renderSelect(
-              "client type",
-              "Client type",
-              clientType,
-              modelStyle
-            )}
           </div>
-          {this.renderInput(
-            "name",
-            "Name",
-            "text",
-            "Enter Client full name ",
-            modelStyle
-          )}
-          {this.renderInput(
-            "Company",
-            "Company",
-            "text",
-            "Enter Company Name ",
-            modelStyle
-          )}
-          {this.renderInput(
-            "address",
-            "Address",
-            "text",
-            "Enter Address ",
-            modelStyle
-          )}
-          {this.renderInput(
-            "Mobile Number",
-            "",
-            "phone",
-            " 07X-XXXX-XXX ",
-            modelStyle
-          )}
+          <div className="flex flex-col justify-center w-full pb-6 md:flex-row items-left px-9">
+            <div>
+              <label className="pr-4 text-lg text-black ">
+                Immediate resolution
+              </label>
+              <select
+                value={this.state.decision}
+                onChange={this.handleDecision}
+              >
+                <option className="pr-4 text-lg text-white " />
+                <option value="Yes">Yes</option>
+                <option value="No">No</option>
+              </select>
+            </div>
+            <>
+              {this.state.decision == "Yes" ? (
+                <>
+                  <div className="flex flex-col items-center justify-center w-screen h-full font-poppins ">
+                    <label className="pr-4 text-lg text-black ">
+                      Action Taken
+                    </label>
+                    <textarea
+                      id="action_taken"
+                      name="action_taken"
+                      rows="4"
+                      cols="50"
+                      onChange={this.handleChange}
+                    />
+                  </div>
+                </>
+              ) : (
+                this.state.decision && (
+                  <div className="flex flex-col items-center justify-center w-screen h-full font-poppins ">
+                    <label className="pr-4 text-lg text-white ">Details</label>
+                    <textarea
+                      id="details"
+                      name="details"
+                      rows="4"
+                      cols="50"
+                      onChange={this.handleChange}
+                    />
+                    <label className="pr-4 text-lg text-white ">
+                      Expectation
+                    </label>
+                    <textarea
+                      id="expectation"
+                      name="expectation"
+                      rows="4"
+                      cols="50"
+                      onChange={this.handleChange}
+                    />
+                    <legend className="md:text-xl pb-8 text-[#F2F2F2] py-5">
+                      Assign To
+                    </legend>
 
-          {this.renderInput(
-            "Email Address",
-            "Email Address",
-            "email",
-            "Enter email",
-            modelStyle
-          )}
-
-          <Imm />
+                    <div className="flex flex-col justify-center w-full pb-6 md:flex-row items-left px-9">
+                      <label className="w-1/3 pr-4 text-lg text-white ">
+                        Staff
+                      </label>
+                      <select onChange={this.handleChange} name="staff">
+                        <option
+                          className="pr-4 text-lg text-white "
+                          value=" "
+                        />
+                        {this.props.options?.users.map((user) => (
+                          <option key={user.id} value={user.id}>
+                            {`${user.first_name} ${user.last_name}`}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                )
+              )}
+            </>
+          </div>
+          {/* <Imm id="newClientForm" /> */}
           <div className="flex flex-row w-1/2 mx-auto justify-evenly">
             {this.renderButton(
               "Submit",
@@ -181,3 +221,53 @@ const formStyle = {
     _inputContainer: "w-11/12",
   },
 };
+
+function getClientInfo(info) {
+  const keys = Object.keys(info);
+  const tableHeader = [
+    "Full name",
+    "Mobile number",
+    "Email",
+    "Address",
+    "Company",
+  ];
+  return (
+    <div className="pb-4">
+      <h2 className="pb-2 text-lg font-bold">Client Information</h2>
+      <div className="pl-8 ">
+        <table>
+          <thead>
+            <tr className="">
+              {tableHeader.map((title, idx) => {
+                return (
+                  <th
+                    key={idx}
+                    className={`px-4 py-2 text-lg font-semibold text-center  border rounded-lg border-slate-700`}
+                  >
+                    {title}
+                  </th>
+                );
+              })}
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              {keys?.map((key, id) => {
+                return key == "id" || key == "created_by" ? (
+                  ""
+                ) : (
+                  <td
+                    key={id}
+                    className={`px-4 py-2 text-lg  text-center  border rounded-lg border-slate-700`}
+                  >
+                    {info[key]}
+                  </td>
+                );
+              })}
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}

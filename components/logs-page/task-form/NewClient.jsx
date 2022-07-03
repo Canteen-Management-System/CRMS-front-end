@@ -54,7 +54,7 @@ export default class NewClient extends Form {
     email: Joi.string().email().required(),
     action_taken: Joi.string().allow(""),
     expectation: Joi.string().allow(""),
-    details: Joi.string().allow("GYG"),
+    details: Joi.string().allow(""),
     department: Joi.string().allow(""),
     staff: Joi.string().allow(""),
     // assign_to: Joi.string().label("AssignTo"),
@@ -72,12 +72,6 @@ export default class NewClient extends Form {
     const { modelStyle } = formStyle;
 
     this.doSubmit = () => {
-      // if (this.state.decision == "Yes") {
-      //   this.schema["action_taken"] = Joi.string().required().label("AssignTo");
-      //   this.setState((prev) => {
-      //     prev.data["action_taken"] = "";
-      //   });
-      // }
       console.log(this.state.data);
     };
 
@@ -237,7 +231,6 @@ export default class NewClient extends Form {
               )}
             </>
           </div>
-          {/* <Imm id="newClientForm" /> */}
           <div className="flex flex-row w-1/2 mx-auto justify-evenly">
             {this.renderButton(
               "Submit",
@@ -252,7 +245,6 @@ export default class NewClient extends Form {
             </button>
           </div>
         </form>
-        ;
       </div>
     );
   }
@@ -289,5 +281,3 @@ const formStyle = {
     _inputContainer: "w-11/12",
   },
 };
-
-function sdf() {}
