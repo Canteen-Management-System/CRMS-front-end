@@ -165,4 +165,6 @@ The main idea of this website is to assist the customer service in managing the 
 # Domain Modeling :
 [LINK](https://miro.com/app/board/uXjVOrf35MQ=/)
 
+# Database Schema Diagram :
+
 
