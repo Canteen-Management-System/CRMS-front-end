@@ -4,10 +4,22 @@ import Imm from "../../issue-form/Imm";
 import ActionTaken from "../../issue-form/ActionTaken";
 import AssignTo from "../../issue-form/AssignTo";
 
+const options = [
+  { _id: 1, name: "HR" },
+  { _id: 2, name: "Accounts" },
+  { _id: 3, name: "Administrator" },
+];
+const nameList = [
+  { _id: 1, name: "HR" },
+  { _id: 2, name: "Accounts" },
+  { _id: 3, name: "Administrator" },
+];
+
 export default class NewClient extends Form {
   constructor(props) {
     super(props);
   }
+
   state = {
     data: {
       category: "",
@@ -19,9 +31,12 @@ export default class NewClient extends Form {
       phone_number: "",
       email: "",
       name: "",
-
+      expectation: "",
+      details: "",
+      staff: "",
+      department: "",
       // assign_to: "",
-      //   action_taken: "",
+      action_taken: "",
       //   status: "",
     },
     errors: {},
@@ -37,7 +52,11 @@ export default class NewClient extends Form {
     address: Joi.string().allow("").label("Address"),
     phone_number: Joi.number().required().label("Mobile number"),
     email: Joi.string().email().required(),
-    action_taken: Joi.string(),
+    action_taken: Joi.string().allow(""),
+    expectation: Joi.string().allow(""),
+    details: Joi.string().allow(""),
+    department: Joi.string().allow(""),
+    staff: Joi.string().allow(""),
     // assign_to: Joi.string().label("AssignTo"),
     // status: Joi.string().label("Status"),
   };
@@ -53,13 +72,6 @@ export default class NewClient extends Form {
     const { modelStyle } = formStyle;
 
     this.doSubmit = () => {
-      if (this.state.decision == "Yes") {
-        this.schema["action_taken"] = Joi.string().required().label("AssignTo");
-        this.setState((prev) => {
-          prev.data["action_taken"] = "";
-        });
-      }
-      console.log("why");
       console.log(this.state.data);
     };
 
@@ -145,14 +157,80 @@ export default class NewClient extends Form {
             <>
               {this.state.decision == "Yes" ? (
                 <>
-                  <ActionTaken />
+                  <div className="flex flex-col items-center justify-center w-screen h-full font-poppins ">
+                    <label className="pr-4 text-lg text-black ">
+                      Action Taken
+                    </label>
+                    <textarea
+                      id="action_taken"
+                      name="action_taken"
+                      rows="4"
+                      cols="50"
+                      onChange={this.handleChange}
+                    />
+                  </div>
                 </>
               ) : (
-                this.state.decision && <AssignTo />
+                this.state.decision && (
+                  <div className="flex flex-col items-center justify-center w-screen h-full font-poppins ">
+                    <label className="pr-4 text-lg text-white ">Details</label>
+                    <textarea
+                      id="details"
+                      name="details"
+                      rows="4"
+                      cols="50"
+                      onChange={this.handleChange}
+                    />
+                    <label className="pr-4 text-lg text-white ">
+                      Expectation
+                    </label>
+                    <textarea
+                      id="expectation"
+                      name="expectation"
+                      rows="4"
+                      cols="50"
+                      onChange={this.handleChange}
+                    />
+                    <legend className="md:text-xl pb-8 text-[#F2F2F2] py-5">
+                      Assign To
+                    </legend>
+                    <div className="flex flex-col justify-center w-full pb-6 md:flex-row items-left px-9">
+                      <label className="w-1/3 pr-4 text-lg text-white ">
+                        Department
+                      </label>
+                      <select name="department" onChange={this.handleChange}>
+                        <option
+                          className="pr-4 text-lg text-white "
+                          value=" "
+                        />
+                        {options.map((option) => (
+                          <option key={option._id} value={option._id}>
+                            {option.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                    <div className="flex flex-col justify-center w-full pb-6 md:flex-row items-left px-9">
+                      <label className="w-1/3 pr-4 text-lg text-white ">
+                        Staff
+                      </label>
+                      <select onChange={this.handleChange} name="staff">
+                        <option
+                          className="pr-4 text-lg text-white "
+                          value=" "
+                        />
+                        {nameList.map((option) => (
+                          <option key={option._id} value={option._id}>
+                            {option.name}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  </div>
+                )
               )}
             </>
           </div>
-          {/* <Imm id="newClientForm" /> */}
           <div className="flex flex-row w-1/2 mx-auto justify-evenly">
             {this.renderButton(
               "Submit",
@@ -167,7 +245,6 @@ export default class NewClient extends Form {
             </button>
           </div>
         </form>
-        ;
       </div>
     );
   }
@@ -204,5 +281,3 @@ const formStyle = {
     _inputContainer: "w-11/12",
   },
 };
-
-function sdf() {}

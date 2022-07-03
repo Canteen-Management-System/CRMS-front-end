@@ -63,7 +63,7 @@ export default function Index() {
   }, []);
   return (
     <div>
-      <AddTaskForm options={retrievedTableList} />
+      <AddTaskForm options={retrievedTableList} getTasks={getTasks} />
       <TasksTable
         tasks={retrievedTasks}
         getTasks={getTasks}

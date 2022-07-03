@@ -8,11 +8,11 @@ function TasksTable({ tasks, getTasks, tableList }) {
     "Name",
     "Company",
     "Mobile Number",
-    "Client type",
     "Service type",
     "Priority",
     "Status",
     "Assign To",
+    "date",
     "Action",
   ];
 
@@ -47,17 +47,28 @@ function TasksTable({ tasks, getTasks, tableList }) {
                 <td>
                   {filterTableData("clients", task.client, "phone_number")}
                 </td>
-                <td>{"need to handle"}</td>
+
                 <td>
                   {filterTableData("services", task.service_type, "service")}
                 </td>
                 <td>
                   {filterTableData("priority", task.priority, "priority")}
                 </td>
-                <td>{"need to handle"}</td>
+                <td>
+                  <span
+                    className={
+                      task.status == "open"
+                        ? "bg-red-400 px-4 py-2 rounded"
+                        : "bg-green-400 px-4 py-2 rounded"
+                    }
+                  >
+                    {task.status}
+                  </span>
+                </td>
                 <td>
                   {filterTableData("users", task.assign_to, "first_name")}
                 </td>
+                <td>{task.date}</td>
                 <td>
                   {
                     <PencilAltIcon

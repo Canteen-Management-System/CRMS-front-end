@@ -3,7 +3,7 @@ import NewClient from "./task-form/NewClient";
 import Modal from "../modal/Modal";
 import ExistingClientForm from "./task-form/ExistingClient";
 
-export default function AddTaskForm({ options }) {
+export default function AddTaskForm({ options, getTasks }) {
   const [animation, setAnimation] = useState(false);
   const [clientType, setClientType] = useState("");
   const [existingClient, setExistingClient] = useState(null);
@@ -17,7 +17,7 @@ export default function AddTaskForm({ options }) {
     setClientType(event.target.value);
   };
 
-  const isPhoneExist = (e) => {
+  const isClientExist = (e) => {
     const mobileNumber = e.target.value;
     const clientInfo = clients?.filter(
       (client) => client?.phone_number == mobileNumber
@@ -59,9 +59,16 @@ export default function AddTaskForm({ options }) {
               <>
                 <div>
                   <label htmlFor="phone">Phone number: </label>
-                  <input name="phone" onChange={isPhoneExist} />
+                  <input name="phone" onChange={isClientExist} />
                 </div>
-                {existingClient && <ExistingClientForm />}
+                {existingClient && (
+                  <ExistingClientForm
+                    options={options}
+                    toggleModal={toggleModal}
+                    clientInfo={existingClient}
+                    getTasks={getTasks}
+                  />
+                )}
               </>
             )
           )}
