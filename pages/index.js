@@ -3,8 +3,7 @@ import SideBar from "../components/navigation/SideBar";
 import ClientModalForm from "../components/ClientModalForm";
 import auth from "../lib/services/authService";
 import { useState, useEffect } from "react";
-import Counters from "../components/dashboard/Counters"
-import {App} from "../components/dashboard/Charts"
+import Dashboard from "../components/dashboard/render"
 
 
 export default function Home(props) {
@@ -27,6 +26,7 @@ export default function Home(props) {
           {/* <ClientModalForm /> */}
           <Counters/>
           {/* <App/> */}
+          <Dashboard/>
         </section>
       )}
     </>
