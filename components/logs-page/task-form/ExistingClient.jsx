@@ -41,6 +41,10 @@ export default class NewClient extends Form {
   handleDecision = (e) => {
     this.setState({ decision: e.target.value });
   };
+
+  handleChange(e) {
+    this.setState({ fruit: e.target.value });
+  }
   render() {
     const { modelStyle } = formStyle;
 
