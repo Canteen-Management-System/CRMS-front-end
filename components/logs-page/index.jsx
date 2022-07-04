@@ -57,17 +57,44 @@ export default function Index() {
     }
   };
 
+  const generateOptions = (optionName, name) => {
+    if (retrievedTableList) {
+      return retrievedTableList[optionName]?.map((option) => {
+        return {
+          id: option.id,
+          name: option[name],
+        };
+      });
+    }
+  };
+
+  const category = generateOptions("categories", "category");
+  const service = generateOptions("services", "service");
+  const priority = generateOptions("priority", "priority");
+
   useEffect(() => {
     getTasks();
     getTableList();
   }, []);
   return (
     <div>
-      <AddTaskForm options={retrievedTableList} getTasks={getTasks} />
+      <AddTaskForm
+        users={retrievedTableList["users"]}
+        clients={retrievedTableList["clients"]}
+        getTasks={getTasks}
+        getTableList={getTableList}
+        category={category}
+        service={service}
+        priority={priority}
+      />
       <TasksTable
         tasks={retrievedTasks}
         getTasks={getTasks}
-        tableList={retrievedTableList}
+        options={retrievedTableList}
+        category={category}
+        service={service}
+        priority={priority}
+        users={retrievedTableList["users"]}
       />
     </div>
   );
