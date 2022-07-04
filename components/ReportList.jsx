@@ -42,12 +42,6 @@ var mm = String(today.getMonth() + 1).padStart(2, '0'); //January is 0!
 var yyyy = today.getFullYear();
 today = dd + '/' + mm + '/' + yyyy;
 
-const data = [{no:1,report:"Summary for whole day"},
-                   {no:2,report:"Filter By name"},
-                   {no:3,report:"Resolved Complain"},
-                   {no:4,report:"Pending Complain"},]
-
-
 const Analysis = [{no:1,report:"Average Time of complain"},
               {no:2,report:"Daily Complain Number "},
               {no:3,report:"Daily Pending complain Number"},
@@ -68,21 +62,20 @@ const Analysis = [{no:1,report:"Average Time of complain"},
   }, []);
 
   const [Datevalue, setDateValue] = useState(date1);
-  const  formatedDay =  Datevalue
 const handleDateChange = (e) => {
   setDateValue(Datevalue = e.target.value);
   //2022-07-13
   var dd = Datevalue.slice(8,10)
   var mm = Datevalue.slice(5,7)
   var yyyy = Datevalue.slice(0,4)
-  formatedDay  = dd + '/' + mm + '/' + yyyy;
-console.log(formatedDay)
+  setDateValue(Datevalue = dd + '/' + mm + '/' + yyyy)
 };
 
   // Filter Function 
   const filtered = retrievedTasks.filter(task => {
-    console.log(task.date);
-    return task.date === formatedDay ;
+    // console.log(task.date );
+    console.log(Datevalue)
+    return task.date === Datevalue ;
   });
   const handleExportReport1 = () =>{
     console.log(filtered)
@@ -117,7 +110,33 @@ const handleExportReport2 = () =>{
   XLSX.writeFile(wb,"Reports.xlsx");
 };
 
+//Report 3
+const filterComplainTasks = retrievedTasks.filter(employee => {
+  return employee.category === 1;
+});
+const filterClosedComplainTasks = retrievedTasks.filter(employee => {
+  return employee.status === "closed";
+});
+const handleExportReport3 = () =>{
+  XLSX = require('xlsx');
+  var wb = XLSX.utils.book_new(),
+  ws = XLSX.utils.json_to_sheet(filterClosedComplainTasks)
+  XLSX.utils.book_append_sheet(wb,ws,"Report");
+  XLSX.writeFile(wb,"Reports.xlsx");
+};
 
+// Report 4 
+const filteropenComplainTasks = retrievedTasks.filter(employee => {
+  return employee.status === "open";
+});
+const handleExportReport4 = () =>{
+  console.log(filteropenComplainTasks)
+  XLSX = require('xlsx');
+  var wb = XLSX.utils.book_new(),
+  ws = XLSX.utils.json_to_sheet(filteropenComplainTasks)
+  XLSX.utils.book_append_sheet(wb,ws,"Report");
+  XLSX.writeFile(wb,"Reports.xlsx");
+};
 
 
 
@@ -148,11 +167,11 @@ return (
     </form>
   </div>
 	<table className="w-1/2 border-collapse text-white border-separate border border-slate-400">
-    <thead>
+    <thead bg-gray>
       <tr>
-        <td className="border border-slate-300  px-4">no.</td>
-        <td className="border border-slate-300   px-4 ">Report Name </td>
-        <td className="border border-slate-300  px-4 ">download</td>
+        <td className="border border-slate-300  px-4 bg-gray-600">no.</td>
+        <td className="border border-slate-300   px-4 bg-gray-600 ">Report Name </td>
+        <td className="border border-slate-300  px-4  bg-gray-600">download</td>
       </tr>
     </thead>
     <tbody>
@@ -160,14 +179,28 @@ return (
         <td className="border border-slate-300 px-4"> 1.</td>
         <td className="border border-slate-300 px-4">Summary for whole day</td>
         <td className="border border-slate-300 px-4" > 
-        <button  onClick={handleExportReport1}>Export</button>
+        <button  onClick={handleExportReport1}>Excel</button>
         </td>
     </tr>
     <tr>
         <td className="border border-slate-300 px-4"> 2.</td>
         <td className="border border-slate-300 px-4">Filter By name</td>
         <td className="border border-slate-300 px-4" > 
-        <button   onClick={handleExportReport2}>Export</button>
+        <button   onClick={handleExportReport2}>Excel</button>
+        </td>
+    </tr>
+    <tr>
+        <td className="border border-slate-300 px-4"> 3.</td>
+        <td className="border border-slate-300 px-4">Resolved Complain</td>
+        <td className="border border-slate-300 px-4" > 
+        <button   onClick={handleExportReport3}>Excel</button>
+        </td>
+    </tr>
+    <tr>
+        <td className="border border-slate-300 px-4"> 4.</td>
+        <td className="border border-slate-300 px-4">Pending Complain</td>
+        <td className="border border-slate-300 px-4" > 
+        <button   onClick={handleExportReport4}>Excel</button>
         </td>
     </tr>
     </tbody>    
