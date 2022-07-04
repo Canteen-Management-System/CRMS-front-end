@@ -30,7 +30,6 @@ export default class AddClientForm extends Form {
       company: "",
     },
     errors: {},
-    animation: false,
   };
 
   schema = {
@@ -39,10 +38,6 @@ export default class AddClientForm extends Form {
     email: Joi.string().email().required(),
     address: Joi.string().allow(""),
     company: Joi.string().allow(""),
-  };
-
-  toggleModal = () => {
-    this.setState({ animation: !this.state.animation });
   };
 
   render() {
@@ -68,29 +63,19 @@ export default class AddClientForm extends Form {
       this.state.data["created_by"] = user_id;
 
       try {
-        await http.post("/clients", this.state.data, auth.config);
+        await this.props.handleAddClient(this.state.data);
         toast.success("Wow, Client added successfully!");
-        this.props.getClients();
         this.clearForm();
-        // window.location.href = "/Clients";
+        this.props.toggleAddModal();
       } catch (err) {
         const errors = this.getErrorValues(err.response.data);
-        this.clearForm();
         toast.error(errors);
       }
     };
 
     return (
       <div className="pt-8">
-        <div className="flex justify-end pb-8 mr-16">
-          <button
-            className="px-4 py-2 text-white bg-gray-500 rounded "
-            onClick={this.toggleModal}
-          >
-            Add new client
-          </button>
-        </div>
-        <Modal modalTitle="Add new client" animation={this.state.animation}>
+        <Modal modalTitle="Add new client" animation={this.props.animation}>
           <form className="w-1/2 mx-auto " onSubmit={this.handleForm}>
             {this.renderInput(
               "full_name",
@@ -135,7 +120,7 @@ export default class AddClientForm extends Form {
               <button
                 type="button"
                 className="px-4 py-2 mt-4 text-white bg-red-400 rounded"
-                onClick={this.toggleModal}
+                onClick={this.props.toggleAddModal}
               >
                 Cancel
               </button>

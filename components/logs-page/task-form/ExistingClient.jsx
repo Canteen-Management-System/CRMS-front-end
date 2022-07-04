@@ -2,6 +2,8 @@ import Joi from "joi-browser";
 import Form from "../../form/Form";
 import auth from "../../../lib/services/authService";
 import http from "../../../lib/services/httpService";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 export default class NewClient extends Form {
   constructor(props) {
@@ -42,15 +44,29 @@ export default class NewClient extends Form {
     this.setState({ decision: e.target.value });
   };
 
-  handleChange(e) {
-    this.setState({ fruit: e.target.value });
-  }
+  clearForm = () => {
+    this.setState({
+      data: {
+        category: "",
+        priority: "",
+        service_type: "",
+        expectation: "",
+        details: "",
+        staff: "",
+        department: "",
+        action_taken: "",
+      },
+      decision: "",
+    });
+  };
+
   render() {
     const { modelStyle } = formStyle;
+    const { category, service, priority, users } = this.props;
+    console.log(category, service, priority);
 
     this.doSubmit = async () => {
       const user = auth.getCurrentUser();
-      console.log(user);
       const taskDetails = this.state.data;
       taskDetails["assign_to"] = user?.user_id;
       taskDetails["user"] = user?.user_id;
@@ -61,24 +77,14 @@ export default class NewClient extends Form {
 
       try {
         const res = await http.post("/tasks-list", taskDetails, auth.config);
+        toast.success("Task added successfully");
+        this.props.toggleModal();
+        this.clearForm();
         this.props.getTasks();
       } catch (error) {
         console.log(error);
       }
     };
-
-    this.generateOptions = (optionName, name) => {
-      return this.props.options[optionName].map((option) => {
-        return {
-          id: option.id,
-          name: option[name],
-        };
-      });
-    };
-
-    const category = this.generateOptions("categories", "category");
-    const service = this.generateOptions("services", "service");
-    const priority = this.generateOptions("priority", "priority");
 
     return (
       <div className="flex flex-col items-center justify-center w-full h-full py-8 font-poppins">
@@ -162,7 +168,7 @@ export default class NewClient extends Form {
                           className="pr-4 text-lg text-white "
                           value=" "
                         />
-                        {this.props.options?.users.map((user) => (
+                        {users?.map((user) => (
                           <option key={user.id} value={user.id}>
                             {`${user.first_name} ${user.last_name}`}
                           </option>
@@ -174,7 +180,6 @@ export default class NewClient extends Form {
               )}
             </>
           </div>
-          {/* <Imm id="newClientForm" /> */}
           <div className="flex flex-row w-1/2 mx-auto justify-evenly">
             {this.renderButton(
               "Submit",
@@ -189,6 +194,7 @@ export default class NewClient extends Form {
             </button>
           </div>
         </form>
+        <ToastContainer />
       </div>
     );
   }

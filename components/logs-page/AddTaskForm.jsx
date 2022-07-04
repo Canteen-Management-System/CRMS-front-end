@@ -3,11 +3,18 @@ import NewClient from "./task-form/NewClient";
 import Modal from "../modal/Modal";
 import ExistingClientForm from "./task-form/ExistingClient";
 
-export default function AddTaskForm({ options, getTasks }) {
+export default function AddTaskForm({
+  clients,
+  users,
+  getTasks,
+  getTableList,
+  category,
+  service,
+  priority,
+}) {
   const [animation, setAnimation] = useState(false);
   const [clientType, setClientType] = useState("");
   const [existingClient, setExistingClient] = useState(null);
-  const { clients } = options;
 
   const toggleModal = () => {
     setAnimation(!animation);
@@ -19,6 +26,7 @@ export default function AddTaskForm({ options, getTasks }) {
 
   const isClientExist = (e) => {
     const mobileNumber = e.target.value;
+    console.log(clients);
     const clientInfo = clients?.filter(
       (client) => client?.phone_number == mobileNumber
     );
@@ -30,9 +38,12 @@ export default function AddTaskForm({ options, getTasks }) {
 
   return (
     <div>
-      <div>
-        <button className="px-4 py-2 bg-red-300 rounded " onClick={toggleModal}>
-          Open
+      <div className="flex justify-end pb-12 pr-8 text-white">
+        <button
+          className="px-4 py-2 bg-gray-500 rounded "
+          onClick={toggleModal}
+        >
+          Add task
         </button>
       </div>
       <Modal
@@ -40,33 +51,56 @@ export default function AddTaskForm({ options, getTasks }) {
         animation={animation}
         toggleModal={toggleModal}
       >
-        <div>
-          <label>Client Type</label>
-          <select value={clientType} onChange={handleClientType}>
-            <option value="" />
-            <option value="new">New customer</option>
-            <option value="existed">Existing customer</option>
-          </select>
+        <div className="flex flex-row justify-center w-1/2 py-4 mx-auto font-poppins">
+          <div className="mx-auto">
+            <label className="pr-2 font-semibold">Client Type: </label>
+            <select
+              value={clientType}
+              onChange={handleClientType}
+              className="px-2 py-1 rounded-sm"
+            >
+              <option value="" />
+              <option value="new">New customer</option>
+              <option value="existed">Existing customer</option>
+            </select>
+          </div>
         </div>
 
-        <div>
+        <div className="py-4 mx-auto ">
           {clientType == "new" ? (
             <>
-              <NewClient toggleModal={toggleModal} options={options} />
+              <NewClient
+                toggleModal={toggleModal}
+                getTasks={getTasks}
+                getTableList={getTableList}
+                category={category}
+                service={service}
+                priority={priority}
+              />
             </>
           ) : (
             clientType && (
               <>
-                <div>
-                  <label htmlFor="phone">Phone number: </label>
-                  <input name="phone" onChange={isClientExist} />
+                <div className="flex flex-row justify-center w-1/2 py-4 mx-auto">
+                  <label htmlFor="phone" className="pr-2 font-semibold">
+                    Phone number:{" "}
+                  </label>
+                  <input
+                    name="phone"
+                    onChange={isClientExist}
+                    placeholder="+962XXXXXXXXX"
+                    className="px-2 py-1 rounded-sm"
+                  />
                 </div>
                 {existingClient && (
                   <ExistingClientForm
-                    options={options}
+                    users={users}
                     toggleModal={toggleModal}
                     clientInfo={existingClient}
                     getTasks={getTasks}
+                    category={category}
+                    service={service}
+                    priority={priority}
                   />
                 )}
               </>
@@ -77,69 +111,3 @@ export default function AddTaskForm({ options, getTasks }) {
     </div>
   );
 }
-
-[
-  {
-    id: 1,
-    full_name: "Ahmed",
-    phone_number: "+962790057526",
-    email: "abd@hotmail.com",
-    address: "shamasani",
-    company: "Al mutakhamelah",
-    created_by: 1,
-  },
-  {
-    id: 2,
-    full_name: "Nour Al Deen Hussein Rashid",
-    phone_number: "+962791057526",
-    email: "noureddein@gmail.com",
-    address: "Al Rowaq, Ahmad Al Eifan St",
-    company: "Al mutakhamelah",
-    created_by: 1,
-  },
-  {
-    id: 3,
-    full_name: "Nour Al Deen Hussein Rashid",
-    phone_number: "+962791257526",
-    email: "2ureddein@gmail.com",
-    address: "Al Rowaq, Ahmad Al Eifan St",
-    company: "Al mutakhamelah",
-    created_by: 1,
-  },
-  {
-    id: 4,
-    full_name: "Nour Al Deen Hussein Rashid",
-    phone_number: "+962799957526",
-    email: "n44eddein@gmail.com",
-    address: "Al Rowaq, Ahmad Al Eifan St",
-    company: "Al mutakhamelah",
-    created_by: 1,
-  },
-  {
-    id: 5,
-    full_name: "Nour Al Deen Hussein Rashid",
-    phone_number: "+962791057523",
-    email: "nourdeddein@gmail.com",
-    address: "Al Rowaq, Ahmad Al Eifan St",
-    company: "Al mutakhamelah",
-    created_by: 1,
-  },
-  {
-    id: 6,
-    full_name: "Nour Al Deen Hussein Rashid",
-    phone_number: "+962790227526",
-    email: "nou22reddein@gmail.com",
-    address: "Al Rowaq, Ahmad Al Eifan St",
-    company: "Al mutakhamelah",
-    created_by: 1,
-  },
-  {
-    id: 7,
-    full_name: "Nour Al Deen Hussein Rashid",
-    phone_number: "+962790054426",
-    email: "44noureddein@gmail.com",
-    address: "Al Rowaq, Ahmad Al Eifan St",
-    company: "Al mutakhamelah",
-    created_by: 1,
-  },
-];
