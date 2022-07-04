@@ -62,7 +62,7 @@ function TasksTable({
           handleEditModal={handleEditModal}
         />
       )}
-      <div className="mx-8 overflow-y-scroll">
+      <div className="mx-8 ">
         <table className="text-white font-poppins logs-table">
           <TableHeader tableHead={tableHeader} bg="bg-gray-600" />
           <tbody>
