@@ -40,6 +40,7 @@ export default function RenderClientsPage() {
   };
 
   useEffect(() => {
+    console.log(tableData);
     getClients().then((res) => setTableData(res));
   }, []);
 
@@ -63,6 +64,7 @@ export default function RenderClientsPage() {
         tableData={tableData}
         deleteLocation={deleteLocation}
       />
+
       <ToastContainer />
     </div>
   );

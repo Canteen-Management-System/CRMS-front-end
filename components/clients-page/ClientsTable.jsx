@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import TableHeader from "../table/TableHeader";
 import { TrashIcon } from "@heroicons/react/outline";
 import TableFooter from "../table/TableFooter";
-import RenderTable from "../table/RenderTable";
+import XLSX from "xlsx";
+
 
 function ClientsTable({ getClients, tableData , deleteLocation }) {
   let counter = 0;
@@ -39,7 +40,6 @@ function ClientsTable({ getClients, tableData , deleteLocation }) {
     }
   }, [tableData]);
 
-  // return <RenderTable tableHead={tableHeader} bodyData={tableData} deleteLocation={deleteLocation} />;
   return (
     <div>
     <div className="flex flex-column justify-left items-left w-3/4 md:w-3/4 h-3/4 pb-6  px-12 py-6 mx-8 my-4 bg-gray-500 rounded-md shadow-md">

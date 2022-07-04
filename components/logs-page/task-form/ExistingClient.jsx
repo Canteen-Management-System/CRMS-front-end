@@ -43,6 +43,7 @@ export default class NewClient extends Form {
   handleDecision = (e) => {
     this.setState({ decision: e.target.value });
   };
+
   clearForm = () => {
     this.setState({
       data: {
@@ -58,6 +59,7 @@ export default class NewClient extends Form {
       decision: "",
     });
   };
+
   render() {
     const { modelStyle } = formStyle;
     const { category, service, priority, users } = this.props;
