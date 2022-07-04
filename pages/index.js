@@ -3,6 +3,9 @@ import SideBar from "../components/navigation/SideBar";
 import ClientModalForm from "../components/ClientModalForm";
 import auth from "../lib/services/authService";
 import { useState, useEffect } from "react";
+import Counters from "../components/dashboard/Counters"
+import {App} from "../components/dashboard/Charts"
+
 
 export default function Home(props) {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
@@ -21,7 +24,9 @@ export default function Home(props) {
         <section className="relative p-4 ml-16">
           <RenderHead title="Home" />
           <SideBar />
-          <ClientModalForm />
+          {/* <ClientModalForm /> */}
+          <Counters/>
+          <App/>
         </section>
       )}
     </>
