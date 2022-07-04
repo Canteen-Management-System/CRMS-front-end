@@ -26,7 +26,7 @@ export default function Home(props) {
           <SideBar />
           {/* <ClientModalForm /> */}
           <Counters/>
-          <App/>
+          {/* <App/> */}
         </section>
       )}
     </>
