@@ -77,7 +77,7 @@ export default class ClientsMessage extends Form
         modelStyle,
       } = formStyle;
   return (
-    <div className="flex justify-center pr-8 pb-5 text-white	">
+    <div className="flex justify-center pr-8 pb-5 text-black">
         <button type="button"
           className=" px-4 py-2 bg-purple-700 rounded "
           onClick={this.toggleModal}>
