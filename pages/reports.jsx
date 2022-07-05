@@ -1,27 +1,39 @@
+import { useState, useEffect } from "react";
 import RenderHead from "../components/RenderHead";
-// import ReportList from "../components/ReportList";
+import dynamic from "next/dynamic";
+import auth from "../lib/services/authService";
 
-import dynamic from 'next/dynamic'
 const ReportList = dynamic(() => import("../components/ReportList"), {
-ssr: false,
+  ssr: false,
 });
 
 const RenderHeader = dynamic(() => import("../components/RenderHeader"), {
   ssr: false,
-  });
+});
 
-  const SideBar = dynamic(() => import("../components/navigation/SideBar"), {
-    ssr: false,
-    });
-export default function reports() {
+const SideBar = dynamic(() => import("../components/navigation/SideBar"), {
+  ssr: false,
+});
+
+export default function Reports() {
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+
+  useEffect(() => {
+    if (!auth.getCurrentUser()) {
+      window.location.href = "/Login";
+    } else {
+      setIsLoggedIn(true);
+    }
+  }, []);
 
   return (
-    <div className="ml-16 my-8">
-      <RenderHead title="Reports" />
-      <SideBar />
-      <RenderHeader pageTitle="Reports" />
-      <ReportList/>
-
+    isLoggedIn && (
+      <div className="my-8 ml-16">
+        <RenderHead title="Reports" />
+        <SideBar />
+        <RenderHeader pageTitle="Reports" />
+        <ReportList />
       </div>
+    )
   );
 }

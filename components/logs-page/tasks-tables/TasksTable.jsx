@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { PencilAltIcon } from "@heroicons/react/outline";
-import TableHeader from "../table/TableHeader";
-import EditTask from "./EditTask";
+import TableHeader from "../../table/TableHeader";
+import EditTask from "../EditTask";
+import auth from "../../../lib/services/authService";
+import http from "../../../lib/services/httpService";
 
 function TasksTable({
   tasks,
@@ -12,8 +14,9 @@ function TasksTable({
   priority,
   users,
 }) {
-  const [taskId, setTaskId] = useState(null);
+  const [taskDetail, setTaskDetail] = useState(null);
   const [animation, setAnimation] = useState(false);
+  const [taskId, setTaskId] = useState(null);
 
   let counter = 0;
   const tableHeader = [
@@ -43,17 +46,27 @@ function TasksTable({
   const handleEditModal = () => {
     setAnimation(!animation);
   };
-  const handelEdit = async (taskId) => {
-    setTaskId(taskId);
+
+  const handelEdit = (id) => {
+    getTaskData(id);
     handleEditModal();
-    console.log(taskId);
+  };
+
+  const getTaskData = async (taskId) => {
+    try {
+      const res = await http.get(`task-detail/${taskId}`, auth.config);
+      setTaskDetail(res.data);
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
     <>
-      {taskId && (
+      {/* taskDetail &&  */}
+      {taskDetail && (
         <EditTask
-          taskId={taskId}
+          taskDetail={taskDetail}
           animation={animation}
           category={category}
           service={service}
@@ -62,8 +75,8 @@ function TasksTable({
           handleEditModal={handleEditModal}
         />
       )}
-      <div className="mx-8 ">
-        <table className="text-white font-poppins logs-table">
+      <div className="mx-auto overflow-x-scroll ">
+        <table className="mx-auto text-white font-poppins logs-table">
           <TableHeader tableHead={tableHeader} bg="bg-gray-600" />
           <tbody>
             {tasks?.map((task, idx) => {

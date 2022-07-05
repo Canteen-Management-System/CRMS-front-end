@@ -22,7 +22,7 @@ export default class LoginForm extends Form {
         await auth.login(username, password);
         window.location.href = "/";
       } catch (error) {
-        toast.error(error.response.data.detail);
+        toast.error(error.response);
       }
     };
 
