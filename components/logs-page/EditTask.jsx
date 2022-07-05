@@ -130,7 +130,7 @@ export default class EditTask extends Form {
                 ) : (
                   this.state.decision && (
                     <div className="flex flex-col items-center justify-center w-screen h-full font-poppins ">
-                      <label className="pr-4 text-lg text-white ">
+                      <label className="pr-4 text-lg ">
                         Details
                       </label>
                       <textarea
@@ -140,7 +140,7 @@ export default class EditTask extends Form {
                         cols="50"
                         onChange={this.handleChange}
                       />
-                      <label className="pr-4 text-lg text-white ">
+                      <label className="pr-4 text-lg ">
                         Expectation
                       </label>
                       <textarea
@@ -150,17 +150,17 @@ export default class EditTask extends Form {
                         cols="50"
                         onChange={this.handleChange}
                       />
-                      <legend className="md:text-xl pb-8 text-[#F2F2F2] py-5">
+                      <legend className="md:text-xl pb-8 py-5">
                         Assign To
                       </legend>
 
                       <div className="flex flex-col justify-center w-full pb-6 md:flex-row items-left px-9">
-                        <label className="w-1/3 pr-4 text-lg text-white ">
+                        <label className="w-1/3 pr-4 text-lg  ">
                           Staff
                         </label>
                         <select onChange={this.handleChange} name="staff">
                           <option
-                            className="pr-4 text-lg text-white "
+                            className="pr-4 text-lg  "
                             value=" "
                           />
                           {users?.map((user) => (

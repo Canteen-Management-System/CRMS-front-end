@@ -174,7 +174,7 @@ export default class NewClient extends Form {
                   ) : (
                     this.state.decision && (
                       <div className="flex flex-col items-center justify-center w-screen h-full font-poppins ">
-                        <label className="pr-4 text-lg text-white ">
+                        <label className="pr-4 text-lg text-black">
                           Details
                         </label>
                         <textarea
@@ -184,7 +184,7 @@ export default class NewClient extends Form {
                           cols="50"
                           onChange={this.handleChange}
                         />
-                        <label className="pr-4 text-lg text-white ">
+                        <label className="pr-4 text-lg text-black ">
                           Expectation
                         </label>
                         <textarea
@@ -199,12 +199,12 @@ export default class NewClient extends Form {
                         </legend>
 
                         <div className="flex flex-col justify-center w-full pb-6 md:flex-row items-left px-9">
-                          <label className="w-1/3 pr-4 text-lg text-white ">
+                          <label className="w-1/3 pr-4 text-lg text-black">
                             Staff
                           </label>
                           <select onChange={this.handleChange} name="staff">
                             <option
-                              className="pr-4 text-lg text-white "
+                              className="pr-4 text-lg text-black "
                               value=" "
                             />
                             {this.props.options?.users.map((user) => (

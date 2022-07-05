@@ -13,7 +13,6 @@ export default function ClientReq() {
         <RenderHead title="Client Request" />
         <RenderHeader pageTitle="Client Request" />
         <Client />
-        <SideBar />
         </div>
       </>
     );
