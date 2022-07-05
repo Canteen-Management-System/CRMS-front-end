@@ -2,7 +2,7 @@ import { jsPDF } from "jspdf";
 import Plot from 'react-plotly.js';
 import html2canvas from "html2canvas";
 
-export default function BarPlot({ x,y,Datevalue }) {
+export default function BarPlot({ x,y,title }) {
     const createPDF = async () => {   
         const pdf = new jsPDF("portrait", "pt", "a4"); 
         const data = await html2canvas(document.querySelector("#pdf"));
@@ -30,7 +30,7 @@ export default function BarPlot({ x,y,Datevalue }) {
           x: x, 
           y:y},
         ]}
-        layout={ {width: 500, height: 500, title:"Tasks updated status per day	"} }
+        layout={ {width: 500, height: 500, title: title} }
       />
     </div>
     <button onClick={createPDF} type="button">Download</button>
