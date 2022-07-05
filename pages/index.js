@@ -24,8 +24,9 @@ export default function Home(props) {
           <RenderHead title="Home" />
           <SideBar />
           {/* <ClientModalForm /> */}
+          <Counters/>
+          {/* <App/> */}
           <Dashboard/>
-          
         </section>
       )}
     </>

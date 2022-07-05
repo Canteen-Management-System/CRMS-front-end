@@ -5,20 +5,9 @@ import auth from "../lib/services/authService"
 import http from "../lib/services/httpService";
 import XLSX from "xlsx";
 import BarPlot from './Reports-page/BarPlot';
-
-
-
-// import LineChart from 'reactochart/LineChart';
-// import * as Reactochart from 'reactochart';
-// import XYPlot from 'reactochart/XYPlot';
-// import XAxis from 'reactochart/XAxis';
-// import YAxis from 'reactochart/YAxis';
-// import 'reactochart/styles.css';
+import ParPlot  from './Reports-page/ParPlot';
 import {XYPlot, XAxis, YAxis, HorizontalGridLines, LabelSeries, VerticalGridLines, BarSeries} from 'react-vis';
 import { yellow } from '@mui/material/colors';
-
-
-
 
 
 
@@ -190,6 +179,17 @@ const handleExportReport4 = () =>{
   XLSX.writeFile(wb,"Reports.xlsx");
 };
 
+function filterTasksByDate(status, date) {
+  const filteredTasks = retrievedTasks.filter((task) => {
+    const dateUpdated = task.updated.split("/");
+    return (
+      task.status == status && `${dateUpdated[1]}/${dateUpdated[2]}` == date
+    );
+  });
+
+  return filteredTasks;
+}
+
 
 return (
   <>
@@ -309,7 +309,7 @@ return (
       analysis1 ?
       <BarPlot x={x} y={y} Datevalue={Datevalue} />
       : analysis2 ?
-      <BarPlot x={departments} y={y2} Datevalue={Datevalue} />
+      <ParPlot filteredTasks={retrievedTasks}/>
       : 
       <></>
       }  
