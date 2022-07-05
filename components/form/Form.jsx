@@ -91,7 +91,7 @@ class Form extends React.Component {
         value={data[name]}
         options={options}
         style={style}
-        onChange={this.handleChange}
+        onChange={(a) => this.handleChange(a)}
         error={errors[name]}
       />
     );

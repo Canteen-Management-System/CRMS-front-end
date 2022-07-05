@@ -1,130 +1,103 @@
-import Joi from "joi-browser";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
-import EditForm from "../edit-form/EditForm";
+import Joi from "joi-browser";
 import Modal from "../modal/Modal";
+import Form from "../form/Form";
 import auth from "../../lib/services/authService";
 import http from "../../lib/services/httpService";
 
-export default class EditTask extends EditForm {
+export default class EditTask extends Form {
   state = {
     data: {
+      taskId: null,
       category: "",
       priority: "",
       service_type: "",
-      expectation: "",
-      details: "",
-      staff: "",
       action_taken: "",
+      details: "",
+      expectation: "",
       assign_to: "",
     },
-    errors: {},
-    taskDetail: null,
     decision: "",
-    taskId: null,
+    errors: {},
   };
 
   schema = {
+    taskId: Joi.string(),
     category: Joi.string().required().label("Category"),
     priority: Joi.string().required().label("Priority"),
-    service_type: Joi.string().required().label("Service Type"),
+    service_type: Joi.string().required().label("service"),
     action_taken: Joi.string().allow(""),
-    expectation: Joi.string().allow(""),
     details: Joi.string().allow(""),
-    department: Joi.string().allow(""),
+    expectation: Joi.string().allow(""),
     assign_to: Joi.string().allow(""),
   };
 
-  handleDecision = (e) => {
-    this.setState({ decision: e.target.value || e });
+  mapToViewModel = (task) => {
+    return {
+      taskId: task.id.toString(),
+      category: task.category.toString(),
+      priority: task.priority.toString(),
+      service_type: task.service_type.toString(),
+      action_taken: task.action_taken,
+      details: task.details,
+      expectation: task.expectation,
+      assign_to: task.assign_to.toString(),
+    };
   };
-  //   {
-  //     "id": 1,
-  //     "action_taken": "Helped",
-  //     "details": "",
-  //     "expectation": "",
-  //     "date": "03/07/2022",
-  //     "updated": "03/07/2022",
-  //     "assign_to": 1,
-  //     "status": "closed",
-  //     "category": 120,
-  //     "service_type": 2,
-  //     "priority": 3,
-  //     "user": 1,
-  //     "client": 8
-  // }
   componentDidMount() {
-    const {
-      id,
-      action_taken,
-      details,
-      expectation,
-      status,
-      category,
-      service_type,
-      priority,
-      assign_to,
-    } = this.props.taskDetail;
-    console.log(this.props.taskDetail);
-    this.setState({
-      data: {
-        category,
-        service_type,
-        priority,
-        expectation,
-        details,
-        action_taken,
-        status,
-        assign_to,
-      },
-      decision: status == "open" ? "No" : "Yes",
-      taskId: id,
-    });
+    const data = this.mapToViewModel(this.props.taskDetail);
+    const decision = this.props.taskDetail.status == "open" ? "No" : "Yes";
+    this.setState({ data, decision });
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const {
-      id,
-      action_taken,
-      details,
-      expectation,
-      status,
-      category,
-      service_type,
-      priority,
-    } = this.props.taskDetail;
-
-    if (id != prevState.taskId) {
-      this.setState({
-        data: {
-          category,
-          service_type,
-          priority,
-          expectation,
-          details,
-          action_taken,
-        },
-        decision: status == "open" ? "No" : "Yes",
-        taskId: id,
-      });
+    if (prevProps.taskDetail.id != this.props.taskDetail.id) {
+      const data = this.mapToViewModel(this.props.taskDetail);
+      const decision = this.props.taskDetail.status == "open" ? "No" : "Yes";
+      this.setState({ data, decision });
     }
   }
 
+  handleDecision = (e) => {
+    this.setState({ decision: e.target.value });
+  };
+
   render() {
-    const { category, service, priority, users } = this.props;
-    const { modelStyle } = formStyle;
-    this.doSubmit = () => {
-      console.log(this.state.data);
+    const { priority, category, service, users, taskDetail } = this.props;
+
+    this.doSubmit = async () => {
+      const user = auth.getCurrentUser();
+      const { data, decision } = this.state;
+      const editedTask = { ...data };
+
+      if (decision == "Yes") editedTask["assign_to"] = user?.user_id;
+
+      editedTask["status"] = "open";
+      if (decision == "Yes") editedTask["status"] = "closed";
+
+      editedTask["user"] = user?.user_id;
+      editedTask["client"] = taskDetail.client;
+
+      try {
+        const res = await http.put(
+          `/task-detail/${editedTask.taskId}`,
+          editedTask,
+          auth.config
+        );
+        toast.success("Task updated successfully!");
+        this.props.handleEditModal();
+        this.props.getTaskData();
+      } catch (error) {
+        console.log(error);
+        toast.success("Something went wrong!");
+      }
     };
 
     return (
-      <Modal animation={this.props.animation} modalTitle="Edit task">
-        <div className="flex flex-col items-center justify-center w-full h-full py-8 font-poppins">
-          <form
-            onSubmit={this.handleForm}
-            className="w-1/2 mx-auto"
-            id="newClientForm"
-          >
+      <>
+        <Modal animation={this.props.animation} modalTitle="Edit task">
+          <form onSubmit={this.handleForm} className="w-1/2 mx-auto">
             <div className="flex flex-row">
               {this.renderSelect("category", "Category", category, modelStyle)}
               {this.renderSelect("priority", "Priority", priority, modelStyle)}
@@ -137,14 +110,15 @@ export default class EditTask extends EditForm {
             </div>
             <div className="flex flex-col justify-center w-full pb-6 items-left px-9">
               <div className="pb-3 mx-auto ">
-                <label className="pr-4 text-lg text-black ">
+                <label className="pr-4 mx-auto text-lg text-black">
                   Immediate resolution
                 </label>
                 <select
+                  name="status"
                   value={this.state.decision}
                   onChange={this.handleDecision}
                 >
-                  <option className="pr-4 text-lg text-white " />
+                  <option className="pr-4 text-lg text-black " />
                   <option value="Yes">Yes</option>
                   <option value="No">No</option>
                 </select>
@@ -178,6 +152,7 @@ export default class EditTask extends EditForm {
                         rows="4"
                         cols="50"
                         onChange={this.handleChange}
+                        value={this.state.data.details}
                       />
                       <label className="pr-4 text-lg text-black ">
                         Expectation
@@ -188,6 +163,7 @@ export default class EditTask extends EditForm {
                         rows="4"
                         cols="50"
                         onChange={this.handleChange}
+                        value={this.state.data.expectation}
                       />
                       <legend className="py-5 pb-8 text-black md:text-xl">
                         Assign To
@@ -197,15 +173,14 @@ export default class EditTask extends EditForm {
                         <label className="w-1/3 pr-4 text-lg text-black ">
                           Staff
                         </label>
-                        {console.log(this.state.data.assign_to)}
                         <select
                           onChange={this.handleChange}
                           name="assign_to"
                           defaultValue={this.state.data.assign_to}
                         >
-                          <option className="pr-4 text-lg text-white " />
+                          <option className="pr-4 text-lg text-black " />
                           {users?.map((user) => (
-                            <option key={user.id}>
+                            <option key={user.id} value={user.id}>
                               {`${user.first_name} ${user.last_name}`}
                             </option>
                           ))}
@@ -216,6 +191,7 @@ export default class EditTask extends EditForm {
                 )}
               </>
             </div>
+
             <div className="flex flex-row w-1/2 mx-auto justify-evenly">
               {this.renderButton(
                 "Submit",
@@ -230,41 +206,17 @@ export default class EditTask extends EditForm {
               </button>
             </div>
           </form>
-          <ToastContainer />
-        </div>
-      </Modal>
+        </Modal>
+        <ToastContainer />
+      </>
     );
   }
 }
 
-const formStyle = {
-  inputs: {
-    _input: "w-3/4  md:w-1/2 py-1 pl-2 rounded-sm",
-    _label: "text-xl font-bold  text-white pr-4 text-white ",
-    _container: "pb-6  w-full flex flex-row items-center bg-gray-300 ",
-    _errorMsg: "text-center text-red-700",
-  },
-
-  UpdateButton:
-    " bg-light-blue py-2 px-8 text-white rounded-sm hover:bg-[#616161] transition-all duration-300 cursor-pointer",
-  NewButton:
-    " bg-light-blue py-2 px-8 text-white rounded-sm hover:bg-[#616161] transition-all duration-300 cursor-pointer",
-  DeleteButton:
-    " bg-light-blue py-2 px-8 text-white rounded-sm hover:bg-[#616161] transition-all duration-300 cursor-pointer",
-  selectStyle: {
-    _label: "text-xl font-bold text-white pr-4 text-white",
-    _container:
-      "pb-6  w-full flex flex-col items-left justify-left px-9  w-1/3 bg-red-300",
-    _select: " w-3/4 md:w-1/2 py-1 pl-2 rounded-sm",
-    _option: "w-3/4 md:w-1/2 py-1 pl-2 rounded-sm",
-    _errorMsg: "text-red-700 text-center",
-  },
-  modelStyle: {
-    _input: "p-2 rounded-lg w-full",
-    _label: "w-40 text-right pr-4 ",
-    _container:
-      "font-poppins  p-4 mb-4 flex flex-row justify-left items-center",
-    _errorMsg: "text-red-400 text-sm",
-    _inputContainer: "w-11/12",
-  },
+const modelStyle = {
+  _input: "p-2 rounded-lg w-full",
+  _label: "w-40 text-right pr-4 ",
+  _container: "font-poppins  p-4 mb-4 flex flex-row justify-left items-center",
+  _errorMsg: "text-red-400 text-sm",
+  _inputContainer: "w-11/12",
 };
