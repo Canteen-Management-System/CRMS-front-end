@@ -10,14 +10,7 @@ export default function ClientReq() {
         <RenderHead title="Client Request" />
         <RenderHeader pageTitle="Client Request" />
         <Client />
-<<<<<<< HEAD
-        </div>
-      </>
-    );
-  }
-=======
       </div>
     </>
   );
 }
->>>>>>> e98f13a8ae55b651dfb93639f37c00970e217c0c
