@@ -2,12 +2,13 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import auth from "../../lib/services/authService";
 import http from "../../lib/services/httpService";
-import TasksTable from "./TasksTable";
+import TasksTable from "./tasks-tables/TasksTable";
 import AddTaskForm from "./AddTaskForm";
 
 export default function Index() {
   const [retrievedTasks, setRetrievedTasks] = useState([]);
   const [retrievedTableList, setRetrievedTableList] = useState([]);
+  const { role, user_id } = auth.getCurrentUser();
 
   const getTableList = async () => {
     const categoriesReq = http.get("/category-list", auth.config);
@@ -48,9 +49,20 @@ export default function Index() {
     }
   };
 
+  const filterTasksByStaff = (tasks) => {
+    const tasksByStaff = tasks.filter((task) => {
+      return task.assign_to == user_id;
+    });
+    setRetrievedTasks(tasksByStaff);
+  };
+
   const getTasks = async () => {
     try {
       const res = await http.get("/tasks-list", auth.config);
+      if (role == "Staff") {
+        filterTasksByStaff(res.data);
+        return;
+      }
       setRetrievedTasks(res.data);
     } catch (error) {
       console.log(error);
@@ -76,17 +88,20 @@ export default function Index() {
     getTasks();
     getTableList();
   }, []);
+
   return (
     <div>
-      <AddTaskForm
-        users={retrievedTableList["users"]}
-        clients={retrievedTableList["clients"]}
-        getTasks={getTasks}
-        getTableList={getTableList}
-        category={category}
-        service={service}
-        priority={priority}
-      />
+      {(role == "CS" || role == "Admin") && (
+        <AddTaskForm
+          users={retrievedTableList["users"]}
+          clients={retrievedTableList["clients"]}
+          getTasks={getTasks}
+          getTableList={getTableList}
+          category={category}
+          service={service}
+          priority={priority}
+        />
+      )}
       <TasksTable
         tasks={retrievedTasks}
         getTasks={getTasks}

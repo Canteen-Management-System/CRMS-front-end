@@ -69,6 +69,7 @@ export default class AddClientForm extends Form {
         this.props.toggleAddModal();
       } catch (err) {
         const errors = this.getErrorValues(err.response.data);
+        this.clearForm();
         toast.error(errors);
       }
     };
