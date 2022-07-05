@@ -4,7 +4,7 @@ import auth from "../../lib/services/authService";
 import http from "../../lib/services/httpService";
 import TasksTable from "./TasksTable";
 import AddTaskForm from "./AddTaskForm";
-
+import ClientsMessage from "./ClientsMessage";
 export default function Index() {
   const [retrievedTasks, setRetrievedTasks] = useState([]);
   const [retrievedTableList, setRetrievedTableList] = useState([]);
@@ -67,6 +67,7 @@ export default function Index() {
       });
     }
   };
+  
 
   const category = generateOptions("categories", "category");
   const service = generateOptions("services", "service");
@@ -78,6 +79,7 @@ export default function Index() {
   }, []);
   return (
     <div>
+
       <AddTaskForm
         users={retrievedTableList["users"]}
         clients={retrievedTableList["clients"]}
@@ -87,6 +89,7 @@ export default function Index() {
         service={service}
         priority={priority}
       />
+      <ClientsMessage/>
       <TasksTable
         tasks={retrievedTasks}
         getTasks={getTasks}

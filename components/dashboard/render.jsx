@@ -53,7 +53,6 @@ function Dashboard() {
 
   function filterServiceType(service_name) {
     const getServiceId = retrievedSeviceTypes.filter((service) => {
-      console.log(service);
       return service.service == service_name;
     });
     const filteredTasks = retrievedTasks.filter((task) => {
@@ -62,7 +61,6 @@ function Dashboard() {
     return filteredTasks;
   }
 
-  console.log(filterServiceType("offer").length);
   const isOpen = (value) => value.status == "open";
   const isClosed = (value) => value.status == "closed";
   const open = retrievedTasks.filter(isOpen);

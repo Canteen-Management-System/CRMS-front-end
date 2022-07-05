@@ -68,6 +68,7 @@ export default class NewClient extends Form {
     this.doSubmit = async () => {
       const user = auth.getCurrentUser();
       const taskDetails = this.state.data;
+
       taskDetails["assign_to"] = user?.user_id;
       taskDetails["user"] = user?.user_id;
       taskDetails["department"] = user?.user_id;
@@ -75,6 +76,12 @@ export default class NewClient extends Form {
       if (this.state.decision == "Yes") taskDetails["status"] = "closed";
       taskDetails["client"] = this.props.clientInfo.id;
 
+      const staff = {
+        subject:"Problem Solved",
+        message:`Yor Problem is sloved with this action: ${taskDetails['action_taken']}`,
+        email:[this.props.clientInfo.email],
+      }
+    
       try {
         const res = await http.post("/tasks-list", taskDetails, auth.config);
         toast.success("Task added successfully");
@@ -84,7 +91,16 @@ export default class NewClient extends Form {
       } catch (error) {
         console.log(error);
       }
+      if (this.state.decision == "Yes") {
+      try {
+        const send = await http.post("/email", staff, auth.config);
+        toast.success("email sent successfully");
+      } catch (error) {
+        console.log(error);
+      }}
     };
+    
+    
 
     return (
       <div className="flex flex-col items-center justify-center w-full h-full py-8 font-poppins">

@@ -11,6 +11,7 @@ export default function AddTaskForm({
   category,
   service,
   priority,
+  
 }) {
   const [animation, setAnimation] = useState(false);
   const [clientType, setClientType] = useState("");
@@ -35,13 +36,28 @@ export default function AddTaskForm({
     }
     return setExistingClient(null);
   };
+  const template_params= {
+    'username': 'James',
+    'g-recaptcha-response': '03AHJ_ASjnLA214KSNKFJAK12sfKASfehbmfd...'
+}
+  const sendEmail = (e) => {
+    e.preventDefault();
 
+    emailjs.sendForm(default_service, 1, form.current, 'YOUR_PUBLIC_KEY')
+      .then((result) => {
+          console.log(result.text);
+      }, (error) => {
+          console.log(error.text);
+      });
+    
+  };
   return (
     <div>
-      <div className="flex justify-end pb-12 pr-8 text-white">
+     
+      <div className="flex justify-center pb-5 pr-8 text-white">
         <button
           className="px-4 py-2 bg-gray-500 rounded "
-          onClick={toggleModal}
+          onClick={toggleModal} 
         >
           Add task
         </button>
@@ -50,6 +66,7 @@ export default function AddTaskForm({
         modalTitle="Add New Task"
         animation={animation}
         toggleModal={toggleModal}
+        sendEmail = {sendEmail}
       >
         <div className="flex flex-row justify-center w-1/2 py-4 mx-auto font-poppins">
           <div className="mx-auto">
