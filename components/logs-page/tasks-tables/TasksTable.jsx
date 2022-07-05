@@ -1,4 +1,5 @@
 import { useState, useEffect, useCallback } from "react";
+import Link from "next/link";
 import { PencilAltIcon } from "@heroicons/react/outline";
 import TableHeader from "../../table/TableHeader";
 import EditTask from "../EditTask";
@@ -61,17 +62,9 @@ function TasksTable({
     }
   };
 
-
-
-
-
-
-
-
   return (
     <>
-      {/* taskDetail &&  */}
-      {taskDetail && (
+      {taskDetail ? (
         <EditTask
           taskDetail={taskDetail}
           animation={animation}
@@ -80,8 +73,9 @@ function TasksTable({
           priority={priority}
           users={users}
           handleEditModal={handleEditModal}
+          getTaskData={getTasks}
         />
-      )}
+      ) : null}
       <div className="mx-auto overflow-x-scroll ">
         <table className="mx-auto text-white font-poppins logs-table">
           <TableHeader tableHead={tableHeader} bg="bg-gray-600" />
@@ -123,12 +117,10 @@ function TasksTable({
                   </td>
                   <td>{task.date}</td>
                   <td>
-                    {
-                      <PencilAltIcon
-                        className="w-6 h-6 cursor-pointer hover:text-orange-300"
-                        onClick={() => handelEdit(task.id)}
-                      />
-                    }
+                    <PencilAltIcon
+                      className="w-6 h-6 cursor-pointer hover:text-orange-300"
+                      onClick={() => handelEdit(task.id)}
+                    />
                   </td>
                 </tr>
               );

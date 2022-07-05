@@ -21,6 +21,7 @@ class EditForm extends React.Component {
 
   handleForm = (e) => {
     e.preventDefault();
+    console.log(e.target);
     const errors = this.validate();
     this.setState({ errors: errors || {} });
     if (errors) return;
@@ -34,15 +35,21 @@ class EditForm extends React.Component {
     return !error ? null : error.details[0].message;
   };
 
-  handleChange = ({ currentTarget: input }) => {
-    const errors = { ...this.state.errors };
-    const errorMessage = this.validateProperty(input);
-    if (errorMessage) errors[input.name] = errorMessage;
-    else delete errors[input.name];
+  handleChange = (value, priority) => {
+    console.log(value.target.value, priority);
+    const id = priority?.filter((pri) => {
+      return this.props.taskDetail.priority == pri.id;
+    })[0].id;
+    this.setState({ data: { priority: id } });
+    // console.log(input.name, input.value);
+    // const errors = { ...this.state.errors };
+    // const errorMessage = this.validateProperty(input);
+    // if (errorMessage) errors[input.name] = errorMessage;
+    // else delete errors[input.name];
 
-    const data = { ...this.state.data };
-    data[input.name] = input.value;
-    this.setState({ data, errors });
+    // const data = { ...this.state.data };
+    // data[input.name] = input.value;
+    // this.setState({ data, errors });
   };
 
   renderButton = (label, style = "") => {
@@ -72,7 +79,7 @@ class EditForm extends React.Component {
         name={name}
         label={label}
         value={data[name]}
-        onChange={ this.handleChange}
+        onChange={this.handleChange}
         type={type}
         error={errors[name]}
         placeholder={placeholder}
