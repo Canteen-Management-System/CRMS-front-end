@@ -27,7 +27,6 @@ export default function AddTaskForm({
 
   const isClientExist = (e) => {
     const mobileNumber = e.target.value;
-    console.log(clients);
     const clientInfo = clients?.filter(
       (client) => client?.phone_number == mobileNumber
     );
@@ -36,25 +35,11 @@ export default function AddTaskForm({
     }
     return setExistingClient(null);
   };
-  const template_params= {
-    'username': 'James',
-    'g-recaptcha-response': '03AHJ_ASjnLA214KSNKFJAK12sfKASfehbmfd...'
-}
-  const sendEmail = (e) => {
-    e.preventDefault();
 
-    emailjs.sendForm(default_service, 1, form.current, 'YOUR_PUBLIC_KEY')
-      .then((result) => {
-          console.log(result.text);
-      }, (error) => {
-          console.log(error.text);
-      });
-    
-  };
   return (
     <div>
-     
-      <div className="flex justify-center pb-5 pr-8 text-white">
+      (
+      <div className="flex justify-end pb-12 pr-8 text-white">
         <button
           className="px-4 py-2 bg-gray-500 rounded "
           onClick={toggleModal} 
@@ -62,6 +47,7 @@ export default function AddTaskForm({
           Add task
         </button>
       </div>
+      )
       <Modal
         modalTitle="Add New Task"
         animation={animation}
@@ -93,6 +79,7 @@ export default function AddTaskForm({
                 category={category}
                 service={service}
                 priority={priority}
+                users={users}
               />
             </>
           ) : (

@@ -2,8 +2,8 @@ import Joi from "joi-browser";
 import Form from "../../form/Form";
 import auth from "../../../lib/services/authService";
 import http from "../../../lib/services/httpService";
-import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer, toast } from "react-toastify";
 
 export default class NewClient extends Form {
   constructor(props) {
@@ -17,7 +17,7 @@ export default class NewClient extends Form {
       service_type: "",
       expectation: "",
       details: "",
-      staff: "",
+      assign_to: "",
       department: "",
       action_taken: "",
     },
@@ -33,7 +33,7 @@ export default class NewClient extends Form {
     expectation: Joi.string().allow(""),
     details: Joi.string().allow(""),
     department: Joi.string().allow(""),
-    staff: Joi.string().allow(""),
+    assign_to: Joi.string().allow(""),
   };
 
   toggleModal = () => {
@@ -52,7 +52,7 @@ export default class NewClient extends Form {
         service_type: "",
         expectation: "",
         details: "",
-        staff: "",
+        assign_to: "",
         department: "",
         action_taken: "",
       },
@@ -63,13 +63,14 @@ export default class NewClient extends Form {
   render() {
     const { modelStyle } = formStyle;
     const { category, service, priority, users } = this.props;
-    console.log(category, service, priority);
 
     this.doSubmit = async () => {
       const user = auth.getCurrentUser();
       const taskDetails = this.state.data;
 
-      taskDetails["assign_to"] = user?.user_id;
+      if (this.state.decision == "Yes") {
+        taskDetails["assign_to"] = user?.user_id;
+      }
       taskDetails["user"] = user?.user_id;
       taskDetails["department"] = user?.user_id;
       taskDetails["status"] = "open";
@@ -84,7 +85,7 @@ export default class NewClient extends Form {
     
       try {
         const res = await http.post("/tasks-list", taskDetails, auth.config);
-        toast.success("Task added successfully");
+        toast.success("Task added successfully!");
         this.props.toggleModal();
         this.clearForm();
         this.props.getTasks();
@@ -120,16 +121,16 @@ export default class NewClient extends Form {
               modelStyle
             )}
           </div>
-          <div className="flex flex-col justify-center w-full pb-6 md:flex-row items-left px-9">
-            <div>
-              <label className="pr-4 text-lg text-black ">
+          <div className="flex flex-col justify-center w-full pb-6 items-left px-9">
+            <div className="pb-3 mx-auto ">
+              <label className="pr-4 mx-auto text-lg text-black">
                 Immediate resolution
               </label>
               <select
                 value={this.state.decision}
                 onChange={this.handleDecision}
               >
-                <option className="pr-4 text-lg text-white " />
+                <option className="pr-4 text-lg text-black " />
                 <option value="Yes">Yes</option>
                 <option value="No">No</option>
               </select>
@@ -137,7 +138,7 @@ export default class NewClient extends Form {
             <>
               {this.state.decision == "Yes" ? (
                 <>
-                  <div className="flex flex-col items-center justify-center w-screen h-full font-poppins ">
+                  <div className="flex flex-col items-center justify-center h-full font-poppins ">
                     <label className="pr-4 text-lg text-black ">
                       Action Taken
                     </label>
@@ -152,8 +153,8 @@ export default class NewClient extends Form {
                 </>
               ) : (
                 this.state.decision && (
-                  <div className="flex flex-col items-center justify-center w-screen h-full font-poppins ">
-                    <label className="pr-4 text-lg text-white ">Details</label>
+                  <div className="flex flex-col items-center justify-center h-full font-poppins ">
+                    <label className="pr-4 text-lg text-black ">Details</label>
                     <textarea
                       id="details"
                       name="details"
@@ -161,7 +162,7 @@ export default class NewClient extends Form {
                       cols="50"
                       onChange={this.handleChange}
                     />
-                    <label className="pr-4 text-lg text-white ">
+                    <label className="pr-4 text-lg text-black ">
                       Expectation
                     </label>
                     <textarea
@@ -171,17 +172,17 @@ export default class NewClient extends Form {
                       cols="50"
                       onChange={this.handleChange}
                     />
-                    <legend className="md:text-xl pb-8 text-[#F2F2F2] py-5">
+                    <legend className="py-5 pb-8 text-black md:text-xl">
                       Assign To
                     </legend>
 
                     <div className="flex flex-col justify-center w-full pb-6 md:flex-row items-left px-9">
-                      <label className="w-1/3 pr-4 text-lg text-white ">
+                      <label className="w-1/3 pr-4 text-lg text-black ">
                         Staff
                       </label>
-                      <select onChange={this.handleChange} name="staff">
+                      <select onChange={this.handleChange} name="assign_to">
                         <option
-                          className="pr-4 text-lg text-white "
+                          className="pr-4 text-lg text-black "
                           value=" "
                         />
                         {users?.map((user) => (

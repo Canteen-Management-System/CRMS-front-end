@@ -1,39 +1,85 @@
 import Form from "./form/Form";
 import Joi from "joi-browser";
+import axios from "axios";
+
+
+import { ToastContainer, toast } from "react-toastify";
+import auth from "../lib/services/authService"
+import http from "../lib/services/httpService";
+import TextArea from "./form/TextArea";
+
 
 export default class Client extends Form {
+  constructor(props) {
+    super(props);
+  }
   state = {
     data: {
-      Name: "",
-      Company: "",
-      PhoneNumber: "",
-      Email: "",
-      Category: "",
-      ServiceType: "",
-      Description: "",
+      client_name: "",
+      client_company: "",
+      client_phone_number: "",
+      client_email: "",
+      task_category: "",
+      task_service_type: "",
+      task_details: "",
     },
     errors: {},
   };
 
   schema = {
-    Name: Joi.string().required().label("Name"),
-    Company: Joi.string().required().label("Company"),
-    PhoneNumber: Joi.string().required().label("PhoneNumber"),
-    Email: Joi.string().required().label("Email"),
-    Category: Joi.string().required().label("Category"),
-    ServiceType: Joi.string().required().label("ServiceType"),
-    Description: Joi.string().required().label("Description"),
+    client_name: Joi.string().required().label("Name"),
+    client_company: Joi.string().required().label("Company"),
+    client_phone_number: Joi.string().required().label("PhoneNumber"),
+    client_email: Joi.string().required().label("Email"),
+    task_category: Joi.string().required().label("Category"),
+    task_service_type: Joi.string().required().label("ServiceType"),
+    task_details: Joi.string().required().label("Description"),
   };
+
+
+
   render() {
-    this.doSubmit = () => {
-      console.log("hello");
+    this.clearForm = () => {
+      this.setState({
+        data: {
+          client_name: "",
+          client_company: "",
+          client_phone_number: "",
+          client_email: "",
+          task_category: "",
+          task_service_type: "",
+          task_details: "",
+        },
+      });
     };
+
+    this.getErrorValues = (error) => {
+      const errors = Object.values(error);
+      return errors.join(", ");
+    };
+
+    this.doSubmit = async () => {
+      console.log(this.state.data);
+      try {
+        const res = await http.post(
+          "/clientReq-list",
+          this.state.data,
+        );
+        toast.success("Wow, Client added successfully!");
+        this.clearForm();
+      } catch (error) {
+        console.log(error.response.data);
+      }
+    };
+    
+
 
     const { inputs, SendButton, selectstyle } = formStyle;
     const category = [
       { _id: 1, name: "Complaint" },
       { _id: 2, name: "Suggestion" },
       { _id: 3, name: "Request" },
+      { _id: 4, name: "other" },
     ];
     const service = [
       { _id: 1, name: "Quotation" },
@@ -44,72 +90,83 @@ export default class Client extends Form {
 
     return (
       <div>
-        <div className="flex flex-col items-center w-screen h-screen justify-Top font-poppins">
+        <div className="flex flex-col items-center w-full h-full justify-Top ">
           <form
-            className="flex flex-col items-center justify-center rounded-md shadow-md w-130 md:w-70 h-70 bg-dark-blue"
-            onSubmit={this.handleForm}
+            fromId = "FORM1"
+            className="flex flex-col items-center justify-center rounded-md shadow-md w-130 md:w-1/3 h-1/2 bg-dark-blue"
           >
             <legend className="pb-8 text-4xl text-white md:text-4xl">
               Client Request
             </legend>
 
             {this.renderInput(
+              "client_name",
               "Name",
-              "Name",
               "text",
-              "Enter your Name..",
+              "  Name..",
 
               inputs
             )}
             {this.renderInput(
+              "client_company",
               "Company",
-              "Company",
               "text",
-              "Enter Company name..",
+              "  Company name..",
 
               inputs
             )}
             {this.renderInput(
-              "PhoneNumber",
+              "client_phone_number",
               "PhoneNumber",
               "text",
-              "Enter your PhoneNumber..",
+              "  +962-XXXX-XXX",
               inputs
             )}
 
             {this.renderInput(
-              "Email",
+              "client_email",
               "Email",
               "text",
-              "Enter your Email..",
+              "  Email ",
               inputs
             )}
 
-            {this.renderSelect("Category", "Category", category, selectstyle)}
+            {this.renderSelect("task_category", "Category", category, selectstyle)}
             {this.renderSelect(
-              "ServiceType",
+              "task_service_type",
               "ServiceType",
               service,
               selectstyle
             )}
-            {/* {this.renderInput(
-            "Description",
-            "Description",
-            "text",
-            "Enter your Description..",
-            inputs
-          )} */}
 
-            <div>
               <legend className="md:text-xl pb-8 text-[#F2F2F2] py-5  items-left">
                 Description
               </legend>
-              <textarea id="Expectaion" name="Expectaion" rows="4" cols="40" />
-            </div>
+              {
+                              <TextArea
+                              name = ""
+                              fromId = "FORM1"
+                              style= {{
+                                _container: "",
+                                _label: "",
+                              }
+                              }>
+                            </TextArea>
+                
+              }
+
             <div className="flex mb-6 space-x-4 md:flex md:items-center ">
-              {this.renderButton("Send", SendButton)}
             </div>
+            <div className="flex mb-6 space-x-4 md:items-center">
+              <button
+                type="button"
+                className=  " bg-light-blue py-2 px-8 text-white rounded-sm hover:bg-[#616161] transition-all duration-300 cursor-pointer mt-6 mb-7"
+                onClick={this.doSubmit}
+              >Send</button>
+            </div>
+
           </form>
+          <ToastContainer />
         </div>
       </div>
     );
@@ -118,21 +175,21 @@ export default class Client extends Form {
 
 const formStyle = {
   inputs: {
-    _input: "w-64 bg-white shadow rounded space-x-4  w-1/3",
-    _label: "text-lg text-red-200 pr-4 text-white w-1/3  ",
+    _input: "w-64 bg-white shadow rounded space-x-4  w-f ml-4",
+    _label: "text-lg text-white pr-4 text-white w-1/4  ",
     _container:
       "pb-6  w-full flex flex-col md:flex-row items-center justify-center ",
     _errorMsg: "",
   },
 
   SendButton:
-    " bg-light-blue py-2 px-8 text-white rounded-sm hover:bg-[#616161] transition-all duration-300 cursor-pointer",
+    " bg-light-blue py-2 px-8 text-white rounded-sm hover:bg-[#616161] transition-all duration-300 cursor-pointer mt-6 mb-7",
   selectstyle: {
-    _label: "text-lg text-red-200 pr-4 text-white w-1/3 ",
+    _label: "text-lg text-white pr-4  w-1/3  ",
     _container:
-      "pb-6  w-full flex flex-col md:flex-row items-left justify-left px-9 ",
-    _select: "w-3/4 md:w-1/4 py-1 pl-2 rounded-sm",
-    _option: "w-3/4 md:w-1/2 py-1 pl-2 rounded-sm",
+      "pb-6  w-1/3  items-left justify-left px-9 ",
+    _select: " bg-white shadow rounded space-x-4  w-f",
+    _option: " bg-white shadow rounded space-x-4  w-f",
     _errorMsg: "",
   },
 };

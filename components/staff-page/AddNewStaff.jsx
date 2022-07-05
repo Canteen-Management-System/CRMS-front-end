@@ -60,6 +60,7 @@ export default class AddNewStaff extends Form {
       role: data.roles,
       position: data.positions,
     });
+    C
   }
   render() {
     this.doSubmit = async () => {
@@ -151,7 +152,7 @@ export default class AddNewStaff extends Form {
               <button
                 type="button"
                 className="px-4 py-2 mt-4 text-white bg-red-400 rounded"
-                onClick={this.toggleModal}
+                onClick={this.handleForm}
               >
                 Cancel
               </button>

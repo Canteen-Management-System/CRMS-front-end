@@ -16,7 +16,7 @@ export default class NewClient extends Form {
       service_type: "",
       expectation: "",
       details: "",
-      staff: "",
+      assign_to: "",
       department: "",
       action_taken: "",
     },
@@ -34,7 +34,7 @@ export default class NewClient extends Form {
     expectation: Joi.string().allow(""),
     details: Joi.string().allow(""),
     department: Joi.string().allow(""),
-    staff: Joi.string().allow(""),
+    assign_to: Joi.string().allow(""),
   };
 
   toggleModal = () => {
@@ -52,7 +52,7 @@ export default class NewClient extends Form {
         service_type: "",
         expectation: "",
         details: "",
-        staff: "",
+        assign_to: "",
         department: "",
         action_taken: "",
       },
@@ -67,8 +67,9 @@ export default class NewClient extends Form {
       console.log(this.state.data);
       const user = auth.getCurrentUser();
       const taskDetails = this.state.data;
-
-      taskDetails["assign_to"] = user?.user_id;
+      if (this.state.decision == "Yes") {
+        taskDetails["assign_to"] = user?.user_id;
+      }
       taskDetails["user"] = user?.user_id;
       taskDetails["status"] = "open";
       if (this.state.decision == "Yes") taskDetails["status"] = "closed";
@@ -80,6 +81,7 @@ export default class NewClient extends Form {
         this.props.getTableList();
         this.clearForm();
         this.props.toggleModal();
+        this.setState({ newClientID: null });
       } catch (error) {
         console.log(error);
       }
@@ -90,13 +92,9 @@ export default class NewClient extends Form {
     };
 
     this.handleAddClient = async (data) => {
-      try {
-        const res = await http.post("/clients", data, auth.config);
-        const newClientID = res.data.id;
-        this.setState({ newClientID });
-      } catch (error) {
-        console.log(error);
-      }
+      const res = await http.post("/clients", data, auth.config);
+      const newClientID = res.data.id;
+      this.setState({ newClientID });
     };
 
     return (
@@ -106,8 +104,8 @@ export default class NewClient extends Form {
           animation={this.state.animation}
           toggleAddModal={this.toggleAddModal}
         />
-        <div className="flex flex-col items-center justify-center w-full h-full py-8 font-poppins">
-          <div className="flex justify-end pb-8 mr-16">
+        <div className="flex flex-col items-center justify-center w-full h-full font-poppins">
+          <div>
             <button
               className="px-4 py-2 text-white bg-gray-500 rounded "
               onClick={this.toggleAddModal}
@@ -141,8 +139,8 @@ export default class NewClient extends Form {
                   modelStyle
                 )}
               </div>
-              <div className="flex flex-col justify-center w-full pb-6 md:flex-row items-left px-9">
-                <div>
+              <div className="flex flex-col justify-center w-full pb-6 md:flex-col items-left px-9">
+                <div className="pb-3 mx-auto ">
                   <label className="pr-4 text-lg text-black ">
                     Immediate resolution
                   </label>
@@ -158,7 +156,7 @@ export default class NewClient extends Form {
                 <>
                   {this.state.decision == "Yes" ? (
                     <>
-                      <div className="flex flex-col items-center justify-center w-screen h-full font-poppins ">
+                      <div className="flex flex-col items-center justify-center h-full font-poppins ">
                         <label className="pr-4 text-lg text-black ">
                           Action Taken
                         </label>
@@ -173,8 +171,8 @@ export default class NewClient extends Form {
                     </>
                   ) : (
                     this.state.decision && (
-                      <div className="flex flex-col items-center justify-center w-screen h-full font-poppins ">
-                        <label className="pr-4 text-lg text-white ">
+                      <div className="flex flex-col items-center justify-center h-full font-poppins ">
+                        <label className="pr-4 text-lg text-black ">
                           Details
                         </label>
                         <textarea
@@ -184,7 +182,7 @@ export default class NewClient extends Form {
                           cols="50"
                           onChange={this.handleChange}
                         />
-                        <label className="pr-4 text-lg text-white ">
+                        <label className="pr-4 text-lg text-black ">
                           Expectation
                         </label>
                         <textarea
@@ -194,20 +192,20 @@ export default class NewClient extends Form {
                           cols="50"
                           onChange={this.handleChange}
                         />
-                        <legend className="md:text-xl pb-8 text-[#F2F2F2] py-5">
+                        <legend className="py-5 pb-8 text-black md:text-xl">
                           Assign To
                         </legend>
 
                         <div className="flex flex-col justify-center w-full pb-6 md:flex-row items-left px-9">
-                          <label className="w-1/3 pr-4 text-lg text-white ">
+                          <label className="w-1/3 pr-4 text-lg text-black ">
                             Staff
                           </label>
-                          <select onChange={this.handleChange} name="staff">
+                          <select onChange={this.handleChange} name="assign_to">
                             <option
-                              className="pr-4 text-lg text-white "
+                              className="pr-4 text-lg text-black "
                               value=" "
                             />
-                            {this.props.options?.users.map((user) => (
+                            {this.props.users?.map((user) => (
                               <option key={user.id} value={user.id}>
                                 {`${user.first_name} ${user.last_name}`}
                               </option>
