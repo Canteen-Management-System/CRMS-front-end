@@ -5,20 +5,9 @@ import auth from "../lib/services/authService"
 import http from "../lib/services/httpService";
 import XLSX from "xlsx";
 import BarPlot from './Reports-page/BarPlot';
-
-
-
-// import LineChart from 'reactochart/LineChart';
-// import * as Reactochart from 'reactochart';
-// import XYPlot from 'reactochart/XYPlot';
-// import XAxis from 'reactochart/XAxis';
-// import YAxis from 'reactochart/YAxis';
-// import 'reactochart/styles.css';
+import ParPlot  from './Reports-page/ParPlot';
 import {XYPlot, XAxis, YAxis, HorizontalGridLines, LabelSeries, VerticalGridLines, BarSeries} from 'react-vis';
 import { yellow } from '@mui/material/colors';
-
-
-
 
 
 
@@ -47,7 +36,6 @@ function ReportList() {
       const departmentReq =await  http.get("/department-list", auth.config);
       setretrievedDepartment(departmentReq.data);
 
-      console.log(departid)
       } catch (error) {
       console.log(error);
     }
@@ -62,7 +50,6 @@ function ReportList() {
     try {
       const res = await http.get("/tasks-list", auth.config);
       setRetrievedTasks(res.data);
-      console.log(retrievedTasks)
       } catch (error) {
       console.log(error);
     }
@@ -78,17 +65,7 @@ function ReportList() {
 // filter dapetment 
 
 
-  // Analysis 2
-const [analysis2, setanalysis2] = useState(false);
-const [x2, setx2] = useState([]);
-const [y2, sety2] = useState([]);
 
-const handleChangeanalysis2 = (e) => {
-  setanalysis1(false);
-  setx2(x2=departments)
-  setanalysis2(true);
-  
-};
 
 
 var today = new Date();
@@ -100,23 +77,7 @@ today = dd + '/' + mm + '/' + yyyy;
 
  
 
-const [Datevalue, setDateValue] = useState(date1);
-const [x, setx] = useState([]);
-const [y, sety] = useState([]);
-const handleDateChange = (e) => {
-setDateValue(Datevalue = e.target.value);
-  //2022-07-13
-var dd = Datevalue.slice(8,10)
-var mm = Datevalue.slice(5,7)
-var yyyy = Datevalue.slice(0,4)
-setDateValue(Datevalue = dd + '/' + mm + '/' + yyyy)
-const openCount = filteropenComplainTasks.length;
-const closedCount = filterClosedComplainTasks.length;
-const pendingCount = 0;
-sety(y = [openCount,closedCount,pendingCount]);
-setx( x= ["open", "closed", "pending"]);
 
-};
 
   // Filter Function 
   const filtered = retrievedTasks.filter(task => {
@@ -145,11 +106,7 @@ const handleChange = (e) => {
 };
 
 
-const [analysis1, setanalysis1] = useState(false);
-const handleChangeanalysis1 = (e) => {
-  setanalysis1(true);
-  
-};
+
 
 
 const filteredUser = retrievedTasks.filter(employee => {
@@ -188,6 +145,161 @@ const handleExportReport4 = () =>{
   ws = XLSX.utils.json_to_sheet(filteropenComplainTasks)
   XLSX.utils.book_append_sheet(wb,ws,"Report");
   XLSX.writeFile(wb,"Reports.xlsx");
+};
+
+function filterTasksByDate(status, date) {
+  const filteredTasks = retrievedTasks.filter((task) => {
+    const dateUpdated = task.updated.split("/");
+    return (
+      task.status == status && `${dateUpdated[1]}/${dateUpdated[2]}` == date
+    );
+  });
+
+  return filteredTasks;
+}
+
+const [Datevalue, setDateValue] = useState(date1);
+const [x, setx] = useState([]);
+const [y, sety] = useState([]);
+const handleDateChange = (e) => {
+setDateValue(Datevalue = e.target.value);
+  //2022-07-13
+var dd = Datevalue.slice(8,10)
+var mm = Datevalue.slice(5,7)
+var yyyy = Datevalue.slice(0,4)
+setDateValue(Datevalue = dd + '/' + mm + '/' + yyyy)
+const pendingCount = 0;
+const isOpenToday = (value) =>
+  value.status == "open" && value.date == Datevalue;
+ const isClosedToday = (value) =>
+  value.status == "closed" && value.date == Datevalue;
+const openCount = retrievedTasks.filter(isOpenToday);
+const closedCount = retrievedTasks.filter(isClosedToday);
+sety(y = [openCount.length ,closedCount.length ,pendingCount]);
+setx( x= ["open", "closed", "pending"]);
+console.log(x)
+console.log(y)
+
+};
+
+
+const [retrievedSeviceTypes, setRetrievedSeviceTypes] = useState([]);
+const getServiceType = async () => {
+  try {
+    const res = await http.get("/service-type-list", auth.config);
+    setRetrievedSeviceTypes(res.data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+useEffect(() => {
+  getTasks();
+  getServiceType();
+}, []);
+
+function filterServiceType(service_name) {
+  const getServiceId = retrievedSeviceTypes.filter((service) => {
+    return service.service == service_name;
+  });
+  const filteredTasks = retrievedTasks.filter((task) => {
+
+    return task.service_type == getServiceId[0]?.id;
+  });
+
+  return filteredTasks.length;
+}
+const isOpen = (value) => value.status == "open";
+const isClosed = (value) => value.status == "closed";
+
+const [analysis1, setanalysis1] = useState(false);
+const handleChangeanalysis1 = (e) => {
+  setanalysis1(true);
+};
+  // Analysis 2
+  const [analysis2, setanalysis2] = useState(false);
+  const [y1, sety1] = useState([]);
+  
+  const handleChangeanalysis2 = (e) => {
+    const open = retrievedTasks.filter(isOpen);
+    const closed = retrievedTasks.filter(isClosed);
+    const pending =0;
+    sety1(y1= [open.length,closed.length,pending.length])
+    setx( x= ["open", "closed", "pending"]);
+
+    console.log(y1)
+    setanalysis1(false);
+    setanalysis2(true)
+
+  };
+
+
+  // Analysis 3
+
+const [analysis3, setanalysis3] = useState(false);
+const [x2,setx2] = useState([]);
+const [y2,sety2]= useState([]);
+const handleChangeanalysis3 = (e) => {
+  const services = retrievedSeviceTypes.map(({ service }) => service);
+  const servicesId = retrievedSeviceTypes.map(({ id }) => id);
+  setx2(x2= services)
+  console.log(x2)
+  const yy = []
+  services.map((ser) => (
+    yy.push(filterServiceType(ser))
+  ))
+  sety2(y2=yy)
+  setanalysis1(false);
+  setanalysis2(false);
+  setanalysis3(true);
+};
+
+// retrive Category information 
+const [retrievedCategory, setretrievedCategory] = useState([]);
+const getCategory = async () => {
+  try {
+    const res = await http.get("category-list", auth.config);
+    setretrievedCategory(retrievedCategory= res.data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+useEffect(() => {
+  getTasks();
+  getCategory();
+}, []);
+
+function filterCategory(Category_name) {
+  const getCatId = retrievedCategory.filter((category) => {
+    return category.category == Category_name;
+  });
+  const filteredTasks = retrievedTasks.filter((task) => {
+
+    return task.category == getCatId[0]?.id;
+  });
+
+  return filteredTasks.length;
+}
+// Analysis 4
+
+const [analysis4, setanalysis4] = useState(false);
+const [x3,setx3] = useState([]);
+const [y3,sety3]= useState([]);
+const handleChangeanalysis4 = (e) => {
+  const Categories = retrievedCategory.map(({ category }) => category);
+  const servicesId = retrievedCategory.map(({ id }) => id);
+  setx3(x3= Categories)
+  console.log(x3)
+  const yyy = []
+  Categories.map((ser) => (
+    yyy.push(filterCategory(ser))
+  ))
+  sety3(y3=yyy)
+  setanalysis1(false);
+  setanalysis2(false);
+  setanalysis3(false);
+  setanalysis4(true);
+  console.log(y3)
+
 };
 
 
@@ -273,30 +385,30 @@ return (
     <tbody>
     <tr>
         <td className="border border-slate-300 px-4"> 1.</td>
-        <td className="border border-slate-300 px-4">Tasks updated status per day </td>
+        <td className="border border-slate-300 px-4">Total Tasks as per the status</td>
         <td className="border border-slate-300 px-4" > 
-        <button  onClick={handleChangeanalysis1}>Excel</button>
+        <button  onClick={handleChangeanalysis1}>Export</button>
         </td>
     </tr>
     <tr>
         <td className="border border-slate-300 px-4"> 2.</td>
-        <td className="border border-slate-300 px-4">Total Tasks per department</td>
+        <td className="border border-slate-300 px-4"> Total Tasks Status</td>
         <td className="border border-slate-300 px-4" > 
-        <button   onClick={handleChangeanalysis2}>Excel</button>
+        <button   onClick={handleChangeanalysis2}>Export</button>
         </td>
     </tr>
     <tr>
         <td className="border border-slate-300 px-4"> 3.</td>
-        <td className="border border-slate-300 px-4">Daily Pending complain Number</td>
+        <td className="border border-slate-300 px-4">Tasks per services </td>
         <td className="border border-slate-300 px-4" > 
-        <button   onClick={handleExportReport3}>Excel</button>
+        <button   onClick={handleChangeanalysis3}>Export</button>
         </td>
     </tr>
     <tr>
         <td className="border border-slate-300 px-4"> 4.</td>
-        <td className="border border-slate-300 px-4">Daily Resolved complain Number</td>
+        <td className="border border-slate-300 px-4">Tasks per Category</td>
         <td className="border border-slate-300 px-4" > 
-        <button   onClick={handleExportReport4}>Excel</button>
+        <button   onClick={handleChangeanalysis4}>Export</button>
         </td>
     </tr>
     </tbody>    
@@ -307,10 +419,15 @@ return (
   <div className='flex flex-col justify-center items-center'>
       {
       analysis1 ?
-      <BarPlot x={x} y={y} Datevalue={Datevalue} />
+      <BarPlot x={x} y={y} title={` Total Tasks as per the status for ${Datevalue}`} />
       : analysis2 ?
-      <BarPlot x={departments} y={y2} Datevalue={Datevalue} />
-      : 
+      <BarPlot x={x} y={y1} title={"Total Tasks Status"} />
+      : analysis3 ?
+      <ParPlot x={x2} y={y2} title={"Total Number of Tasks as per the service type" }/>
+      :
+      analysis4 ?
+      <BarPlot x={x3} y={y3} title={"Total Number of Tasks per Category" }/> 
+      :
       <></>
       }  
       

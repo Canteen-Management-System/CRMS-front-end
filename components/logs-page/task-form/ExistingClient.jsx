@@ -114,7 +114,7 @@ export default class NewClient extends Form {
                 value={this.state.decision}
                 onChange={this.handleDecision}
               >
-                <option className="pr-4 text-lg text-white " />
+                <option className="pr-4 text-lg text-black " />
                 <option value="Yes">Yes</option>
                 <option value="No">No</option>
               </select>
@@ -166,7 +166,7 @@ export default class NewClient extends Form {
                       </label>
                       <select onChange={this.handleChange} name="assign_to">
                         <option
-                          className="pr-4 text-lg text-white "
+                          className="pr-4 text-lg text-black "
                           value=" "
                         />
                         {users?.map((user) => (

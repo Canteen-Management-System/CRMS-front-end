@@ -42,10 +42,10 @@ export default function DisplayEmployees({ getStaff , returnedData }) {
 };
   return (
     <>
-    <div className="flex flex-column justify-left items-left w-3/4 md:w-3/4 h-3/4 pb-8  px-12 py-8 mx-8 my-8 bg-gray-500 rounded-md shadow-md">
+    <section  className="bg-gray-500 h-50 p-8 w-full">
         
 
-    <input placeholder="  Search" type={"text"} value={q} onChange={(e)=> setQ(e.target.value)} />
+    <input className="w-full h-10 px-3 rounded mb-8 focus:outline-none focus:shadow-outline text-xl px-8 shadow-lg"  type="search" placeholder="Search..." value={q} onChange={(e)=> setQ(e.target.value)} />
     {columns &&
       columns.map((column)=>( 
       <label  key={t+=1} className="mx-6 font-poppins text-white" >
@@ -73,7 +73,7 @@ export default function DisplayEmployees({ getStaff , returnedData }) {
     <button className="px-8 py-2   ml-12 mb-5 text-black bg-white  rounded" onClick={handleExport}>Export</button>
 
 
-  </div>
+  </section>
     <div className="z-0 flex flex-wrap items-center w-1/4 text-white rounded-md shadow-md md:w-full h-1/5">
       {data.length != 0
         ? search(returnedData.users).map((user, idx) => {

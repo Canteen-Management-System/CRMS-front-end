@@ -202,7 +202,7 @@ export default class NewClient extends Form {
                           </label>
                           <select onChange={this.handleChange} name="assign_to">
                             <option
-                              className="pr-4 text-lg text-white "
+                              className="pr-4 text-lg text-black "
                               value=" "
                             />
                             {this.props.users?.map((user) => (

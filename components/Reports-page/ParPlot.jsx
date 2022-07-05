@@ -19,18 +19,18 @@ export default function BarPlot({ x,y,title }) {
     <div id="pdf">
     <Plot
         data={[
-          // {
-          //   x: ["open", "closed", "pending"],
-          //   y: [2, 6, 3],
-          //   type: 'scatter',
-          //   mode: 'lines+markers',
-          //   marker: {color: 'red'},
-          // },
-          {type: 'bar', 
-          x: x, 
-          y:y},
+          {
+            x: x,
+            y: y,
+            type: 'scatter',
+            mode: 'lines+markers',
+            marker: {color: 'red'},
+          },
+          // {type: 'bar', 
+          // x: x, 
+          // y:y},
         ]}
-        layout={ {width: 500, height: 500, title: title} }
+        layout={ {width: 500, height: 500, title:title} }
       />
     </div>
     <button onClick={createPDF} type="button">Download</button>
