@@ -1,12 +1,12 @@
 import Joi from "joi-browser";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
-import Form from "../form/Form";
+import EditForm from "../edit-form/EditForm";
 import Modal from "../modal/Modal";
 import auth from "../../lib/services/authService";
 import http from "../../lib/services/httpService";
 
-export default class EditTask extends Form {
+export default class EditTask extends EditForm {
   state = {
     data: {
       category: "",
@@ -15,12 +15,13 @@ export default class EditTask extends Form {
       expectation: "",
       details: "",
       staff: "",
-      department: "",
       action_taken: "",
+      assign_to: "",
     },
     errors: {},
     taskDetail: null,
     decision: "",
+    taskId: null,
   };
 
   schema = {
@@ -31,52 +32,90 @@ export default class EditTask extends Form {
     expectation: Joi.string().allow(""),
     details: Joi.string().allow(""),
     department: Joi.string().allow(""),
-    staff: Joi.string().allow(""),
+    assign_to: Joi.string().allow(""),
   };
-
-  async componentDidMount() {
-    const { taskId } = this.props;
-    try {
-      const res = await http.get(`task-detail/${taskId}`, auth.config);
-      console.log("Task detail --> ", res.data);
-      const {
-        category,
-        priority,
-        service_type,
-        expectation,
-        details,
-        staff,
-        department,
-        action_taken,
-      } = res.data;
-      let decision = "No";
-      if (action_taken != "") {
-        decision = "Yes";
-      }
-      this.setState({
-        taskDetail: res.data,
-        data: {
-          category,
-          priority,
-          service_type,
-          expectation,
-          details,
-          staff,
-          department,
-          action_taken,
-        },
-        // decision,
-      });
-    } catch (error) {}
-  }
 
   handleDecision = (e) => {
-    this.setState({ decision: e.target.value });
+    this.setState({ decision: e.target.value || e });
   };
+  //   {
+  //     "id": 1,
+  //     "action_taken": "Helped",
+  //     "details": "",
+  //     "expectation": "",
+  //     "date": "03/07/2022",
+  //     "updated": "03/07/2022",
+  //     "assign_to": 1,
+  //     "status": "closed",
+  //     "category": 120,
+  //     "service_type": 2,
+  //     "priority": 3,
+  //     "user": 1,
+  //     "client": 8
+  // }
+  componentDidMount() {
+    const {
+      id,
+      action_taken,
+      details,
+      expectation,
+      status,
+      category,
+      service_type,
+      priority,
+      assign_to,
+    } = this.props.taskDetail;
+    console.log(this.props.taskDetail);
+    this.setState({
+      data: {
+        category,
+        service_type,
+        priority,
+        expectation,
+        details,
+        action_taken,
+        status,
+        assign_to,
+      },
+      decision: status == "open" ? "No" : "Yes",
+      taskId: id,
+    });
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const {
+      id,
+      action_taken,
+      details,
+      expectation,
+      status,
+      category,
+      service_type,
+      priority,
+    } = this.props.taskDetail;
+
+    if (id != prevState.taskId) {
+      this.setState({
+        data: {
+          category,
+          service_type,
+          priority,
+          expectation,
+          details,
+          action_taken,
+        },
+        decision: status == "open" ? "No" : "Yes",
+        taskId: id,
+      });
+    }
+  }
 
   render() {
     const { category, service, priority, users } = this.props;
     const { modelStyle } = formStyle;
+    this.doSubmit = () => {
+      console.log(this.state.data);
+    };
 
     return (
       <Modal animation={this.props.animation} modalTitle="Edit task">
@@ -96,8 +135,8 @@ export default class EditTask extends Form {
                 modelStyle
               )}
             </div>
-            <div className="flex flex-col justify-center w-full pb-6 md:flex-row items-left px-9">
-              <div>
+            <div className="flex flex-col justify-center w-full pb-6 items-left px-9">
+              <div className="pb-3 mx-auto ">
                 <label className="pr-4 text-lg text-black ">
                   Immediate resolution
                 </label>
@@ -113,7 +152,7 @@ export default class EditTask extends Form {
               <>
                 {this.state.decision == "Yes" ? (
                   <>
-                    <div className="flex flex-col items-center justify-center w-screen h-full font-poppins ">
+                    <div className="flex flex-col items-center justify-center h-full font-poppins ">
                       <label className="pr-4 text-lg text-black ">
                         Action Taken
                       </label>
@@ -123,14 +162,14 @@ export default class EditTask extends Form {
                         rows="4"
                         cols="50"
                         onChange={this.handleChange}
-                        value={this.state.taskDetail.action_taken}
+                        value={this.state.data.action_taken}
                       />
                     </div>
                   </>
                 ) : (
                   this.state.decision && (
-                    <div className="flex flex-col items-center justify-center w-screen h-full font-poppins ">
-                      <label className="pr-4 text-lg ">
+                    <div className="flex flex-col items-center justify-center h-full font-poppins ">
+                      <label className="pr-4 text-lg text-black ">
                         Details
                       </label>
                       <textarea
@@ -140,7 +179,7 @@ export default class EditTask extends Form {
                         cols="50"
                         onChange={this.handleChange}
                       />
-                      <label className="pr-4 text-lg ">
+                      <label className="pr-4 text-lg text-black ">
                         Expectation
                       </label>
                       <textarea
@@ -150,21 +189,23 @@ export default class EditTask extends Form {
                         cols="50"
                         onChange={this.handleChange}
                       />
-                      <legend className="md:text-xl pb-8 py-5">
+                      <legend className="py-5 pb-8 text-black md:text-xl">
                         Assign To
                       </legend>
 
                       <div className="flex flex-col justify-center w-full pb-6 md:flex-row items-left px-9">
-                        <label className="w-1/3 pr-4 text-lg  ">
+                        <label className="w-1/3 pr-4 text-lg text-black ">
                           Staff
                         </label>
-                        <select onChange={this.handleChange} name="staff">
-                          <option
-                            className="pr-4 text-lg  "
-                            value=" "
-                          />
+                        {console.log(this.state.data.assign_to)}
+                        <select
+                          onChange={this.handleChange}
+                          name="assign_to"
+                          defaultValue={this.state.data.assign_to}
+                        >
+                          <option className="pr-4 text-lg text-white " />
                           {users?.map((user) => (
-                            <option key={user.id} value={user.id}>
+                            <option key={user.id}>
                               {`${user.first_name} ${user.last_name}`}
                             </option>
                           ))}

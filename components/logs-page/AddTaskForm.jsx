@@ -26,7 +26,6 @@ export default function AddTaskForm({
 
   const isClientExist = (e) => {
     const mobileNumber = e.target.value;
-    console.log(clients);
     const clientInfo = clients?.filter(
       (client) => client?.phone_number == mobileNumber
     );
@@ -35,9 +34,9 @@ export default function AddTaskForm({
     }
     return setExistingClient(null);
   };
-
   return (
     <div>
+      (
       <div className="flex justify-end pb-12 pr-8 text-white">
         <button
           className="px-4 py-2 bg-gray-500 rounded "
@@ -46,6 +45,7 @@ export default function AddTaskForm({
           Add task
         </button>
       </div>
+      )
       <Modal
         modalTitle="Add New Task"
         animation={animation}
@@ -76,6 +76,7 @@ export default function AddTaskForm({
                 category={category}
                 service={service}
                 priority={priority}
+                users={users}
               />
             </>
           ) : (
