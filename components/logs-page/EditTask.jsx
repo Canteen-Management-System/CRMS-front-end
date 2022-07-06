@@ -89,7 +89,7 @@ export default class EditTask extends Form {
         this.props.getTaskData();
       } catch (error) {
         console.log(error);
-        toast.success("Something went wrong!");
+        toast.error("Something went wrong!");
       }
     };
 
