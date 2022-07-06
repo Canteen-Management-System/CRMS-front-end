@@ -4,11 +4,12 @@ import { MdFavoriteBorder, MdChat } from "react-icons/md";
 import XLSX from "xlsx";
 
 export default function DisplayEmployees({ getStaff, returnedData }) {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(null);
 
   useEffect(() => {
     const getEmployers = async () => {
       const res = await getStaff();
+      console.log(res);
       setData([res?.users, res?.departments]);
     };
     getEmployers();
@@ -25,7 +26,8 @@ export default function DisplayEmployees({ getStaff, returnedData }) {
       )
     );
   }
-  const test = returnedData.users[0];
+  console.log(returnedData);
+  const test = returnedData?.users[0];
 
   const columns = Object.keys(test || {});
 
@@ -81,48 +83,47 @@ export default function DisplayEmployees({ getStaff, returnedData }) {
         </button>
       </section>
       <div className="z-0 flex flex-wrap items-center justify-center w-full gap-16 p-8 mt-8 text-white rounded-md font-poppins">
-        {data.length != 0
-          ? search(returnedData.users).map((user, idx) => {
-              return idx > 0 ? (
-                <div
-                  key={idx}
-                  className=" relative bg-[#536DFE] rounded-md md:w-1/4 flex flex-col items-center pt-16 pb-4 px-4 border-1"
-                >
-                  <span className="absolute left-[calc(50%-50px)] -top-1/4 rounded-full">
-                    <Image
-                      src="/assets/demo.jpg"
-                      alt="Landscape picture"
-                      className="border-2 border-black rounded-full shadow-md"
-                      width={100}
-                      height={100}
-                    />
-                  </span>
-                  <p className="text-white">
-                    Employee ID : <b>{user.id}</b>
-                  </p>
-                  <p className="text-white">
-                    Employee Name :{" "}
-                    <b>
-                      {user.first_name} {user.last_name}
-                    </b>
-                  </p>
-                  <p className="text-white">
-                    Department :{" "}
-                    <b>
-                      {
-                        data[1].filter((item) => item.id == user.department)[0]
-                          ?.name
-                      }
-                    </b>
-                  </p>
+        {data &&
+          search(returnedData.users).map((user, idx) => {
+            return idx > 0 ? (
+              <div
+                key={idx}
+                className=" relative bg-[#536DFE] rounded-md md:w-1/4 flex flex-col items-center pt-16 pb-4 px-4 border-1"
+              >
+                <span className="absolute left-[calc(50%-50px)] -top-1/4 rounded-full">
+                  <Image
+                    src="/assets/demo.jpg"
+                    alt="Landscape picture"
+                    className="border-2 border-black rounded-full shadow-md"
+                    width={100}
+                    height={100}
+                  />
+                </span>
+                <p className="text-white">
+                  Employee ID : <b>{user.id}</b>
+                </p>
+                <p className="text-white">
+                  Employee Name :{" "}
+                  <b>
+                    {user.first_name} {user.last_name}
+                  </b>
+                </p>
+                <p className="text-white">
+                  Department :{" "}
+                  <b>
+                    {
+                      data[1].filter((item) => item.id == user.department)[0]
+                        ?.name
+                    }
+                  </b>
+                </p>
 
-                  <p className="text-white">
-                    Mobile: <b>{user.phone}</b>
-                  </p>
-                </div>
-              ) : null;
-            })
-          : ""}
+                <p className="text-white">
+                  Mobile: <b>{user.phone}</b>
+                </p>
+              </div>
+            ) : null;
+          })}
       </div>
     </>
   );
