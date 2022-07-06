@@ -65,7 +65,7 @@ export default class Client extends Form {
           "/clientReq-list",
           this.state.data,
         );
-        toast.success("Wow, Client added successfully!");
+        toast.success("your Request sent successfully!");
         this.clearForm();
       } catch (error) {
         console.log(error.response.data);
@@ -92,7 +92,7 @@ export default class Client extends Form {
       <div>
         <div className="flex flex-col items-center w-full h-full justify-Top ">
           <form
-            fromId = "FORM1"
+            id= "formId"
             className="flex flex-col items-center justify-center rounded-md shadow-md w-130 md:w-1/3 h-1/2 bg-dark-blue"
           >
             <legend className="pb-8 text-4xl text-white md:text-4xl">
@@ -138,25 +138,22 @@ export default class Client extends Form {
               service,
               selectstyle
             )}
-
               <legend className="md:text-xl pb-8 text-[#F2F2F2] py-5  items-left">
                 Description
               </legend>
               {
                               <TextArea
                               name = ""
-                              fromId = "FORM1"
+                              form = "formId"
                               style= {{
                                 _container: "",
                                 _label: "",
                               }
-                              }>
+                              } >
                             </TextArea>
                 
               }
 
-            <div className="flex mb-6 space-x-4 md:flex md:items-center ">
-            </div>
             <div className="flex mb-6 space-x-4 md:items-center">
               <button
                 type="button"
