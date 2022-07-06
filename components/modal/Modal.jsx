@@ -8,11 +8,7 @@ export default function Modal({ modalTitle, animation, children }) {
         <div
           className={
             modalContainer +
-            `${
-              animation
-                ? " translate-y-0 transition duration-500 ease-in-out"
-                : " -translate-y-full"
-            }`
+            `${animation ? " translate-y-0 " : " -translate-y-full"}`
           }
         >
           <div className={modalContent}>
@@ -33,5 +29,6 @@ export default function Modal({ modalTitle, animation, children }) {
 const modalStyle = {
   // overlay: " absolute top-0 left-0 w-full bg-[#64748b] h-screen z-0 ",
   modalContent: "border-2 bg-[#f1f1f1] py-4 px-8 rounded mx-auto mt-4 ",
-  modalContainer: "absolute top-0 w-11/12  mx-auto ml-8 z-10",
+  modalContainer:
+    "absolute top-0 w-11/12  mx-auto ml-8 z-10 transition duration-500 ease-in-out",
 };

@@ -76,7 +76,6 @@ export default class EditTask extends Form {
       editedTask["status"] = "open";
       if (decision == "Yes") editedTask["status"] = "closed";
 
-      editedTask["user"] = user?.user_id;
       editedTask["client"] = taskDetail.client;
 
       try {

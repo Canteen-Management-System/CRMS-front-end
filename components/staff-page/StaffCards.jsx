@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import { MdFavoriteBorder, MdChat } from "react-icons/md";
-import Employee from "./Employee";
 import XLSX from "xlsx";
 
-
-export default function DisplayEmployees({ getStaff , returnedData }) {
-  
+export default function DisplayEmployees({ getStaff, returnedData }) {
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -16,110 +13,117 @@ export default function DisplayEmployees({ getStaff , returnedData }) {
     };
     getEmployers();
   }, []);
- // {data[1].filter((item) => item.id == user.department)[0]?.name}
-  const [q,setQ]=useState("");
-  const [searchcolumns,setSearchcolumns] = useState(["id"])
-  let t = 0
-  function search(rows){
-    console.log(rows)
+
+  const [q, setQ] = useState("");
+  const [searchcolumns, setSearchcolumns] = useState(["id"]);
+  let t = 0;
+  function search(rows) {
     return rows.filter((row) =>
-    searchcolumns.some((column) => row[column].toString().toLowerCase().indexOf(q.toLowerCase())>-1
+      searchcolumns.some(
+        (column) =>
+          row[column].toString().toLowerCase().indexOf(q.toLowerCase()) > -1
       )
     );
   }
-  const test = returnedData.users[0]
-  
-  const columns =  Object.keys(test || {});
+  const test = returnedData.users[0];
 
+  const columns = Object.keys(test || {});
 
-  const handleExport = () =>{
-    XLSX = require('xlsx');
+  const handleExport = () => {
+    XLSX = require("xlsx");
     var wb = XLSX.utils.book_new(),
-    ws = XLSX.utils.json_to_sheet(search(returnedData.users))
+      ws = XLSX.utils.json_to_sheet(search(returnedData.users));
 
-    XLSX.utils.book_append_sheet(wb,ws,"staff");
-    XLSX.writeFile(wb,"stafflist.xlsx");
-};
+    XLSX.utils.book_append_sheet(wb, ws, "staff");
+    XLSX.writeFile(wb, "stafflist.xlsx");
+  };
   return (
     <>
-    <section  className="bg-gray-500 h-50 p-8 w-full">
-        
-
-    <input className="w-full h-10 px-3 rounded mb-8 focus:outline-none focus:shadow-outline text-xl px-8 shadow-lg"  type="search" placeholder="Search..." value={q} onChange={(e)=> setQ(e.target.value)} />
-    {columns &&
-      columns.map((column)=>( 
-      <label  key={t+=1} className="mx-6 font-poppins text-white" >
-
-        <input 
-        className="mx-2"
-        type="checkbox"
-        checked = {searchcolumns.includes(column)}
-        onChange={(e)=>{
-          const checked = searchcolumns.includes(column);
-          console.log(searchcolumns)
-
-        setSearchcolumns((prev) =>
-        checked
-        
-        ? prev.filter((sc)=> sc !== column)
-      : [...prev, column]
-
-      );
-      }}
-    />
-    {column}
-      </label>
-    ))}
-    <button className="px-8 py-2   ml-12 mb-5 text-black bg-white  rounded" onClick={handleExport}>Export</button>
-
-
-  </section>
-    <div className="z-0 flex flex-wrap items-center w-1/4 text-white rounded-md shadow-md md:w-full h-1/5">
-      {data.length != 0
-        ? search(returnedData.users).map((user, idx) => {
-            return (
-              <div
-                key={idx}
-                style={{ zIndex: 1 }}
-                className=" bg-[#748DA6] rounded-md  m-8  items-center justify-center pb-5"
+      <section className="w-1/2 p-8 mx-auto bg-[#303F9F] rounded-md h-50 mb-12">
+        <input
+          className="w-full h-10 px-3 mb-8 text-xl rounded shadow-lg focus:outline-none focus:shadow-outline"
+          type="search"
+          placeholder="Search..."
+          value={q}
+          onChange={(e) => setQ(e.target.value)}
+        />
+        <div className="flex flex-row flex-wrap pb-4 ">
+          {columns &&
+            columns.map((column) => (
+              <label
+                key={(t += 1)}
+                className="px-4 mx-2 text-white font-poppins"
               >
-                <p className="ml-2 ">
-                  <Image
-                    src="https://pngimage.net/wp-content/uploads/2020/03/employee-logo-png-2.jpg"
-                    alt="Landscape picture"
-                    width={250}
-                    height={200}
-                  />
-                </p>
-                <p className="ml-16 text-white">
-                  <MdChat size={25} className="ml-16 text-white " /> Employee ID
-                  : <b>{user.id}</b>
-                </p>
-                <p className="text-white">
-                  Employee Name :{" "}
-                  <b>
-                    {user.first_name} {user.last_name}
-                  </b>
-                </p>
-                <p className="text-white">
-                  Department :{" "}
-                  <b>
-                    {
-                      data[1].filter((item) => item.id == user.department)[0]
-                        ?.name
-                    }
-                  </b>
-                </p>
+                <input
+                  className="mx-2"
+                  type="checkbox"
+                  checked={searchcolumns.includes(column)}
+                  onChange={(e) => {
+                    const checked = searchcolumns.includes(column);
+                    console.log(searchcolumns);
+                    setSearchcolumns((prev) =>
+                      checked
+                        ? prev.filter((sc) => sc !== column)
+                        : [...prev, column]
+                    );
+                  }}
+                />
+                {column}
+              </label>
+            ))}
+        </div>
 
-                <p className="text-white">
-                  Mobile: <b>{user.phone}</b>
-                </p>
-              </div>
-            );
-          })
-        : ""}
-    </div>
+        <button
+          className="px-8 py-4 mx-auto mb-5 ml-12 text-black bg-white rounded"
+          onClick={handleExport}
+        >
+          Export
+        </button>
+      </section>
+      <div className="z-0 flex flex-wrap items-center justify-center w-full gap-16 p-8 mt-8 text-white rounded-md font-poppins">
+        {data.length != 0
+          ? search(returnedData.users).map((user, idx) => {
+              return idx > 0 ? (
+                <div
+                  key={idx}
+                  className=" relative bg-[#536DFE] rounded-md md:w-1/4 flex flex-col items-center pt-16 pb-4 px-4 border-1"
+                >
+                  <span className="absolute left-[calc(50%-50px)] -top-1/4 rounded-full">
+                    <Image
+                      src="/assets/demo.jpg"
+                      alt="Landscape picture"
+                      className="border-2 border-black rounded-full shadow-md"
+                      width={100}
+                      height={100}
+                    />
+                  </span>
+                  <p className="text-white">
+                    Employee ID : <b>{user.id}</b>
+                  </p>
+                  <p className="text-white">
+                    Employee Name :{" "}
+                    <b>
+                      {user.first_name} {user.last_name}
+                    </b>
+                  </p>
+                  <p className="text-white">
+                    Department :{" "}
+                    <b>
+                      {
+                        data[1].filter((item) => item.id == user.department)[0]
+                          ?.name
+                      }
+                    </b>
+                  </p>
+
+                  <p className="text-white">
+                    Mobile: <b>{user.phone}</b>
+                  </p>
+                </div>
+              ) : null;
+            })
+          : ""}
+      </div>
     </>
-
   );
 }

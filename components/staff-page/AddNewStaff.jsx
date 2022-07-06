@@ -1,5 +1,7 @@
-import Modal from "../modal/Modal";
 import Joi from "joi-browser";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import Modal from "../modal/Modal";
 import auth from "../../lib/services/authService";
 import http from "../../lib/services/httpService";
 import Form from "../form/Form";
@@ -56,11 +58,16 @@ export default class AddNewStaff extends Form {
   async componentDidMount() {
     const data = await this.props.getStaff();
     this.setState({
-      department: data.departments,
-      role: data.roles,
-      position: data.positions,
+      department: data?.departments,
+      role: data?.roles,
+      position: data?.positions,
     });
   }
+  getErrorValues = (error) => {
+    const errors = Object.values(error);
+    return errors.join(", ");
+  };
+
   render() {
     this.doSubmit = async () => {
       console.log(this.state.data);
@@ -70,7 +77,12 @@ export default class AddNewStaff extends Form {
           this.state.data,
           auth.config
         );
+        toast.success("Client added successfully!");
+        this.toggleModal();
+        this.props.getStaff();
       } catch (error) {
+        const errors = this.getErrorValues(error.response.data);
+        toast.error(errors);
         console.log(error.response.data);
       }
     };
@@ -122,7 +134,7 @@ export default class AddNewStaff extends Form {
               "phone",
               "Mobile Number",
               "text",
-              " 07X-XXXX-XXX ",
+              " +962XXXXXXXXX ",
               modalStyle
             )}
             {this.renderInput("birthday", "Birthday", "date", "", modalStyle)}
@@ -151,13 +163,14 @@ export default class AddNewStaff extends Form {
               <button
                 type="button"
                 className="px-4 py-2 mt-4 text-white bg-red-400 rounded"
-                onClick={this.handleForm}
+                onClick={this.toggleModal}
               >
                 Cancel
               </button>
             </div>
           </form>
         </Modal>
+        <ToastContainer />
       </>
     );
   }

@@ -32,28 +32,25 @@ export default function Index() {
 
   return (
     <>
-    <div className="flex flex-column items-center w-1/4 text-white rounded-md shadow-md md:w-full h-1/5">
-    <Category
-        toggleAddForm={toggleAddForm}
-        toggleViewCategories={toggleViewCategories}
-      />
-      <div className="flex flex-row">
-      <AddCategory
-        toggleAddForm={toggleAddForm}
-        animation={toggleAdd}
-        getCategories={getCategories}
-      />
-      <ViewCategories
-        toggleViewCategories={toggleViewCategories}
-        animation={toggleView}
-        getCategories={getCategories}
-        categories={retrieveCategories}
-      />
+      <div>
+        <Category
+          toggleAddForm={toggleAddForm}
+          toggleViewCategories={toggleViewCategories}
+        />
+        <div className="flex flex-row">
+          <AddCategory
+            toggleAddForm={toggleAddForm}
+            animation={toggleAdd}
+            getCategories={getCategories}
+          />
+          <ViewCategories
+            toggleViewCategories={toggleViewCategories}
+            animation={toggleView}
+            getCategories={getCategories}
+            categories={retrieveCategories}
+          />
+        </div>
       </div>
-
-
-    </div>
-    
     </>
   );
 }

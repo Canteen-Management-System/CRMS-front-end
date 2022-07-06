@@ -49,12 +49,11 @@ export default function Index() {
   useEffect(() => {
     getStaff();
   }, []);
-   
+
   return (
     <>
-      {<AddNewStaff getStaff={getStaff} />}
-
-      <StaffCards getStaff={getStaff}  returnedData={returnedData} />
+      <AddNewStaff getStaff={getStaff} />
+      <StaffCards getStaff={getStaff} returnedData={returnedData} />
     </>
   );
 }
