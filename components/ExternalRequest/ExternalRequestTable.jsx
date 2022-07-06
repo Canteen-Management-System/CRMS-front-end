@@ -1,14 +1,19 @@
 import React, { useState, useEffect } from "react";
-import TableHeader from "../components/table/TableHeader";
-import { TrashIcon } from "@heroicons/react/outline";
-import TableFooter from "../components/table/TableFooter";
+import TableHeader from "../table/TableHeader";
+import TableFooter from "../table/TableFooter";
 import XLSX from "xlsx";
-import auth from "../lib/services/authService";
-import http from "../lib/services/httpService";
+import auth from "../../lib/services/authService";
+import http from "../../lib/services/httpService";
+import { TableIcon } from "@heroicons/react/outline";
+import EditExternal from "../ExternalRequest/EditExternal"
+
+
 
 
 export default function ExteralRequestTable() {
 const [tableData, setTableData] = useState([]);
+const [taskId, setTaskId] = useState(null);
+
 
 
 // delete function 
@@ -71,7 +76,52 @@ useEffect(() => {
     }
   }, [tableData]);
 
+  // Handle solve the task 
+  const [animation, setAnimation] = useState(false);
+
+  const handleEditModal = () => {
+    setAnimation(!animation);
+  };
+
+
+  const handelEdit = (id) => {
+    getTaskData(id)
+    handleEditModal();
+  };
+  const [taskDetail, setTaskDetail] = useState(null);
+  const getTaskData = async (taskId) => {
+    try {
+      const res = await http.get(`clientReq-detail/${taskId}`);
+      setTaskDetail(res.data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  const [retrievedUser, setretrievedUser] = useState([]);
+  const getUser = async () => {
+    try {
+      const resUser = await http.get("/users", auth.config);
+      setretrievedUser(resUser.data);
+      } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getUser();
+  }, []);
+  console.log(taskDetail)
   return (
+    <>
+    {taskDetail ? (
+      <EditExternal
+        taskDetail={taskDetail}
+        animation={animation}
+        handleEditModal={handleEditModal}
+        getTaskData={tableData}
+        users={retrievedUser}
+      />
+    ) : null}
     <div>
     <section  className="bg-gray-500 h-50 p-8 w-full"> 
         
@@ -120,10 +170,12 @@ useEffect(() => {
               );
             })}
             <td className="p-1 text-center border rounded-lg border-slate-700">
-                <TrashIcon
-                  className="h-6 mx-auto cursor-pointer"
-                  onClick={() => deleteLocation(row.id)}
-                />
+            <td>
+                    <TableIcon
+                      className="w-6 h-6 cursor-pointer hover:text-orange-300"
+                      onClick={() => handelEdit(row.id)}
+                    />
+                  </td>
               </td>
           </tr>
         );
@@ -133,5 +185,6 @@ useEffect(() => {
 
     </table>
     </div>
+    </>
   );
 }

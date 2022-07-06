@@ -52,7 +52,7 @@ export default function AddTaskForm({
         modalTitle="Add New Task"
         animation={animation}
         toggleModal={toggleModal}
-        sendEmail = {sendEmail}
+        // sendEmail = {sendEmail}
       >
         <div className="flex flex-row justify-center w-1/2 py-4 mx-auto font-poppins">
           <div className="mx-auto">

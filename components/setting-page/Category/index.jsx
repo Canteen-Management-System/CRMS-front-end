@@ -32,10 +32,12 @@ export default function Index() {
 
   return (
     <>
-      <Category
+    <div className="flex flex-column items-center w-1/4 text-white rounded-md shadow-md md:w-full h-1/5">
+    <Category
         toggleAddForm={toggleAddForm}
         toggleViewCategories={toggleViewCategories}
       />
+      <div className="flex flex-row">
       <AddCategory
         toggleAddForm={toggleAddForm}
         animation={toggleAdd}
@@ -47,6 +49,11 @@ export default function Index() {
         getCategories={getCategories}
         categories={retrieveCategories}
       />
+      </div>
+
+
+    </div>
+    
     </>
   );
 }
