@@ -1,7 +1,7 @@
 import Client from "../components/ClientRequest";
 import RenderHeader from "../components/RenderHeader";
 import RenderHead from "../components/RenderHead";
-import ExteralRequestTable from "../components/ExternalRequestTable"
+import ExteralRequestTable from "../components/ExternalRequest/ExternalRequestTable"
 import dynamic from "next/dynamic";
 
 const SideBar = dynamic(() => import("../components/navigation/SideBar"), {

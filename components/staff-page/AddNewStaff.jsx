@@ -60,7 +60,6 @@ export default class AddNewStaff extends Form {
       role: data.roles,
       position: data.positions,
     });
-    C
   }
   render() {
     this.doSubmit = async () => {

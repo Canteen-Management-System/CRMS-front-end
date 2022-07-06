@@ -7,6 +7,7 @@ import {
   ViewBoardsIcon,
   UserGroupIcon,
   UsersIcon,
+  ExternalLinkIcon,
 } from "@heroicons/react/solid";
 
 const PATHS = [
@@ -31,6 +32,11 @@ const PATHS = [
     path: "/staff",
     label: "Staff",
     icon: <UserGroupIcon className="w-6 " />,
+  },
+  {
+    path: "/ExternalReq",
+    label: "ExternalReq",
+    icon: <ExternalLinkIcon className="w-6 " />,
   },
 ];
 
