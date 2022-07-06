@@ -68,11 +68,12 @@ export default class EditTask extends Form {
 
     this.doSubmit = async () => {
       const user = auth.getCurrentUser();
+      console.log(taskDetail);
       const { data, decision } = this.state;
       const editedTask = { ...data };
 
       if (decision == "Yes") editedTask["assign_to"] = user?.user_id;
-
+      editedTask["user"] = taskDetail.user;
       editedTask["status"] = "open";
       if (decision == "Yes") editedTask["status"] = "closed";
 
