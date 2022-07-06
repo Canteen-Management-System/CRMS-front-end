@@ -157,6 +157,10 @@ The main idea of this website is to assist the customer service in managing the 
 # Wireframes :
 [LINK](https://www.figma.com/file/vKKVhxLk2AGN65p0GnKzWo/Customer-Service-Website?node-id=0%3A1)
 
+# Trello 
+
+![trello](https://user-images.githubusercontent.com/75991604/177627262-94698856-6d2d-4652-bd09-4337bbca6a6f.png)
+
 # User Stories
 
 # Requirements 
