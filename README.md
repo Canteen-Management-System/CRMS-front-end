@@ -99,7 +99,7 @@ Trello
 ---
 ## Presentation Deck
 
-https://docs.google.com/document/d/1wR66aLJdZc9QV05KmPUmxO6FqkzJQxsI/edit#heading=h.z20ug1ezbxkk
+https://www.canva.com/design/DAE_Erknijo/jL71gCdZZ_BI_Wnaz254aQ/edit
 
 ---
 ## Git Process
