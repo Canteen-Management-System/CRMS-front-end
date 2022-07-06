@@ -13,7 +13,7 @@ const StaffCards = dynamic(() => import("./StaffCards"), {
 });
 
 export default function Index() {
-  const [returnedData, setReturnedData] = useState({});
+  const [returnedData, setReturnedData] = useState(null);
 
   const getStaff = async () => {
     const usersReq = http.get("/users", auth.config);
@@ -39,6 +39,7 @@ export default function Index() {
         roles: roles.data,
         users: users.data,
       };
+      console.log(returnedData);
       setReturnedData(returnedData);
       return returnedData;
     } catch (error) {
@@ -53,7 +54,9 @@ export default function Index() {
   return (
     <>
       <AddNewStaff getStaff={getStaff} />
-      <StaffCards getStaff={getStaff} returnedData={returnedData} />
+      {returnedData && (
+        <StaffCards getStaff={getStaff} returnedData={returnedData} />
+      )}
     </>
   );
 }
