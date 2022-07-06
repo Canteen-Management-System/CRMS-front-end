@@ -74,9 +74,6 @@ export default class AddNewIssueForm extends Form {
           </div>
           <div className="flex px-6 mb-6 space-x-4 md:flex md:items-right">
             {this.renderButton("Search", saveButton)}
-            <>
-              <div></div>
-            </>
             {this.renderButton("Update", saveButton)}
           </div>
         </form>

@@ -1,9 +1,9 @@
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer, toast } from "react-toastify";
 import Joi from "joi-browser";
-import Modal from "../../components/modal/Modal"
-import Form from "../../components/form/Form"
-import auth from "../../lib/services/authService"
+import Modal from "../../components/modal/Modal";
+import Form from "../../components/form/Form";
+import auth from "../../lib/services/authService";
 import http from "../../lib/services/httpService";
 
 export default class EditExternal extends Form {
@@ -23,10 +23,10 @@ export default class EditExternal extends Form {
   };
 
   schema = {
-    taskId: Joi.string(),
-    category: Joi.string().required().label("Category"),
-    priority: Joi.string().required().label("Priority"),
-    service_type: Joi.string().required().label("service"),
+    taskId: Joi.string().allow(""),
+    category: Joi.string().required().allow("").label("Category"),
+    priority: Joi.string().required().allow("").label("Priority"),
+    service_type: Joi.string().required().allow("").label("service"),
     action_taken: Joi.string().allow(""),
     details: Joi.string().allow(""),
     expectation: Joi.string().allow(""),
@@ -35,19 +35,19 @@ export default class EditExternal extends Form {
 
   mapToViewModel = (task) => {
     return {
-        Name : task.client_name,
-        company:task.client_company,
-        phone: task.client_phone_number.toString(),
-        email: task.client_email.toString(),
-        category: task.task_category,
-        service_type: task.task_service_type,
-        details: task.task_details,
+      Name: task.client_name,
+      company: task.client_company,
+      phone: task.client_phone_number.toString(),
+      email: task.client_email.toString(),
+      category: task.task_category,
+      service_type: task.task_service_type,
+      details: task.task_details,
     };
   };
 
   componentDidMount() {
     const data = this.mapToViewModel(this.props.taskDetail);
-    console.log(this.props)
+    console.log(this.props);
     const decision = this.props.taskDetail.status == "open" ? "No" : "Yes";
     this.setState({ data, decision });
   }
@@ -67,21 +67,21 @@ export default class EditExternal extends Form {
   render() {
     const { users, taskDetail } = this.props;
     const category = [
-        { _id: 1, name: "Complaint" },
-        { _id: 2, name: "Suggestion" },
-        { _id: 3, name: "Request" },
-        { _id: 4, name: "other" },
-      ];
-      const service = [
-        { _id: 1, name: "Quotation" },
-        { _id: 2, name: "appointment" },
-        { _id: 3, name: "technical support " },
-        { _id: 4, name: "other " },
-      ];
-      const priority = [
-        { _id: 1, name: "Low" },
-        { _id: 2, name: "High" },
-      ];
+      { _id: 1, name: "Complaint" },
+      { _id: 2, name: "Suggestion" },
+      { _id: 3, name: "Request" },
+      { _id: 4, name: "other" },
+    ];
+    const service = [
+      { _id: 1, name: "Quotation" },
+      { _id: 2, name: "appointment" },
+      { _id: 3, name: "technical support " },
+      { _id: 4, name: "other " },
+    ];
+    const priority = [
+      { _id: 1, name: "Low" },
+      { _id: 2, name: "High" },
+    ];
 
     this.doSubmit = async () => {
       const user = auth.getCurrentUser();
@@ -111,11 +111,9 @@ export default class EditExternal extends Form {
       }
     };
 
-
-
     return (
       <>
-        <Modal animation={this.props.animation} modalTitle="Edit task">
+        <Modal animation={this.props.animation} modalTitle="Request details">
           <form onSubmit={this.handleForm} className="w-1/2 mx-auto">
             <div className="flex flex-row">
               {this.renderSelect("category", "Category", category, modelStyle)}
@@ -212,10 +210,13 @@ export default class EditExternal extends Form {
             </div>
 
             <div className="flex flex-row w-1/2 mx-auto justify-evenly">
-              {this.renderButton(
-                "Submit",
-                "px-4 py-2 mt-4 text-white bg-green-400 rounded"
-              )}
+              <button
+                type="submit"
+                className="px-4 py-2 mt-4 text-white bg-green-400 rounded"
+                onClick={this.props.handleEditModal}
+              >
+                Submit
+              </button>
               <button
                 type="button"
                 className="px-4 py-2 mt-4 text-white bg-red-400 rounded"

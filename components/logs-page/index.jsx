@@ -51,7 +51,7 @@ export default function Index() {
 
   const filterTasksByStaff = (tasks) => {
     const tasksByStaff = tasks.filter((task) => {
-      return task.assign_to == user_id;
+      return task.assign_to == user_id || task.user == user_id;
     });
     setRetrievedTasks(tasksByStaff);
   };
@@ -79,7 +79,6 @@ export default function Index() {
       });
     }
   };
-  
 
   const category = generateOptions("categories", "category");
   const service = generateOptions("services", "service");
@@ -92,7 +91,6 @@ export default function Index() {
 
   return (
     <div>
-
       {(role == "CS" || role == "Admin") && (
         <AddTaskForm
           users={retrievedTableList["users"]}
@@ -104,7 +102,7 @@ export default function Index() {
           priority={priority}
         />
       )}
-      <ClientsMessage/>
+      {/* <ClientsMessage /> */}
 
       <TasksTable
         tasks={retrievedTasks}
