@@ -81,20 +81,17 @@ export default class ClientsMessage extends Form {
               "Enter the subject",
               modelStyle
             )}
-            {/*        
-      {this.renderInput(
-        "email",
-        "Email",
-        "text",
-        "Enter the email",
-        modelStyle
-      )} */}
-            <textarea
-              onChange={this.handleChange}
-              name="message"
-              rows="4"
-              cols="40"
-            />
+            <div className="flex flex-row justify-center mx-auto">
+              <label htmlFor="message" className="pr-2">
+                Message:
+              </label>
+              <textarea
+                onChange={this.handleChange}
+                name="message"
+                rows="4"
+                cols="40"
+              />
+            </div>
             {/* <TextArea
       name = "message" 
       fromId = "w-modal"
